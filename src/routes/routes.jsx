@@ -5,6 +5,7 @@ import About from "../pages/About";
 import UserLayout from "../layouts/UserLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import SignUp from "../pages/SignUp";
 
 const routes = createBrowserRouter([
   {
@@ -16,7 +17,11 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about",
+        path: "/register",
+        element: <SignUp />,
+      },
+      {
+        path: "/login",
         element: <About />,
       },
     ],
