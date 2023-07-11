@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
@@ -10,8 +9,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const [signUp, { data, error, isError, isLoading, isSuccess, reset }] =
-    useSignUpMutation();
+  const [signUp, { error, isError, isSuccess, reset }] = useSignUpMutation();
   const navigate = useNavigate();
 
   useEffect(() => {
