@@ -22,7 +22,7 @@ const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
+    path: "/admin",
     element: <AdminLayout />,
     children: [
       {
