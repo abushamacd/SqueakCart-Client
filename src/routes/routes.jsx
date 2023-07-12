@@ -10,6 +10,7 @@ import Profile from "../pages/User/Profile";
 import UserLayout from "../layouts/UserLayout";
 import PrivateRoute from "./PrivateRoute";
 import Test from "../pages/User/Test";
+import ProtectedRoute from "./ProtectedRoute";
 
 const routes = createBrowserRouter([
   {
@@ -50,7 +51,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

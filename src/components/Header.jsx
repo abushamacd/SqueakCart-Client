@@ -17,8 +17,8 @@ import { setUser } from "../redux/features/auth/authSlice";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
-  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const handleSignout = () => {
     localStorage.removeItem("token");
