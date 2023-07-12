@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../redux/features/auth/authSlice";
+import { logout } from "../redux/features/auth/authSlice";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +22,7 @@ const Header = () => {
 
   const handleSignout = () => {
     localStorage.removeItem("token");
-    dispatch(setUser(null));
+    dispatch(logout());
   };
 
   return (

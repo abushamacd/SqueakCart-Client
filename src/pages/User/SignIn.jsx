@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import Head from "../../components/Head";
 import BreadCrumb from "../../components/BreadCrumb";
 import { useSignInMutation } from "../../redux/features/auth/authApi";
-import { setUser } from "../../redux/features/auth/authSlice";
+import { login } from "../../redux/features/auth/authSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const SignIn = () => {
       toast("Login successful");
       if (accessToken) {
         const decoded = jwtDecode(accessToken);
-        dispatch(setUser(decoded));
+        dispatch(login({ decoded, accessToken }));
       }
       reset();
       navigate(path, { replace: true });

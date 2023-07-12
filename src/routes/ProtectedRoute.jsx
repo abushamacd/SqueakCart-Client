@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import { setUser } from "../redux/features/auth/authSlice";
+import { logout } from "../redux/features/auth/authSlice";
 
 export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ export default function ProtectedRoute({ children }) {
 
   if (!user || user?.role !== "admin") {
     localStorage.removeItem("token");
-    dispatch(setUser(null));
+    dispatch(logout());
     return <Navigate to={"/login"} state={{ path: pathname }}></Navigate>;
   }
 
