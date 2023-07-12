@@ -9,8 +9,11 @@ import SignIn from "../pages/User/SignIn";
 import Profile from "../pages/User/Profile";
 import UserLayout from "../layouts/UserLayout";
 import PrivateRoute from "./PrivateRoute";
-import Test from "../pages/User/Test";
 import ProtectedRoute from "./ProtectedRoute";
+import Password from "../pages/User/Password";
+import Address from "../pages/User/Address";
+import MyOrders from "../pages/User/MyOrders";
+import Forget from "../pages/User/Forget";
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +33,10 @@ const routes = createBrowserRouter([
         element: <SignIn />,
       },
       {
+        path: "/forget",
+        element: <Forget />,
+      },
+      {
         path: "/profile",
         element: (
           <PrivateRoute>
@@ -42,8 +49,16 @@ const routes = createBrowserRouter([
             element: <Profile />,
           },
           {
-            path: "/profile/test",
-            element: <Test />,
+            path: "/profile/password",
+            element: <Password />,
+          },
+          {
+            path: "/profile/address",
+            element: <Address />,
+          },
+          {
+            path: "/profile/myorders",
+            element: <MyOrders />,
           },
         ],
       },

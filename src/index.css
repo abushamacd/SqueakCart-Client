@@ -94,6 +94,10 @@ body {
   border-radius: 50% !important;
 }
 
+.anticon svg {
+  margin-top: -8px;
+}
+
 .slick-next {
   width: 40px !important;
   right: 0 !important;
