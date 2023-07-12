@@ -7,7 +7,7 @@ const Address = () => {
   const [addresModal, setAddressModal] = useState(false);
   return (
     <>
-      <Head title="My Profile ||" />
+      <Head title="My Address ||" />
       <div className="recent_order mt-[20px] overflow-auto bg-white box_shadow rounded-lg p-[20px] mb-[20px] md:mb-[0px] ">
         <div className="mb-3 md:flex justify-between">
           <Title level={3}>Address Book</Title>

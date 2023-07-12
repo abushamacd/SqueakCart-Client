@@ -5,7 +5,7 @@ import Title from "antd/es/typography/Title";
 const Password = () => {
   return (
     <>
-      <Head title="My Profile ||" />
+      <Head title="Change Password ||" />
       <div className="recent_order mt-[20px] overflow-auto bg-white box_shadow rounded-lg p-[20px] mb-[20px] md:mb-[0px] ">
         <div className="mb-3">
           <Title level={3}>Change Password</Title>

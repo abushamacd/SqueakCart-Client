@@ -30,19 +30,19 @@ const UserLayout = () => {
         collapsible
         collapsed={collapsed}
       >
-        <div className="logo">
-          <Link to="/">
+        <div className="user_photo">
+          <Link to="">
             {collapsed ? (
               <img
-                className="p-2 w-[200px] mx-auto"
+                className="p-2 w-[200px] mx-auto rounded-full"
                 src="https://i.ibb.co/MgsTCcv/avater.jpg"
-                alt="logo"
+                alt="user_photo"
               />
             ) : (
               <img
-                className="p-4 w-[200px] mx-auto"
+                className="p-4 w-[200px] mx-auto rounded-full"
                 src="https://i.ibb.co/MgsTCcv/avater.jpg"
-                alt="logo"
+                alt="user_photo"
               />
             )}
           </Link>
