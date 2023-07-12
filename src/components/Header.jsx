@@ -11,12 +11,19 @@ import {
   FiUser,
 } from "react-icons/fi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
-// import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../redux/features/auth/authSlice";
 
 const Header = () => {
-  // const { user } = useSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    dispatch(setUser(null));
+  };
 
   return (
     <header className={``}>
@@ -58,7 +65,7 @@ const Header = () => {
           <div className="layout px-[20px]">
             <div className="flex items-center justify-between gap-[20px]">
               <div className="help_Admin md:w-[20%] hidden md:block">
-                {/* {user?.data?.role === "admin" ? (
+                {user?.role === "admin" ? (
                   <div className="">
                     <Link to="/admin">
                       <button className="bg-[#38b5fe] cursor-pointer duration-300 rounded-full py-[8px] px-[20px] font-medium text-black hover:bg-[#febd69]">
@@ -66,21 +73,21 @@ const Header = () => {
                       </button>
                     </Link>
                   </div>
-                ) : ( */}
-                <div className="flex items-center gap-[10px] text-white duration-300 hover:text-[#38b5fe]">
-                  <FiPhoneCall size="20" />
-                  <div className="text-[13px] ">
-                    <p className="text-white duration-300 hover:text-[#38b5fe]">
-                      +880 19 8726 8375
-                    </p>
-                    <p className="text-white duration-300 hover:text-[#38b5fe]">
-                      assiddik001@gmail.com
-                    </p>
+                ) : (
+                  <div className="flex items-center gap-[10px] text-white duration-300 hover:text-[#38b5fe]">
+                    <FiPhoneCall size="20" />
+                    <div className="text-[13px] ">
+                      <p className="text-white duration-300 hover:text-[#38b5fe]">
+                        +880 19 8726 8375
+                      </p>
+                      <p className="text-white duration-300 hover:text-[#38b5fe]">
+                        assiddik001@gmail.com
+                      </p>
+                    </div>
                   </div>
-                </div>
-                {/* )} */}
+                )}
               </div>
-              {/* {!user?.data?.role === "admin" && ( */}
+
               <div className="catagories block md:hidden">
                 <div className="catagory_menu">
                   <div className="dropdown">
@@ -133,7 +140,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              {/* )} */}
+
               <div className="logo flex justify-center">
                 <Link to="/" className="text-white text-2xl">
                   <img
@@ -149,15 +156,25 @@ const Header = () => {
                   <p className="text-[13px] hidden md:block">My Account</p>
                   <div className="user_button absolute  z-50 top-[56px] w-[120px] py-[5px] px-[10px] rounded-md ">
                     <ul className="text-center">
-                      <Link to="login">
-                        <li className="hover:border-b py-2">Sign In</li>
-                      </Link>
-                      <Link to="register">
-                        <li className="hover:border-b py-2">Sign Up</li>
-                      </Link>
-                      {/* <Link>
-                        <li className="a">Sign Out</li>
-                      </Link> */}
+                      {user === null ? (
+                        <>
+                          <Link to="login">
+                            <li className="hover:border-b py-2">Sign In</li>
+                          </Link>
+                          <Link to="register">
+                            <li className="hover:border-b py-2">Sign Up</li>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <Link to="profile">
+                            <li className="hover:border-b py-2">My Profile</li>
+                          </Link>
+                          <Link onClick={handleSignout}>
+                            <li className="hover:border-b py-2">Sign Out</li>
+                          </Link>
+                        </>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -187,7 +204,6 @@ const Header = () => {
           </div>
         </div>
 
-        {/* {user?.data?.role === "admin" && ( */}
         <div className="header_bottom  block md:hidden py-1 px-[20px]">
           <div className="layout">
             <div className="menu_area my-1 flex justify-between md:justify-center items-center ">
@@ -244,7 +260,6 @@ const Header = () => {
                 </div>
               </div>
               <div className="md:hidden block">
-                {/* {user?.data?.role === "admin" && ( */}
                 <div className="">
                   <Link to="/admin">
                     <button className="bg-[#38b5fe] cursor-pointer duration-300 rounded-full py-[8px] px-[20px] font-medium text-black hover:bg-[#febd69]">
@@ -252,12 +267,11 @@ const Header = () => {
                     </button>
                   </Link>
                 </div>
-                {/* )} */}
               </div>
             </div>
           </div>
         </div>
-        {/* )} */}
+
         <div className="header_bottom md:block hidden py-2 px-[20px]">
           <div className="layout">
             <div className="menu_area my-1 flex justify-between md:justify-center items-center ">

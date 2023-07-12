@@ -6,21 +6,34 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useSignInMutation } from "../redux/features/auth/authApi";
+import jwtDecode from "jwt-decode";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/features/auth/authSlice";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [signIn, { error, isError, isSuccess, reset }] = useSignInMutation();
+  const [signIn, { data, error, isError, isSuccess, reset }] =
+    useSignInMutation();
+  const accessToken = data?.data?.accessToken;
+  if (accessToken) {
+    localStorage.setItem("token", JSON.stringify(accessToken));
+  }
 
   useEffect(() => {
     if (isSuccess) {
       toast("Login successful");
+      if (accessToken) {
+        const decoded = jwtDecode(accessToken);
+        dispatch(setUser(decoded));
+      }
       reset();
       navigate("/");
     } else if (isError) {
       toast.error(`Login failed. ${error.data.message}`);
-      reset();
+      // reset();
     }
-  }, [isSuccess, isError, error, reset, navigate]);
+  }, [isSuccess, isError, error, reset, navigate, accessToken, dispatch]);
 
   let formSchema = Yup.object().shape({
     email: Yup.string()
@@ -39,18 +52,9 @@ const SignIn = () => {
 
     onSubmit: (values, { resetForm }) => {
       signIn(values);
-      // resetForm();
+      resetForm();
     },
   });
-
-  //   useEffect(() => {
-  //     if (!user == null || isSuccess) {
-  //       navigate("/");
-  //       toast("Login Successful");
-  //     } else if (isError) {
-  //       toast.error("Login Failed");
-  //     }
-  //   }, [user, isSuccess, navigate, isError]);
 
   return (
     <>
