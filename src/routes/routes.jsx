@@ -1,16 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "../pages/NotFound";
 import Home from "../pages/Home";
-import UserLayout from "../layouts/UserLayout";
+import SiteLayout from "../layouts/SiteLayout";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import SignUp from "../pages/SignUp";
-import SignIn from "../pages/SignIn";
+import SignUp from "../pages/User/SignUp";
+import SignIn from "../pages/User/SignIn";
+import Profile from "../pages/User/Profile";
+import UserLayout from "../layouts/UserLayout";
+import PrivateRoute from "./PrivateRoute";
+import Test from "../pages/User/Test";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <UserLayout />,
+    element: <SiteLayout />,
     children: [
       {
         index: true,
@@ -23,6 +27,24 @@ const routes = createBrowserRouter([
       {
         path: "/login",
         element: <SignIn />,
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <UserLayout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: <Profile />,
+          },
+          {
+            path: "/profile/test",
+            element: <Test />,
+          },
+        ],
       },
     ],
   },

@@ -88,58 +88,60 @@ const Header = () => {
                 )}
               </div>
 
-              <div className="catagories block md:hidden">
-                <div className="catagory_menu">
-                  <div className="dropdown">
-                    <label
-                      tabIndex={0}
-                      className="btn btn-link text-white no-underline px-0 hover:no-underline "
-                    >
-                      <p className="block md:hidden">
-                        <HiMenuAlt1
-                          className="text-white duration-300 hover:text-[#38b5fe]"
-                          size="20"
-                        />
-                      </p>
-                    </label>
-                    <ul
-                      tabIndex={0}
-                      className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
-                    >
-                      <li>
-                        <Link to="/">Home</Link>
-                      </li>
-                      <li onClick={() => setIsOpen(!isOpen)} className="">
-                        <div className="flex justify-between">
-                          <Link to="/product">Store</Link>
-                          {isOpen ? (
-                            <FaAngleUp color="#fff" />
-                          ) : (
-                            <FaAngleDown color="#fff" />
-                          )}
-                        </div>
-                      </li>
-                      {isOpen && (
-                        <ul className="mobile_dropdown ml-[25px]">
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                        </ul>
-                      )}
-                      <li className="block md:hidden">
-                        <Link to="/blogs">Blogs</Link>
-                      </li>
-                      <li className="block md:hidden">
-                        <Link to="/contact">Contact Us</Link>
-                      </li>
-                      <li className="block md:hidden">
-                        <Link to="/about">About Us</Link>
-                      </li>
-                    </ul>
+              {user?.role !== "admin" && (
+                <div className="catagories block md:hidden">
+                  <div className="catagory_menu">
+                    <div className="dropdown">
+                      <label
+                        tabIndex={0}
+                        className="btn btn-link text-white no-underline px-0 hover:no-underline "
+                      >
+                        <p className="block md:hidden">
+                          <HiMenuAlt1
+                            className="text-white duration-300 hover:text-[#38b5fe]"
+                            size="20"
+                          />
+                        </p>
+                      </label>
+                      <ul
+                        tabIndex={0}
+                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
+                      >
+                        <li>
+                          <Link to="/">Home</Link>
+                        </li>
+                        <li onClick={() => setIsOpen(!isOpen)} className="">
+                          <div className="flex justify-between">
+                            <Link to="/product">Store</Link>
+                            {isOpen ? (
+                              <FaAngleUp color="#fff" />
+                            ) : (
+                              <FaAngleDown color="#fff" />
+                            )}
+                          </div>
+                        </li>
+                        {isOpen && (
+                          <ul className="mobile_dropdown ml-[25px]">
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                          </ul>
+                        )}
+                        <li className="block md:hidden">
+                          <Link to="/blogs">Blogs</Link>
+                        </li>
+                        <li className="block md:hidden">
+                          <Link to="/contact">Contact Us</Link>
+                        </li>
+                        <li className="block md:hidden">
+                          <Link to="/about">About Us</Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               <div className="logo flex justify-center">
                 <Link to="/" className="text-white text-2xl">
@@ -203,75 +205,75 @@ const Header = () => {
             </div>
           </div>
         </div>
-
-        <div className="header_bottom  block md:hidden py-1 px-[20px]">
-          <div className="layout">
-            <div className="menu_area my-1 flex justify-between md:justify-center items-center ">
-              <div className="catagories block md:hidden">
-                <div className="catagory_menu">
-                  <div className="dropdown">
-                    <label
-                      tabIndex={0}
-                      className="btn btn-link text-white no-underline px-0 hover:no-underline "
-                    >
-                      <p className="block md:hidden">
-                        <HiMenuAlt1
-                          className="text-white duration-300 hover:text-[#38b5fe]"
-                          size="20"
-                        />
-                      </p>
-                    </label>
-                    <ul
-                      tabIndex={0}
-                      className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
-                    >
-                      <li>
-                        <Link to="/">Home</Link>
-                      </li>
-                      <li onClick={() => setIsOpen(!isOpen)} className="">
-                        <div className="flex justify-between">
-                          <Link to="/product">Store</Link>
-                          {isOpen ? (
-                            <FaAngleUp color="#fff" />
-                          ) : (
-                            <FaAngleDown color="#fff" />
-                          )}
-                        </div>
-                      </li>
-                      {isOpen && (
-                        <ul className="mobile_dropdown ml-[25px]">
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                          <li className="">item 1</li>
-                        </ul>
-                      )}
-                      <li className="block md:hidden">
-                        <Link to="/blogs">Blogs</Link>
-                      </li>
-                      <li className="block md:hidden">
-                        <Link to="/contact">Contact Us</Link>
-                      </li>
-                      <li className="block md:hidden">
-                        <Link to="/about">About Us</Link>
-                      </li>
-                    </ul>
+        {user?.role === "admin" && (
+          <div className="header_bottom  block md:hidden py-1 px-[20px]">
+            <div className="layout">
+              <div className="menu_area my-1 flex justify-between md:justify-center items-center ">
+                <div className="catagories block md:hidden">
+                  <div className="catagory_menu">
+                    <div className="dropdown">
+                      <label
+                        tabIndex={0}
+                        className="btn btn-link text-white no-underline px-0 hover:no-underline "
+                      >
+                        <p className="block md:hidden">
+                          <HiMenuAlt1
+                            className="text-white duration-300 hover:text-[#38b5fe]"
+                            size="20"
+                          />
+                        </p>
+                      </label>
+                      <ul
+                        tabIndex={0}
+                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
+                      >
+                        <li>
+                          <Link to="/">Home</Link>
+                        </li>
+                        <li onClick={() => setIsOpen(!isOpen)} className="">
+                          <div className="flex justify-between">
+                            <Link to="/product">Store</Link>
+                            {isOpen ? (
+                              <FaAngleUp color="#fff" />
+                            ) : (
+                              <FaAngleDown color="#fff" />
+                            )}
+                          </div>
+                        </li>
+                        {isOpen && (
+                          <ul className="mobile_dropdown ml-[25px]">
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                            <li className="">item 1</li>
+                          </ul>
+                        )}
+                        <li className="block md:hidden">
+                          <Link to="/blogs">Blogs</Link>
+                        </li>
+                        <li className="block md:hidden">
+                          <Link to="/contact">Contact Us</Link>
+                        </li>
+                        <li className="block md:hidden">
+                          <Link to="/about">About Us</Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="md:hidden block">
-                <div className="">
-                  <Link to="/admin">
-                    <button className="bg-[#38b5fe] cursor-pointer duration-300 rounded-full py-[8px] px-[20px] font-medium text-black hover:bg-[#febd69]">
-                      Dashboard
-                    </button>
-                  </Link>
+                <div className="md:hidden block">
+                  <div className="">
+                    <Link to="/admin">
+                      <button className="bg-[#38b5fe] cursor-pointer duration-300 rounded-full py-[8px] px-[20px] font-medium text-black hover:bg-[#febd69]">
+                        Dashboard
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
+        )}
         <div className="header_bottom md:block hidden py-2 px-[20px]">
           <div className="layout">
             <div className="menu_area my-1 flex justify-between md:justify-center items-center ">

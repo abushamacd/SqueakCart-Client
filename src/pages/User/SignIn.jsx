@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
-import Head from "../components/Head";
-import BreadCrumb from "../components/BreadCrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useSignInMutation } from "../redux/features/auth/authApi";
 import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/features/auth/authSlice";
+import Head from "../../components/Head";
+import BreadCrumb from "../../components/BreadCrumb";
+import { useSignInMutation } from "../../redux/features/auth/authApi";
+import { setUser } from "../../redux/features/auth/authSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let { state } = useLocation();
+  let path = state?.path || "/";
   const [signIn, { data, error, isError, isSuccess, reset }] =
     useSignInMutation();
   const accessToken = data?.data?.accessToken;
@@ -28,12 +30,12 @@ const SignIn = () => {
         dispatch(setUser(decoded));
       }
       reset();
-      navigate("/");
+      navigate(path, { replace: true });
     } else if (isError) {
       toast.error(`Login failed. ${error.data.message}`);
-      // reset();
+      reset();
     }
-  }, [isSuccess, isError, error, reset, navigate, accessToken, dispatch]);
+  }, [isSuccess, isError, error, reset, navigate, accessToken, dispatch, path]);
 
   let formSchema = Yup.object().shape({
     email: Yup.string()

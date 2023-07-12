@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Head from "../components/Head";
-import BreadCrumb from "../components/BreadCrumb";
+import Head from "../../components/Head";
+import BreadCrumb from "../../components/BreadCrumb";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useSignUpMutation } from "../redux/features/auth/authApi";
+import { useSignUpMutation } from "../../redux/features/auth/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
