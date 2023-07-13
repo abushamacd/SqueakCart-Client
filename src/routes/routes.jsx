@@ -14,6 +14,7 @@ import Password from "../pages/User/Password";
 import Address from "../pages/User/Address";
 import MyOrders from "../pages/User/MyOrders";
 import Forget from "../pages/User/Forget";
+import Reset from "../pages/User/Reset";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const routes = createBrowserRouter([
       {
         path: "/forget",
         element: <Forget />,
+      },
+      {
+        path: "/reset/:token",
+        element: <Reset />,
       },
       {
         path: "/profile",

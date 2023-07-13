@@ -31,7 +31,9 @@ const SignUp = () => {
       .email("Email should be valid")
       .required("Email is required"),
     phone: Yup.string().required("Phone number is required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is required"),
   });
 
   const formik = useFormik({

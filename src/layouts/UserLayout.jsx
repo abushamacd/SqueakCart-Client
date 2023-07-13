@@ -23,7 +23,7 @@ const UserLayout = () => {
   const pathname = window.location.pathname.split("/");
 
   return (
-    <Layout className="h-screen md:p-[50px] p-[30px]">
+    <Layout className="h-screen md:p-[50px] p-[15px]">
       <Sider
         className="h-[85vh] overflow-hidden hover:overflow-auto"
         trigger={null}
@@ -124,7 +124,7 @@ const UserLayout = () => {
         <Content
           className="rounded-lg overflow-auto"
           style={{
-            margin: "0px 16px",
+            margin: "0px 0px",
             padding: 20,
             minHeight: 280,
             background: colorBgContainer,
