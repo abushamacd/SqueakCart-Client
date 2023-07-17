@@ -15,6 +15,21 @@ import Address from "../pages/User/Address";
 import MyOrders from "../pages/User/MyOrders";
 import Forget from "../pages/User/Forget";
 import Reset from "../pages/User/Reset";
+import Store from "../pages/Store";
+import ProductDetails from "../pages/ProductDetails";
+import Blogs from "../sections/Blogs";
+import BlogDetails from "../pages/BlogDetails";
+import CompareProducts from "../pages/CompareProducts";
+import Wishlist from "../pages/Wishlist";
+import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+import Faqs from "../pages/Faqs";
+import PrivacyPolicy from "../pages/PrivecyPolicy";
+import RefundPolicy from "../pages/RefundPolicy";
+import ShippingPolicy from "../pages/ShippingPolicy";
+import TermAndCondition from "../pages/TermAndCondition";
 
 const routes = createBrowserRouter([
   {
@@ -40,6 +55,66 @@ const routes = createBrowserRouter([
       {
         path: "/reset/:token",
         element: <Reset />,
+      },
+      {
+        path: "/products",
+        element: <Store />,
+      },
+      {
+        path: "/products/:id",
+        element: <ProductDetails />,
+      },
+      {
+        path: "/blogs",
+        element: <Blogs />,
+      },
+      {
+        path: "/blogs/:id",
+        element: <BlogDetails />,
+      },
+      {
+        path: "compare",
+        element: <CompareProducts />,
+      },
+      {
+        path: "wishlist",
+        element: <Wishlist />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "faq",
+        element: <Faqs />,
+      },
+      {
+        path: "privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "refund-policy",
+        element: <RefundPolicy />,
+      },
+      {
+        path: "shipping-policy",
+        element: <ShippingPolicy />,
+      },
+      {
+        path: "term-condition",
+        element: <TermAndCondition />,
       },
       {
         path: "/profile",
