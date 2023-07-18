@@ -1,9 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
 import { Link } from "react-router-dom";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import { useCreateContactMutation } from "../redux/features/contact/contactApi";
+import Loading from "../components/Loading";
 
 const Contact = () => {
+  const [createContact, { isLoading, isSuccess, data, isError, error, reset }] =
+    useCreateContactMutation();
+
+  // form handle
+  let formSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string()
+      .email("Email should be valid")
+      .required("Email is required"),
+    message: Yup.string().required("Message is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+
+    validationSchema: formSchema,
+
+    onSubmit: (values, { resetForm }) => {
+      createContact(values);
+      resetForm();
+    },
+  });
+
+  // notification
+  useEffect(() => {
+    if (isSuccess) {
+      toast(data?.message);
+      reset();
+    } else if (isError) {
+      toast.error(error?.data?.message);
+      reset();
+    }
+  }, [isSuccess, data, isError, error, reset]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head title="Contact Us ||" />
@@ -63,50 +110,77 @@ const Contact = () => {
                     Post-ironic portland shabby chic echo park, banjo fashion
                     axe
                   </p>
-                  <div className="relative mb-4">
-                    <label
-                      htmlFor="name"
-                      className="leading-7 text-sm text-gray-600"
+
+                  <form onSubmit={formik.handleSubmit}>
+                    <div className="relative mb-4">
+                      <label
+                        htmlFor="name"
+                        className="leading-7 text-sm text-gray-600"
+                      >
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                        onChange={formik.handleChange("name")}
+                        value={formik.values.name}
+                      />
+                      {formik.touched.name && formik.errors.name ? (
+                        <div className="formik_err text-sm text-red-600">
+                          {formik.errors.name}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="relative mb-4">
+                      <label
+                        htmlFor="email"
+                        className="leading-7 text-sm text-gray-600"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="w-full bg-white rounded border border-gray-300  outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                        onChange={formik.handleChange("email")}
+                        value={formik.values.email}
+                      />
+                      {formik.touched.email && formik.errors.email ? (
+                        <div className="formik_err text-sm text-red-600">
+                          {formik.errors.email}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="relative mb-4">
+                      <label
+                        htmlFor="message"
+                        className="leading-7 text-sm text-gray-600"
+                      >
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        className="w-full bg-white rounded border border-gray-300 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                        onChange={formik.handleChange("message")}
+                        value={formik.values.message}
+                      ></textarea>
+                      {formik.touched.message && formik.errors.message ? (
+                        <div className="formik_err text-sm text-red-600">
+                          {formik.errors.message}
+                        </div>
+                      ) : null}
+                    </div>
+                    <button
+                      type="submit"
+                      className="first_button py-2 px-6 rounded text-lg"
                     >
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                  </div>
-                  <div className="relative mb-4">
-                    <label
-                      htmlFor="email"
-                      className="leading-7 text-sm text-gray-600"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      className="w-full bg-white rounded border border-gray-300  outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                  </div>
-                  <div className="relative mb-4">
-                    <label
-                      htmlFor="message"
-                      className="leading-7 text-sm text-gray-600"
-                    >
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      className="w-full bg-white rounded border border-gray-300 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-                    ></textarea>
-                  </div>
-                  <button className="first_button py-2 px-6 rounded text-lg">
-                    Send
-                  </button>
+                      Send
+                    </button>
+                  </form>
                   <p className="text-xs text-gray-500 mt-3">
                     Chicharrones blog helvetica normcore iceland tousled brook
                     viral artisan.

@@ -32,7 +32,7 @@ const SignIn = () => {
       reset();
       navigate(path, { replace: true });
     } else if (isError) {
-      toast.error(`Login failed. ${error.data.message}`);
+      toast.error(`Login failed. ${error.data?.message}`);
       reset();
     }
   }, [isSuccess, isError, error, reset, navigate, accessToken, dispatch, path]);
