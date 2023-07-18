@@ -30,6 +30,7 @@ import PrivacyPolicy from "../pages/PrivecyPolicy";
 import RefundPolicy from "../pages/RefundPolicy";
 import ShippingPolicy from "../pages/ShippingPolicy";
 import TermAndCondition from "../pages/TermAndCondition";
+import Enquery from "../pages/Dashboard/Enquery";
 
 const routes = createBrowserRouter([
   {
@@ -155,6 +156,10 @@ const routes = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />,
+      },
+      {
+        path: "/admin/enquery",
+        element: <Enquery />,
       },
     ],
   },

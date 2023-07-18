@@ -9,7 +9,10 @@ const authApi = api.injectEndpoints({
         body: data,
       }),
     }),
+    getContacts: builder.query({
+      query: () => "/contact",
+    }),
   }),
 });
 
-export const { useCreateContactMutation } = authApi;
+export const { useCreateContactMutation, useGetContactsQuery } = authApi;

@@ -4,6 +4,8 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { MdNotificationsActive } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setCollapsed } from "../redux/features/site/siteSlice";
+import { logout } from "../redux/features/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const DBHeader = () => {
   const { Header } = Layout;
@@ -14,27 +16,24 @@ const DBHeader = () => {
   const { collapsed } = useSelector((state) => state.site);
   const dispatch = useDispatch();
 
+  //   signout
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    dispatch(logout());
+  };
+
   // dropdown
   const items = [
     {
       key: "1",
-      label: (
-        <a rel="noopener noreferrer" href="https://www.antgroup.com">
-          Profile
-        </a>
-      ),
+      label: <Link to="/profile">My Profile</Link>,
     },
     {
       key: "2",
-      label: (
-        <a rel="noopener noreferrer" href="https://www.antgroup.com">
-          Sign Out
-        </a>
-      ),
+      label: <div onClick={handleSignout}>Sign Out</div>,
     },
   ];
 
-  //
   return (
     <Header
       className="db_header flex justify-between"
@@ -65,11 +64,8 @@ const DBHeader = () => {
         >
           <div className="flex justify-center items-center gap-1">
             <div className="avatar">
-              <div className="w-10 rounded-md">
-                <img
-                  alt="user"
-                  src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-before-2.jpg"
-                />
+              <div className="w-10 rounded-full">
+                <img alt="user" src="https://i.ibb.co/MgsTCcv/avater.jpg" />
               </div>
             </div>
             <div className="admin">
