@@ -3,10 +3,6 @@ import { Typography, Table, Select, Modal } from "antd";
 import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegEye } from "react-icons/fa";
-import {
-  useDeleteContactMutation,
-  useUpdateContactMutation,
-} from "../../redux/features/contact/contactApi";
 import Loading from "../../components/Loading";
 import { setView } from "../../redux/features/site/siteSlice";
 import { toast } from "react-toastify";
@@ -14,6 +10,7 @@ import {
   useGetUsersQuery,
   useBlockUserMutation,
   useUnblockUserMutation,
+  useDeleteUserMutation,
 } from "../../redux/features/user/userApi";
 
 const User = () => {
@@ -74,7 +71,7 @@ const User = () => {
   ] = useUnblockUserMutation();
 
   const [
-    deleteContact,
+    deleteUser,
     {
       isSuccess: deleteIsSuccess,
       data: deleteData,
@@ -82,7 +79,7 @@ const User = () => {
       error: deleteError,
       reset: deleteReset,
     },
-  ] = useDeleteContactMutation();
+  ] = useDeleteUserMutation();
 
   const handleUpdate = (value, options) => {
     if (options.label === "Unblock") {
@@ -90,7 +87,6 @@ const User = () => {
     } else {
       blockUser(options.id);
     }
-    console.log(options);
   };
 
   const handleOpen = (user) => {
@@ -98,7 +94,7 @@ const User = () => {
   };
 
   const handleDelete = (user) => {
-    // deleteContact({ id: user._id });
+    deleteUser(user._id);
   };
 
   const handleCancel = () => {
@@ -142,22 +138,19 @@ const User = () => {
 
   // notification
   useEffect(() => {
-    // for update
-    if (blockIsSuccess || unblockIsSuccess) {
-      toast(blockData?.message || unblockData?.message);
+    if (blockIsSuccess || unblockIsSuccess || deleteIsSuccess) {
+      toast(blockData?.message || unblockData?.message || deleteData?.message);
       blockReset();
       unblockReset();
-    } else if (blockIsError || unblockIsError) {
-      toast.error(blockError.data?.message || unblockError.data?.message);
-      blockReset();
-      unblockReset();
-    }
-    // for delete
-    if (deleteIsSuccess) {
-      toast(deleteData?.message);
       deleteReset();
-    } else if (deleteIsError) {
-      toast.error(deleteError.data?.message);
+    } else if (blockIsError || unblockIsError || deleteIsError) {
+      toast.error(
+        blockError.data?.message ||
+          unblockError.data?.message ||
+          deleteError.data?.message
+      );
+      blockReset();
+      unblockReset();
       deleteReset();
     }
   }, [

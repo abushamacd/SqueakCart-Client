@@ -8,7 +8,7 @@ const userApi = api.injectEndpoints({
     }),
     getUsers: builder.query({
       query: () => "/user",
-      providesTags: ["profileUpdate"],
+      providesTags: ["profileUpdate", "user"],
     }),
     updateUserProfile: builder.mutation({
       query: ({ id, data }) => ({
@@ -20,7 +20,7 @@ const userApi = api.injectEndpoints({
     }),
     getUserAddress: builder.query({
       query: () => "/address",
-      providesTags: ["userAddress"],
+      providesTags: ["user"],
     }),
     addUserAddress: builder.mutation({
       query: (data) => ({
@@ -28,14 +28,14 @@ const userApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["userAddress"],
+      invalidatesTags: ["user"],
     }),
     deleteUserAddress: builder.mutation({
       query: (id) => ({
         url: `/address/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["userAddress"],
+      invalidatesTags: ["user"],
     }),
     updateUserAddress: builder.mutation({
       query: ({ id, data }) => ({
@@ -43,7 +43,7 @@ const userApi = api.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["userAddress"],
+      invalidatesTags: ["user"],
     }),
     blockUser: builder.mutation({
       query: (id) => ({
@@ -56,6 +56,13 @@ const userApi = api.injectEndpoints({
         url: `/user/unblock/${id}`,
         method: "PATCH",
       }),
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["user"],
     }),
   }),
 });
@@ -70,4 +77,5 @@ export const {
   useGetUsersQuery,
   useBlockUserMutation,
   useUnblockUserMutation,
+  useDeleteUserMutation,
 } = userApi;
