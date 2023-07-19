@@ -4,6 +4,7 @@ import { Layout, Menu } from "antd";
 import { MdDashboard } from "react-icons/md";
 import { TbBrandGoogleBigQuery } from "react-icons/tb";
 import { useSelector } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -49,6 +50,11 @@ const Sidebar = () => {
             key: "",
             icon: <MdDashboard size={18} />,
             label: "Dashboard",
+          },
+          {
+            key: "user-list",
+            icon: <FaUserCircle size={18} />,
+            label: "Users",
           },
           {
             key: "enquery",

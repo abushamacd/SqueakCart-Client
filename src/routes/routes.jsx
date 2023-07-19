@@ -31,6 +31,7 @@ import RefundPolicy from "../pages/RefundPolicy";
 import ShippingPolicy from "../pages/ShippingPolicy";
 import TermAndCondition from "../pages/TermAndCondition";
 import Enquery from "../pages/Dashboard/Enquery";
+import User from "../pages/Dashboard/User";
 
 const routes = createBrowserRouter([
   {
@@ -160,6 +161,10 @@ const routes = createBrowserRouter([
       {
         path: "/admin/enquery",
         element: <Enquery />,
+      },
+      {
+        path: "/admin/user-list",
+        element: <User />,
       },
     ],
   },

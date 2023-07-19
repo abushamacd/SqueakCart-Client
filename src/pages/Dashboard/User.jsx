@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaRegEye } from "react-icons/fa";
 import {
   useDeleteContactMutation,
-  useGetContactsQuery,
   useUpdateContactMutation,
 } from "../../redux/features/contact/contactApi";
 import Loading from "../../components/Loading";
 import { setView } from "../../redux/features/site/siteSlice";
 import { toast } from "react-toastify";
+import { useGetUsersQuery } from "../../redux/features/user/userApi";
 
-const Enquery = () => {
+const User = () => {
   const { Title } = Typography;
   const columns = [
     {
@@ -44,8 +44,9 @@ const Enquery = () => {
 
   const dispatch = useDispatch();
 
-  const { isLoading, data } = useGetContactsQuery();
-  const contacts = data?.data?.data;
+  const { isLoading, data } = useGetUsersQuery();
+  const users = data?.data?.data;
+  console.log(users);
   const { view } = useSelector((state) => state.site);
   const [
     updateContact,
@@ -70,7 +71,8 @@ const Enquery = () => {
   ] = useDeleteContactMutation();
 
   const handleUpdate = (value, options) => {
-    updateContact({ id: options.id, data: { status: options.value } });
+    // updateContact({ id: options.id, data: { status: options.value } });
+    console.log(options);
   };
 
   const handleOpen = (contact) => {
@@ -86,38 +88,32 @@ const Enquery = () => {
   };
 
   const tableData = [];
-  for (let i = 0; i < contacts?.length; i++) {
+  for (let i = 0; i < users?.length; i++) {
     tableData.push({
       key: i + 1,
       no: tableData.length + 1,
-      name: contacts[i]?.name,
-      email: contacts[i]?.email,
+      name: `${users[i]?.firstname} ${users[i]?.lastname}`,
+      email: users[i]?.email,
       status: (
         <Select
-          defaultValue={contacts[i]?.status}
+          defaultValue={users[i]?.isBlocked}
           style={{ width: 120 }}
           onChange={handleUpdate}
           options={[
-            { id: contacts[i]?._id, value: `Submitted`, label: "Submitted" },
-            { id: contacts[i]?._id, value: "Contacted", label: "Contacted" },
-            {
-              id: contacts[i]?._id,
-              value: "In Progress",
-              label: "In Progress",
-            },
-            { id: contacts[i]?._id, value: "Resolved", label: "Resolved" },
+            { id: users[i]?._id, value: false, label: "Unblock" },
+            { id: users[i]?._id, value: true, label: "Block" },
           ]}
         />
       ),
       action: (
         <div className="flex gap-2">
           <FaRegEye
-            onClick={() => handleOpen(contacts[i])}
+            onClick={() => handleOpen(users[i])}
             size={22}
             className="text-green-700"
           />
           <MdDeleteForever
-            onClick={() => handleDelete(contacts[i])}
+            onClick={() => handleDelete(users[i])}
             size={22}
             className="text-red-500 "
           />
@@ -224,4 +220,4 @@ const Enquery = () => {
   );
 };
 
-export default Enquery;
+export default User;
