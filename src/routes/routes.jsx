@@ -32,6 +32,7 @@ import ShippingPolicy from "../pages/ShippingPolicy";
 import TermAndCondition from "../pages/TermAndCondition";
 import Enquery from "../pages/Dashboard/Enquery";
 import User from "../pages/Dashboard/User";
+import BlogCat from "../pages/Dashboard/BlogCat";
 
 const routes = createBrowserRouter([
   {
@@ -165,6 +166,10 @@ const routes = createBrowserRouter([
       {
         path: "/admin/user-list",
         element: <User />,
+      },
+      {
+        path: "/admin/blog-cat",
+        element: <BlogCat />,
       },
     ],
   },

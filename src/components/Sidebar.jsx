@@ -1,10 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { MdDashboard } from "react-icons/md";
-import { TbBrandGoogleBigQuery } from "react-icons/tb";
+import { MdDashboard, MdOutlineList } from "react-icons/md";
+import { TbBrandGoogleBigQuery, TbCategory } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBlog } from "react-icons/fa";
+import { ImBlog } from "react-icons/im";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -50,6 +51,28 @@ const Sidebar = () => {
             key: "",
             icon: <MdDashboard size={18} />,
             label: "Dashboard",
+          },
+          {
+            key: "blog",
+            icon: <FaBlog size={18} />,
+            label: "Blogs",
+            children: [
+              {
+                key: "blog-list",
+                icon: <MdOutlineList size={18} />,
+                label: "Blog List",
+              },
+              {
+                key: "add-blog",
+                icon: <ImBlog size={18} />,
+                label: "Add Blog",
+              },
+              {
+                key: "blog-cat",
+                icon: <TbCategory size={18} />,
+                label: "Blog Category",
+              },
+            ],
           },
           {
             key: "user-list",

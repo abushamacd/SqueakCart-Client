@@ -56,6 +56,10 @@ textarea {
   background-color: var(--color_f5f5f7);
 }
 
+label {
+  color: var(--color_232f3e);
+}
+
 .logo_color {
   color: var(--color_38b5fe);
 }

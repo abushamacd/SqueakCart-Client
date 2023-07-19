@@ -177,10 +177,10 @@ const User = () => {
 
   return (
     <div>
-      <Title level={3}>Enqueries</Title>
+      <Title level={3}>Users</Title>
       <div className="recent_order mt-[20px] overflow-auto bg-white box_shadow rounded-lg p-[20px] mb-[20px] md:mb-[0px] ">
         <Title className="capitalize" level={5}>
-          recent orders
+          All Users
         </Title>
         <Table columns={columns} dataSource={tableData} />
       </div>
