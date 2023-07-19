@@ -46,8 +46,8 @@ const User = () => {
 
   const { isLoading, data } = useGetUsersQuery();
   const users = data?.data?.data;
-  console.log(users);
   const { view } = useSelector((state) => state.site);
+  console.log(view?.data);
   const [
     updateContact,
     {
@@ -75,12 +75,12 @@ const User = () => {
     console.log(options);
   };
 
-  const handleOpen = (contact) => {
-    dispatch(setView({ data: contact, state: true }));
+  const handleOpen = (user) => {
+    dispatch(setView({ data: user, state: true }));
   };
 
-  const handleDelete = (contact) => {
-    deleteContact({ id: contact._id });
+  const handleDelete = (user) => {
+    // deleteContact({ id: user._id });
   };
 
   const handleCancel = () => {
@@ -167,52 +167,109 @@ const User = () => {
         <Table columns={columns} dataSource={tableData} />
       </div>
       <Modal
-        title={`Contact ID: ${view.data?._id}`}
+        title={`User ID: ${view.data?._id}`}
         open={view.state}
         footer={null}
         onCancel={handleCancel}
       >
         <form>
-          <div className="relative mb-4">
-            <label htmlFor="name" className="leading-7 text-sm text-gray-600">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              value={view?.data?.name}
-              disabled
-            />
+          {/* Name */}
+          <div className="md:flex gap-5">
+            <div className="w-full mb-3">
+              <label htmlFor="firstname">First Name</label>
+              <input
+                className="w-full p-2 mb-3 mt-1"
+                type="text"
+                placeholder="firstname"
+                name="firstname"
+                id="firstname"
+                disabled
+                value={view?.data?.firstname}
+              />
+            </div>
+            <div className="w-full mb-3">
+              <label htmlFor="lastname">Last Name</label>
+              <input
+                className="w-full p-2 mb-3 mt-1"
+                type="text"
+                placeholder="lastname"
+                name="lastname"
+                id="lastname"
+                disabled
+                value={view?.data?.lastname}
+              />
+            </div>
           </div>
-          <div className="relative mb-4">
-            <label htmlFor="email" className="leading-7 text-sm text-gray-600">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="w-full bg-white rounded border border-gray-300  outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              disabled
-              value={view.data?.email}
-            />
+          {/* Email Phone */}
+          <div className="md:flex gap-5">
+            <div className="w-full mb-3">
+              <label htmlFor="email">Email</label>
+              <input
+                className="w-full p-2 mb-3 mt-1"
+                type="email"
+                placeholder="email"
+                name="email"
+                id="email"
+                disabled
+                value={view?.data?.email}
+              />
+            </div>
+            <div className="w-full mb-3">
+              <label htmlFor="phone">Phone</label>
+              <input
+                className="w-full p-2 mb-3 mt-1"
+                type="text"
+                placeholder="phone"
+                name="phone"
+                id="phone"
+                disabled
+                value={view?.data?.phone}
+              />
+            </div>
           </div>
-          <div className="relative mb-4">
-            <label
-              htmlFor="message"
-              className="leading-7 text-sm text-gray-600"
-            >
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              className="w-full bg-white rounded border border-gray-300 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-              value={view.data?.message}
-              disabled
-            ></textarea>
+          {/* Address */}
+          <div className="w-full mb-3">
+            <label htmlFor="address font-bold">Default Address</label>
+            <div className=" mb-3">
+              <ul className="pl-[20px] leading-5">
+                <li className="">
+                  Address Line 1:
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.addressline1}
+                  </span>
+                </li>
+                <li className="">
+                  Address Line 2:
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.addressline2}
+                  </span>
+                </li>
+                <li className="">
+                  Zip Code:{" "}
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.zipCode}
+                  </span>
+                </li>
+                <li className="">
+                  City:{" "}
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.city}
+                  </span>
+                </li>
+                <li className="">
+                  State:
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.state}
+                  </span>
+                </li>
+                <li className="">
+                  Country:
+                  <span className="font-bold ml-1">
+                    {view?.data?.address[0]?.country}
+                  </span>
+                </li>
+              </ul>
+            </div>
           </div>
         </form>
       </Modal>
