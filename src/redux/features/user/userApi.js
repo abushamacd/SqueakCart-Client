@@ -45,6 +45,18 @@ const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["userAddress"],
     }),
+    blockUser: builder.mutation({
+      query: (id) => ({
+        url: `/user/block/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    unblockUser: builder.mutation({
+      query: (id) => ({
+        url: `/user/unblock/${id}`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -56,4 +68,6 @@ export const {
   useUpdateUserAddressMutation,
   useUpdateUserProfileMutation,
   useGetUsersQuery,
+  useBlockUserMutation,
+  useUnblockUserMutation,
 } = userApi;

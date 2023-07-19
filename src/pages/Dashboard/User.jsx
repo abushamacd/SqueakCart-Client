@@ -10,7 +10,11 @@ import {
 import Loading from "../../components/Loading";
 import { setView } from "../../redux/features/site/siteSlice";
 import { toast } from "react-toastify";
-import { useGetUsersQuery } from "../../redux/features/user/userApi";
+import {
+  useGetUsersQuery,
+  useBlockUserMutation,
+  useUnblockUserMutation,
+} from "../../redux/features/user/userApi";
 
 const User = () => {
   const { Title } = Typography;
@@ -47,17 +51,27 @@ const User = () => {
   const { isLoading, data } = useGetUsersQuery();
   const users = data?.data?.data;
   const { view } = useSelector((state) => state.site);
-  console.log(view?.data);
   const [
-    updateContact,
+    blockUser,
     {
-      isSuccess: updateIsSuccess,
-      data: updateData,
-      isError: updateIsError,
-      error: updateError,
-      reset: updateReset,
+      isSuccess: blockIsSuccess,
+      data: blockData,
+      isError: blockIsError,
+      error: blockError,
+      reset: blockReset,
     },
-  ] = useUpdateContactMutation();
+  ] = useBlockUserMutation();
+
+  const [
+    unblockUser,
+    {
+      isSuccess: unblockIsSuccess,
+      data: unblockData,
+      isError: unblockIsError,
+      error: unblockError,
+      reset: unblockReset,
+    },
+  ] = useUnblockUserMutation();
 
   const [
     deleteContact,
@@ -71,7 +85,11 @@ const User = () => {
   ] = useDeleteContactMutation();
 
   const handleUpdate = (value, options) => {
-    // updateContact({ id: options.id, data: { status: options.value } });
+    if (options.label === "Unblock") {
+      unblockUser(options.id);
+    } else {
+      blockUser(options.id);
+    }
     console.log(options);
   };
 
@@ -125,12 +143,14 @@ const User = () => {
   // notification
   useEffect(() => {
     // for update
-    if (updateIsSuccess) {
-      toast(updateData?.message);
-      updateReset();
-    } else if (updateIsError) {
-      toast.error(updateError.data?.message);
-      updateReset();
+    if (blockIsSuccess || unblockIsSuccess) {
+      toast(blockData?.message || unblockData?.message);
+      blockReset();
+      unblockReset();
+    } else if (blockIsError || unblockIsError) {
+      toast.error(blockError.data?.message || unblockError.data?.message);
+      blockReset();
+      unblockReset();
     }
     // for delete
     if (deleteIsSuccess) {
@@ -141,16 +161,21 @@ const User = () => {
       deleteReset();
     }
   }, [
-    updateIsSuccess,
-    updateData,
-    updateIsError,
-    updateError,
-    updateReset,
+    blockIsSuccess,
+    blockData,
+    blockIsError,
+    blockError,
+    blockReset,
     deleteIsSuccess,
     deleteIsError,
     deleteData,
     deleteError,
     deleteReset,
+    unblockIsSuccess,
+    unblockData,
+    unblockIsError,
+    unblockError,
+    unblockReset,
   ]);
 
   if (isLoading) {
