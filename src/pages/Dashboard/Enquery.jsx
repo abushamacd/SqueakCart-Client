@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Table, Select, Modal } from "antd";
 import { MdDeleteForever } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { FaRegEye } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
-import { useGetContactsQuery } from "../../redux/features/contact/contactApi";
+import {
+  useDeleteContactMutation,
+  useGetContactsQuery,
+  useUpdateContactMutation,
+} from "../../redux/features/contact/contactApi";
 import Loading from "../../components/Loading";
 import { setContact } from "../../redux/features/site/siteSlice";
+import { toast } from "react-toastify";
 
 const Enquery = () => {
-  const { isLoading, data } = useGetContactsQuery();
-  const contacts = data?.data?.data;
-  const { contact } = useSelector((state) => state.site);
-  const dispatch = useDispatch();
-
   const { Title } = Typography;
   const columns = [
     {
@@ -43,12 +42,43 @@ const Enquery = () => {
     },
   ];
 
-  const handleChange = (value, options) => {
-    console.log(options);
+  const dispatch = useDispatch();
+
+  const { isLoading, data } = useGetContactsQuery();
+  const contacts = data?.data?.data;
+  const { contact } = useSelector((state) => state.site);
+  const [
+    updateContact,
+    {
+      isSuccess: updateIsSuccess,
+      data: updateData,
+      isError: updateIsError,
+      error: updateError,
+      reset: updateReset,
+    },
+  ] = useUpdateContactMutation();
+
+  const [
+    deleteContact,
+    {
+      isSuccess: deleteIsSuccess,
+      data: deleteData,
+      isError: deleteIsError,
+      error: deleteError,
+      reset: deleteReset,
+    },
+  ] = useDeleteContactMutation();
+
+  const handleUpdate = (value, options) => {
+    updateContact({ id: options.id, data: { status: options.value } });
   };
 
-  const openContact = (contact) => {
+  const handleOpen = (contact) => {
     dispatch(setContact({ data: contact, state: true }));
+  };
+
+  const handleDelete = (contact) => {
+    deleteContact({ id: contact._id });
   };
 
   const handleCancel = () => {
@@ -64,9 +94,9 @@ const Enquery = () => {
       email: contacts[i]?.email,
       status: (
         <Select
-          defaultValue="Submitted"
+          defaultValue={contacts[i]?.status}
           style={{ width: 120 }}
-          onChange={handleChange}
+          onChange={handleUpdate}
           options={[
             { id: contacts[i]?._id, value: `Submitted`, label: "Submitted" },
             { id: contacts[i]?._id, value: "Contacted", label: "Contacted" },
@@ -82,20 +112,55 @@ const Enquery = () => {
       action: (
         <div className="flex gap-2">
           <FaRegEye
-            onClick={() => openContact(contacts[i])}
+            onClick={() => handleOpen(contacts[i])}
             size={22}
             className="text-green-700"
           />
-          <FiEdit size={22} className="text-orange-400" />
-          <MdDeleteForever size={22} className="text-red-500 " />
+          <MdDeleteForever
+            onClick={() => handleDelete(contacts[i])}
+            size={22}
+            className="text-red-500 "
+          />
         </div>
       ),
     });
   }
 
+  // notification
+  useEffect(() => {
+    // for update
+    if (updateIsSuccess) {
+      toast(updateData?.message);
+      updateReset();
+    } else if (updateIsError) {
+      toast.error(updateError.data?.message);
+      updateReset();
+    }
+    // for delete
+    if (deleteIsSuccess) {
+      toast(deleteData?.message);
+      deleteReset();
+    } else if (deleteIsError) {
+      toast.error(deleteError.data?.message);
+      deleteReset();
+    }
+  }, [
+    updateIsSuccess,
+    updateData,
+    updateIsError,
+    updateError,
+    updateReset,
+    deleteIsSuccess,
+    deleteIsError,
+    deleteData,
+    deleteError,
+    deleteReset,
+  ]);
+
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <div>
       <Title level={3}>Enqueries</Title>

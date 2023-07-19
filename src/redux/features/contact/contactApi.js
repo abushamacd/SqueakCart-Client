@@ -8,12 +8,29 @@ const authApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["contact"],
     }),
     getContacts: builder.query({
       query: () => "/contact",
+      providesTags: ["contact"],
     }),
     getContact: builder.query({
       query: (id) => `/contact/${id}`,
+    }),
+    updateContact: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/contact/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["contact"],
+    }),
+    deleteContact: builder.mutation({
+      query: ({ id }) => ({
+        url: `/contact/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["contact"],
     }),
   }),
 });
@@ -22,4 +39,6 @@ export const {
   useCreateContactMutation,
   useGetContactsQuery,
   useGetContactQuery,
+  useUpdateContactMutation,
+  useDeleteContactMutation,
 } = authApi;
