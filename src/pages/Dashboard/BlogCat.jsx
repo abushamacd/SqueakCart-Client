@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { Typography, Table } from "antd";
 import { MdDeleteForever } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
-import { FaRegEye } from "react-icons/fa";
-import { FiEdit } from "react-icons/fi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import { useCreateBlogCatMutation } from "../../redux/features/blog/blogApi";
+import {
+  useCreateBlogCatMutation,
+  useDeleteBlogCatMutation,
+  useGetBlogCatsQuery,
+} from "../../redux/features/blog/blogApi";
+import Loading from "../../components/Loading";
 
 const BlogCat = () => {
   const { Title } = Typography;
@@ -41,20 +43,42 @@ const BlogCat = () => {
     },
   ] = useCreateBlogCatMutation();
 
-  console.log(createData);
+  const { data: getData, isLoading: getIsLoading } = useGetBlogCatsQuery();
+  const blogCats = getData?.data?.data;
+
+  const [
+    deleteBlogCat,
+    {
+      isSuccess: deleteIsSuccess,
+      data: deleteData,
+      isError: deleteIsError,
+      error: deleteError,
+      reset: deleteReset,
+    },
+  ] = useDeleteBlogCatMutation();
+
+  console.log(deleteData);
+
+  // handle operation
+  const handleDelete = (contact) => {
+    deleteBlogCat(contact._id);
+    console.log(contact);
+  };
 
   //
   const tableData = [];
-  for (let i = 0; i < [1, 2, 3]?.data?.length; i++) {
+  for (let i = 0; i < blogCats?.length; i++) {
     tableData.push({
       key: i + 1,
-      no: 0 + 1,
-      name: "tiel",
+      no: tableData.length + 1,
+      name: <div className="capitalize">{blogCats[i]?.title}</div>,
       action: (
         <div className="flex gap-2">
-          <FaRegEye size={22} className="text-green-700" />
-          <FiEdit size={22} className="text-orange-400" />
-          <MdDeleteForever size={22} className="text-red-500 " />
+          <MdDeleteForever
+            onClick={() => handleDelete(blogCats[i])}
+            size={22}
+            className="text-red-500 "
+          />
         </div>
       ),
     });
@@ -78,14 +102,31 @@ const BlogCat = () => {
 
   // notification
   useEffect(() => {
-    if (createIsSuccess) {
-      toast(createData?.message);
+    if (createIsSuccess || deleteIsSuccess) {
+      toast(createData?.message || deleteData?.message);
       createReset();
-    } else if (createIsError) {
-      toast.error(createError.data?.message);
+      deleteReset();
+    } else if (createIsError || deleteIsError) {
+      toast.error(createError?.data?.message || deleteError?.data?.message);
       createReset();
+      deleteReset();
     }
-  }, [createData, createError, createIsError, createIsSuccess, createReset]);
+  }, [
+    createData,
+    createError,
+    createIsError,
+    createIsSuccess,
+    createReset,
+    deleteData,
+    deleteError,
+    deleteIsError,
+    deleteIsSuccess,
+    deleteReset,
+  ]);
+
+  if (getIsLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>

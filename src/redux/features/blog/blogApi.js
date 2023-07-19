@@ -2,10 +2,6 @@ import { api } from "../../api/apiSlice";
 
 const blogApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getUserProfile: builder.query({
-      query: () => "/user/profile",
-      providesTags: ["profileUpdate"],
-    }),
     createBlogCat: builder.mutation({
       query: (data) => ({
         url: `/blogCat`,
@@ -14,7 +10,22 @@ const blogApi = api.injectEndpoints({
       }),
       invalidatesTags: ["blog_cat"],
     }),
+    getBlogCats: builder.query({
+      query: () => "/blogCat",
+      providesTags: ["blog_cat"],
+    }),
+    deleteBlogCat: builder.mutation({
+      query: (id) => ({
+        url: `/blogCat/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["blog_cat"],
+    }),
   }),
 });
 
-export const { useCreateBlogCatMutation } = blogApi;
+export const {
+  useCreateBlogCatMutation,
+  useGetBlogCatsQuery,
+  useDeleteBlogCatMutation,
+} = blogApi;
