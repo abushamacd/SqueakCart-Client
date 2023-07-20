@@ -12,9 +12,15 @@ import Loading from "../../components/Loading";
 import { toast } from "react-toastify";
 import { setEdit, setView } from "../../redux/features/site/siteSlice";
 import { Modal } from "antd";
+import { useNavigate } from "react-router-dom";
+import {
+  setDeleteImages,
+  setVisibility,
+} from "../../redux/features/blog/blogSlice";
 
 const BlogList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // hook
   const { data: blogData, isLoading: blogIsLoading } = useGetBlogsQuery();
   const blogs = blogData?.data?.data;
@@ -43,14 +49,13 @@ const BlogList = () => {
 
   const openEdit = (blog) => {
     dispatch(setEdit({ data: blog, state: true }));
+    dispatch(setVisibility(blog?.visibility));
+    dispatch(setDeleteImages(blog?.images));
+    navigate("/admin/blog-edit");
   };
 
   const closeView = () => {
     dispatch(setView({ data: null, state: false }));
-  };
-
-  const closeEdit = () => {
-    dispatch(setEdit({ data: null, state: false }));
   };
 
   const { Title } = Typography;
@@ -168,9 +173,14 @@ const BlogList = () => {
             className="text-sm"
             dangerouslySetInnerHTML={{ __html: view.data?.description }}
           ></div>
-          <div className="blog_about flex gap-[30px] my-[20px]">
+          <div className="blog_about flex gap-[30px] my-[20px] felx flex-wrap">
             <p className="date text-sm text-gray-500"> {view.data?.date}</p>
-            <p className="author text-sm text-gray-500">{view.data?.author}</p>
+            <p className="author text-sm text-gray-500 capitalize">
+              {view.data?.author}
+            </p>
+            <p className="author text-sm text-gray-500 capitalize">
+              Visibility: {view.data?.visibility}
+            </p>
             <p className="cat text-sm text-gray-500 capitalize">
               Categories:
               {view.data?.category.map((cat, i) => {
@@ -186,17 +196,6 @@ const BlogList = () => {
             </p>
           </div>
         </div>
-      </Modal>
-      {/* Edit Modal */}
-      <Modal
-        className="large_modal"
-        title={`Blog ID: ${view.data?._id}`}
-        open={view.editState}
-        centered
-        footer={null}
-        onCancel={closeEdit}
-      >
-        Hqqq
       </Modal>
     </div>
   );

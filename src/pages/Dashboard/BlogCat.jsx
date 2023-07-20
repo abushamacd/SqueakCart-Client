@@ -57,12 +57,9 @@ const BlogCat = () => {
     },
   ] = useDeleteBlogCatMutation();
 
-  console.log(deleteData);
-
   // handle operation
   const handleDelete = (contact) => {
     deleteBlogCat(contact._id);
-    console.log(contact);
   };
 
   //

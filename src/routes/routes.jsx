@@ -35,6 +35,7 @@ import User from "../pages/Dashboard/User";
 import BlogCat from "../pages/Dashboard/BlogCat";
 import AddBlog from "../pages/Dashboard/AddBlog";
 import BlogList from "../pages/Dashboard/BlogList";
+import EditBlog from "../pages/Dashboard/EditBlog";
 
 const routes = createBrowserRouter([
   {
@@ -180,6 +181,10 @@ const routes = createBrowserRouter([
       {
         path: "/admin/blog-list",
         element: <BlogList />,
+      },
+      {
+        path: "/admin/blog-edit",
+        element: <EditBlog />,
       },
     ],
   },

@@ -55,6 +55,14 @@ const blogApi = api.injectEndpoints({
       }),
       invalidatesTags: ["blog"],
     }),
+    updateBlog: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/blog/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["blog"],
+    }),
   }),
 });
 
@@ -67,4 +75,5 @@ export const {
   useCreateBlogMutation,
   useGetBlogsQuery,
   useDeleteBlogMutation,
+  useUpdateBlogMutation,
 } = blogApi;
