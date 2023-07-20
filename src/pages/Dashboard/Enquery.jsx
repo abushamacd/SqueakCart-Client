@@ -73,7 +73,7 @@ const Enquery = () => {
     updateContact({ id: options.id, data: { status: options.value } });
   };
 
-  const handleOpen = (contact) => {
+  const openView = (contact) => {
     dispatch(setView({ data: contact, state: true }));
   };
 
@@ -81,7 +81,7 @@ const Enquery = () => {
     deleteContact({ id: contact._id });
   };
 
-  const handleCancel = () => {
+  const closeView = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
@@ -112,7 +112,7 @@ const Enquery = () => {
       action: (
         <div className="flex gap-2">
           <FaRegEye
-            onClick={() => handleOpen(contacts[i])}
+            onClick={() => openView(contacts[i])}
             size={22}
             className="text-green-700"
           />
@@ -172,9 +172,10 @@ const Enquery = () => {
       </div>
       <Modal
         title={`Contact ID: ${view.data?._id}`}
-        open={view.state}
+        open={view.viewState}
+        centered
         footer={null}
-        onCancel={handleCancel}
+        onCancel={closeView}
       >
         <form>
           <div className="relative mb-4">

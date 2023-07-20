@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   collapsed: false,
   view: {
-    state: false,
+    viewState: false,
+    editState: false,
     data: null,
   },
 };
@@ -16,12 +17,16 @@ const siteSlice = createSlice({
       state.collapsed = action.payload;
     },
     setView: (state, action) => {
-      state.view.state = action.payload.state;
+      state.view.viewState = action.payload.state;
+      state.view.data = action.payload.data;
+    },
+    setEdit: (state, action) => {
+      state.view.editState = action.payload.state;
       state.view.data = action.payload.data;
     },
   },
 });
 
-export const { setCollapsed, setView } = siteSlice.actions;
+export const { setCollapsed, setView, setEdit } = siteSlice.actions;
 
 export default siteSlice.reducer;

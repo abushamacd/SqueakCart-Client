@@ -89,7 +89,7 @@ const User = () => {
     }
   };
 
-  const handleOpen = (user) => {
+  const openView = (user) => {
     dispatch(setView({ data: user, state: true }));
   };
 
@@ -97,7 +97,7 @@ const User = () => {
     deleteUser(user._id);
   };
 
-  const handleCancel = () => {
+  const closeView = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
@@ -122,7 +122,7 @@ const User = () => {
       action: (
         <div className="flex gap-2">
           <FaRegEye
-            onClick={() => handleOpen(users[i])}
+            onClick={() => openView(users[i])}
             size={22}
             className="text-green-700"
           />
@@ -186,9 +186,10 @@ const User = () => {
       </div>
       <Modal
         title={`User ID: ${view.data?._id}`}
-        open={view.state}
+        open={view.viewState}
+        centered
         footer={null}
-        onCancel={handleCancel}
+        onCancel={closeView}
       >
         <form>
           {/* Name */}

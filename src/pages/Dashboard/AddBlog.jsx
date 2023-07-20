@@ -24,6 +24,7 @@ import {
   setUploadImages,
   setVisibility,
   setDeleteImages,
+  clearImage,
 } from "../../redux/features/blog/blogSlice";
 import { Spin } from "antd";
 
@@ -32,6 +33,17 @@ const AddBlog = () => {
   const { category, date, visibility, blogImages } = useSelector(
     (state) => state.blog
   );
+  const [
+    createBlog,
+    {
+      isSuccess: createIsSuccess,
+      data: createData,
+      isError: createIsError,
+      error: createError,
+      reset: createReset,
+    },
+  ] = useCreateBlogMutation();
+
   const dispatch = useDispatch();
   // hook
   const { data: getData, isLoading: getIsLoading } = useGetBlogCatsQuery();
@@ -48,17 +60,6 @@ const AddBlog = () => {
   const [deleteBlogImage, { isLoading: imageDeleteIsLoading }] =
     useDeleteBlogImageMutation();
 
-  const [
-    createBlog,
-    {
-      isSuccess: createIsSuccess,
-      data: createData,
-      isError: createIsError,
-      error: createError,
-      reset: createReset,
-    },
-  ] = useCreateBlogMutation();
-
   // date
   const handleDate = (date, dateString) => {
     dispatch(setDate(dateString));
@@ -73,7 +74,7 @@ const AddBlog = () => {
   });
 
   // image upload
-  const handleUpload = (image) => {
+  const handleImgUpload = (image) => {
     const formData = new FormData();
     image.forEach((image) => {
       formData.append("images", image);
@@ -89,7 +90,7 @@ const AddBlog = () => {
   }, [dispatch, imageUploadData, imageUploadReset]);
 
   // image delete
-  const handleDelete = (id) => {
+  const handleImgDelete = (id) => {
     deleteBlogImage(id);
     const rest = blogImages.filter((img) => img.public_id !== id);
     dispatch(setDeleteImages(rest));
@@ -258,12 +259,17 @@ const AddBlog = () => {
             ) : null}
           </div>
           <div className="blog_picture mt-4 bg-white box_shadow p-[20px] rounded-lg">
-            <Title level={4}>Blog Picture</Title>
+            <div className="flex justify-between items-center">
+              <Title level={4}>Blog Picture</Title>
+              <div onClick={() => dispatch(clearImage())}>
+                <h6 className="text-red-600 cursor-pointer">Clear</h6>
+              </div>
+            </div>
             <div className="show_upload_images mt-4 flex flex-wrap">
               {blogImages?.map((image, i) => (
                 <div key={i} className="relative w-[50%] p-1">
                   <button
-                    onClick={() => handleDelete(image?.public_id)}
+                    onClick={() => handleImgDelete(image?.public_id)}
                     className="absolute right-1 top-1 duration-300 bg-white p-1 rounded-full"
                   >
                     <AiOutlineDelete color="red" />
@@ -280,7 +286,9 @@ const AddBlog = () => {
               )}
             </div>
             <div className="mt-4 border rounded-md text-center p-4">
-              <Dropzone onDrop={(acceptedFiles) => handleUpload(acceptedFiles)}>
+              <Dropzone
+                onDrop={(acceptedFiles) => handleImgUpload(acceptedFiles)}
+              >
                 {({ getRootProps, getInputProps }) => (
                   <section>
                     <div {...getRootProps()}>

@@ -26,6 +26,9 @@ const userSlice = createSlice({
     setDeleteImages: (state, action) => {
       state.blogImages = action.payload;
     },
+    clearImage: (state, action) => {
+      state.blogImages = [];
+    },
   },
 });
 
@@ -35,6 +38,7 @@ export const {
   setVisibility,
   setUploadImages,
   setDeleteImages,
+  clearImage,
 } = userSlice.actions;
 
 export default userSlice.reducer;

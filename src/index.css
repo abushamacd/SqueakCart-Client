@@ -915,3 +915,7 @@ span.article,
   visibility: visible;
   opacity: 1;
 }
+
+.large_modal {
+  width: 800px !important;
+}
