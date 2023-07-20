@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "react-quill/dist/quill.snow.css";
 
 const layout = document.getElementById("root");
 const root = createRoot(layout);

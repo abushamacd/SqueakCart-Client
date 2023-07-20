@@ -33,6 +33,7 @@ import TermAndCondition from "../pages/TermAndCondition";
 import Enquery from "../pages/Dashboard/Enquery";
 import User from "../pages/Dashboard/User";
 import BlogCat from "../pages/Dashboard/BlogCat";
+import AddBlog from "../pages/Dashboard/AddBlog";
 
 const routes = createBrowserRouter([
   {
@@ -170,6 +171,10 @@ const routes = createBrowserRouter([
       {
         path: "/admin/blog-cat",
         element: <BlogCat />,
+      },
+      {
+        path: "/admin/add-blog",
+        element: <AddBlog />,
       },
     ],
   },
