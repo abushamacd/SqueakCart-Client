@@ -7,17 +7,22 @@ import { DatePicker } from "antd";
 import { setDate } from "../../redux/features/coupon/couponSlice";
 import { useUpdateCouponMutation } from "../../redux/features/coupon/couponApi";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const EditCoupon = () => {
   const { Title } = Typography;
   const dispatch = useDispatch();
-  // hook
+  const navigate = useNavigate();
+
+  // Redux Hooks
   const { date } = useSelector((state) => state.coupon);
   const { edit } = useSelector((state) => state.site);
 
   const [
     updateCoupon,
     {
+      isLoading: updateIsLoading,
       isSuccess: updateIsSuccess,
       data: updateData,
       isError: updateIsError,
@@ -25,73 +30,80 @@ const EditCoupon = () => {
       reset: updateReset,
     },
   ] = useUpdateCouponMutation();
-  // date
+
+  // Handle Action
   const handleDate = (date, dateString) => {
     dispatch(setDate(dateString));
   };
 
-  // Form handle
+  // Handle Form
   let couponSchema = Yup.object().shape({
     title: Yup.string().required("Name is required"),
     discount: Yup.number().required("Discount is required"),
     date: Yup.string().required("Date is required"),
   });
 
-  const formik = useFormik({
+  const updateform = useFormik({
     initialValues: {
-      title: edit?.data?.title || "",
-      discount: edit?.data?.discount || "",
+      title: edit?.data?.title,
+      discount: edit?.data?.discount,
       date: edit?.data?.date,
     },
     validationSchema: couponSchema,
 
     onSubmit: (values) => {
-      console.log(values);
       updateCoupon({ id: edit?.data?._id, data: values });
       dispatch(setDate(""));
     },
   });
 
+  // Notification
   useEffect(() => {
-    formik.values.date = date;
+    updateform.values.date = date;
     if (updateIsSuccess) {
       toast(updateData?.message);
-      formik.resetForm();
+      updateform.resetForm();
       updateReset();
+      navigate("/admin/coupon");
     } else if (updateIsError) {
       toast.error(updateError?.data?.message);
       updateReset();
     }
   }, [
     date,
-    formik,
-    formik.values,
+    updateform,
+    updateform.values,
+    navigate,
     updateIsSuccess,
     updateIsError,
     updateData,
     updateError,
     updateReset,
   ]);
+
+  if (updateIsLoading) {
+    return <Loading />;
+  }
   return (
     <div className="visibility bg-white box_shadow p-[20px] rounded-lg">
       <Title level={4}>Add New Coupon</Title>
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={updateform.handleSubmit}>
         <div className="my-4">
           <label htmlFor="couponName" className=" font-bold text-sm">
             Coupon Name
           </label>
           <input
-            onChange={formik.handleChange("title")}
-            value={formik.values.title}
+            onChange={updateform.handleChange("title")}
+            value={updateform.values.title}
             placeholder="Coupon name"
             type="text"
             id="couponName"
             name="couponName"
             className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
           />
-          {formik.touched.title && formik.errors.title ? (
+          {updateform.touched.title && updateform.errors.title ? (
             <div className="formik_err text-sm text-red-600">
-              {formik.errors.title}
+              {updateform.errors.title}
             </div>
           ) : null}
         </div>
@@ -100,17 +112,17 @@ const EditCoupon = () => {
             Coupon Discount (%)
           </label>
           <input
-            onChange={formik.handleChange("discount")}
-            value={formik.values.discount}
+            onChange={updateform.handleChange("discount")}
+            value={updateform.values.discount}
             placeholder="Coupon discount percent"
             type="number"
             id="couponDiscount"
             name="couponDiscount"
             className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
           />
-          {formik.touched.discount && formik.errors.discount ? (
+          {updateform.touched.discount && updateform.errors.discount ? (
             <div className="formik_err text-sm text-red-600">
-              {formik.errors.discount}
+              {updateform.errors.discount}
             </div>
           ) : null}
         </div>
@@ -124,9 +136,9 @@ const EditCoupon = () => {
               className="w-full h-[40px]"
               onChange={handleDate}
             />
-            {formik.touched.date && formik.errors.date ? (
+            {updateform.touched.date && updateform.errors.date ? (
               <div className="formik_err text-sm text-red-600">
-                {formik.errors.date}
+                {updateform.errors.date}
               </div>
             ) : null}
           </div>

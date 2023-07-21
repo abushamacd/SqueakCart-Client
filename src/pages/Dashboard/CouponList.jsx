@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 const CouponList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { Title } = Typography;
   const columns = [
     {
@@ -49,7 +48,7 @@ const CouponList = () => {
     },
   ];
 
-  // hooks
+  // Redux Hooks
   const { date } = useSelector((state) => state.coupon);
 
   const [
@@ -77,6 +76,11 @@ const CouponList = () => {
   const { data: getData, isLoading: getIsLoading } = useGetCouponsQuery();
   const coupons = getData?.data?.data;
 
+  // Handle Action
+  const handleDate = (date, dateString) => {
+    dispatch(setDate(dateString));
+  };
+
   const handleDelete = (coupon) => {
     deleteCoupon(coupon._id);
   };
@@ -87,7 +91,7 @@ const CouponList = () => {
     navigate("/admin/coupon-edit");
   };
 
-  // data view
+  // Table Processing
   const tableData = [];
   for (let i = 0; i < coupons?.length; i++) {
     tableData.push({
@@ -113,19 +117,14 @@ const CouponList = () => {
     });
   }
 
-  // date
-  const handleDate = (date, dateString) => {
-    dispatch(setDate(dateString));
-  };
-
-  // Form handle
+  // Handle Form
   let couponSchema = Yup.object().shape({
     title: Yup.string().required("Name is required"),
     discount: Yup.number().required("Discount is required"),
     date: Yup.string().required("Date is required"),
   });
 
-  const formik = useFormik({
+  const addForm = useFormik({
     initialValues: {
       title: "",
       discount: "",
@@ -138,13 +137,14 @@ const CouponList = () => {
     },
   });
 
+  // Notifications
   useEffect(() => {
-    formik.values.date = date;
+    addForm.values.date = date;
     if (createIsSuccess || deleteIsSuccess) {
       toast(createData?.message || deleteData?.message);
       createReset();
       deleteReset();
-      formik.resetForm();
+      addForm.resetForm();
     } else if (createIsError || deleteIsError) {
       toast.error(createError?.data?.message || deleteError?.data?.message);
       createReset();
@@ -152,8 +152,8 @@ const CouponList = () => {
     }
   }, [
     date,
-    formik,
-    formik.values,
+    addForm,
+    addForm.values,
     createData,
     createError,
     createIsError,
@@ -183,23 +183,23 @@ const CouponList = () => {
         <div className="md:w-[28%]">
           <div className="visibility bg-white box_shadow p-[20px] rounded-lg">
             <Title level={4}>Add New Coupon</Title>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={addForm.handleSubmit}>
               <div className="my-4">
                 <label htmlFor="couponName" className=" font-bold text-sm">
                   Coupon Name
                 </label>
                 <input
-                  onChange={formik.handleChange("title")}
-                  value={formik.values.title}
+                  onChange={addForm.handleChange("title")}
+                  value={addForm.values.title}
                   placeholder="Coupon name"
                   type="text"
                   id="couponName"
                   name="couponName"
                   className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
                 />
-                {formik.touched.title && formik.errors.title ? (
+                {addForm.touched.title && addForm.errors.title ? (
                   <div className="formik_err text-sm text-red-600">
-                    {formik.errors.title}
+                    {addForm.errors.title}
                   </div>
                 ) : null}
               </div>
@@ -208,17 +208,17 @@ const CouponList = () => {
                   Coupon Discount (%)
                 </label>
                 <input
-                  onChange={formik.handleChange("discount")}
-                  value={formik.values.discount}
+                  onChange={addForm.handleChange("discount")}
+                  value={addForm.values.discount}
                   placeholder="Coupon discount percent"
                   type="number"
                   id="couponDiscount"
                   name="couponDiscount"
                   className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
                 />
-                {formik.touched.discount && formik.errors.discount ? (
+                {addForm.touched.discount && addForm.errors.discount ? (
                   <div className="formik_err text-sm text-red-600">
-                    {formik.errors.discount}
+                    {addForm.errors.discount}
                   </div>
                 ) : null}
               </div>
@@ -232,9 +232,9 @@ const CouponList = () => {
                     className="w-full h-[40px]"
                     onChange={handleDate}
                   />
-                  {formik.touched.date && formik.errors.date ? (
+                  {addForm.touched.date && addForm.errors.date ? (
                     <div className="formik_err text-sm text-red-600">
-                      {formik.errors.date}
+                      {addForm.errors.date}
                     </div>
                   ) : null}
                 </div>
