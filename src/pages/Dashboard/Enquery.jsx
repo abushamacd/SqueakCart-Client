@@ -86,7 +86,7 @@ const Enquery = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
-  // Table Processing
+  // Data Processing
   const tableData = [];
   for (let i = 0; i < contacts?.length; i++) {
     tableData.push({

@@ -91,7 +91,7 @@ const CouponList = () => {
     navigate("/admin/coupon-edit");
   };
 
-  // Table Processing
+  // Data Processing
   const tableData = [];
   for (let i = 0; i < coupons?.length; i++) {
     tableData.push({

@@ -31,7 +31,7 @@ const BlogCat = () => {
     },
   ];
 
-  // hook
+  // Redux Hooks
   const [
     createBlogCat,
     {
@@ -57,12 +57,12 @@ const BlogCat = () => {
     },
   ] = useDeleteBlogCatMutation();
 
-  // handle operation
+  // Handle Action
   const handleDelete = (contact) => {
     deleteBlogCat(contact._id);
   };
 
-  //
+  // Data Processing
   const tableData = [];
   for (let i = 0; i < blogCats?.length; i++) {
     tableData.push({
@@ -81,12 +81,12 @@ const BlogCat = () => {
     });
   }
 
-  // Add Category
+  // Handle Form
   let blogCategorySchema = Yup.object().shape({
     title: Yup.string().required("Name is required"),
   });
 
-  const formik = useFormik({
+  const addForm = useFormik({
     initialValues: {
       title: "",
     },
@@ -97,7 +97,7 @@ const BlogCat = () => {
     },
   });
 
-  // notification
+  // Notification
   useEffect(() => {
     if (createIsSuccess || deleteIsSuccess) {
       toast(createData?.message || deleteData?.message);
@@ -138,23 +138,23 @@ const BlogCat = () => {
         <div className="md:w-[28%]">
           <div className="visibility bg-white box_shadow p-[20px] rounded-lg">
             <Title level={4}>Add New Category</Title>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={addForm.handleSubmit}>
               <div className="my-4">
                 <label htmlFor="blogName" className=" font-bold text-sm">
                   Category Name
                 </label>
                 <input
-                  onChange={formik.handleChange("title")}
-                  value={formik.values.title}
+                  onChange={addForm.handleChange("title")}
+                  value={addForm.values.title}
                   placeholder="Blog Category"
                   type="text"
                   id="blogName"
                   name="blogName"
                   className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
                 />
-                {formik.touched.title && formik.errors.title ? (
+                {addForm.touched.title && addForm.errors.title ? (
                   <div className="formik_err text-sm text-red-600">
-                    {formik.errors.title}
+                    {addForm.errors.title}
                   </div>
                 ) : null}
               </div>

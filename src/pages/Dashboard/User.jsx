@@ -102,7 +102,7 @@ const User = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
-  // Table Processing
+  // Data Processing
   const tableData = [];
   for (let i = 0; i < users?.length; i++) {
     tableData.push({

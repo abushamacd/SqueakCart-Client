@@ -25,15 +25,20 @@ import {
 import { Spin } from "antd";
 import { toast } from "react-toastify";
 import { setEdit } from "../../redux/features/site/siteSlice";
+import { useNavigate } from "react-router-dom";
 
 const EditBlog = () => {
   const { Title } = Typography;
   const dispatch = useDispatch();
-  const { view } = useSelector((state) => state.site);
-  const blog = view?.data;
-  const { visibility, blogImages } = useSelector((state) => state.blog);
+  const navigate = useNavigate();
 
+  // Redux Hooks
+  const { edit } = useSelector((state) => state.site);
+  const blog = edit?.data;
+
+  const { visibility, blogImages } = useSelector((state) => state.blog);
   const { data: getData } = useGetBlogCatsQuery();
+
   const blogCats = getData?.data?.data;
 
   const [
@@ -59,15 +64,7 @@ const EditBlog = () => {
     },
   ] = useUpdateBlogMutation();
 
-  const categoryOptions = [];
-  blogCats?.forEach((cat) => {
-    categoryOptions.push({
-      value: cat._id,
-      label: cat.title,
-    });
-  });
-
-  // image upload
+  // Handle Action
   const handleImgUpload = (image) => {
     const formData = new FormData();
     image.forEach((image) => {
@@ -76,49 +73,52 @@ const EditBlog = () => {
     uploadBlogImage(formData);
   };
 
-  useEffect(() => {
-    if (imageUploadData) {
-      dispatch(setUploadImages(imageUploadData?.data[0]));
-      imageUploadReset();
-    }
-  }, [dispatch, imageUploadData, imageUploadReset]);
-
-  // image delete
   const handleImgDelete = (id) => {
     deleteBlogImage(id);
     const rest = blogImages.filter((img) => img.public_id !== id);
     dispatch(setDeleteImages(rest));
   };
 
-  // validation
+  // Data Processing
+  const categoryOptions = [];
+  blogCats?.forEach((cat) => {
+    categoryOptions.push({
+      value: cat._id,
+      label: cat.title,
+    });
+  });
+
+  // Handle Form
   let blogSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     visibility: Yup.string().required("visibility is required"),
   });
 
-  const formik = useFormik({
+  const editForm = useFormik({
     initialValues: {
       title: blog?.title,
       description: blog?.description,
       visibility: visibility,
       images: "",
     },
-
     validationSchema: blogSchema,
-
     onSubmit: (values, { resetForm }) => {
       updateBlog({ id: blog?._id, data: values });
       dispatch(setEdit({ data: null, state: false }));
+      dispatch(setVisibility("published"));
+      dispatch(setDeleteImages([]));
     },
   });
 
+  // Notification
   useEffect(() => {
-    formik.values.visibility = visibility;
-    formik.values.images = blogImages;
+    editForm.values.visibility = visibility;
+    editForm.values.images = blogImages;
     if (updateIsSuccess) {
       toast(updateData?.message);
       updateReset();
+      navigate("/admin/blog-list");
     } else if (updateIsError) {
       toast.error(updateError?.data?.message);
       updateReset();
@@ -126,7 +126,8 @@ const EditBlog = () => {
   }, [
     visibility,
     blogImages,
-    formik.values,
+    navigate,
+    editForm.values,
     updateIsSuccess,
     updateIsError,
     updateData,
@@ -134,13 +135,21 @@ const EditBlog = () => {
     updateReset,
   ]);
 
+  // Handle Image
+  useEffect(() => {
+    if (imageUploadData) {
+      dispatch(setUploadImages(imageUploadData?.data[0]));
+      imageUploadReset();
+    }
+  }, [dispatch, imageUploadData, imageUploadReset]);
+
   return (
     <div>
       <div className="flex justify-between">
         <Title level={3}>Edit Blog</Title>
         <button
           type="submit"
-          onClick={formik.handleSubmit}
+          onClick={editForm.handleSubmit}
           className="first_button rounded-md px-5 py-2 text-sm text-white uppercase"
         >
           Save
@@ -149,24 +158,24 @@ const EditBlog = () => {
       <div className="md:flex justify-between mt-[20px] blog">
         <div className="bg-white box_shadow p-[20px] rounded-lg  md:w-[70%] md:mb-0 mb-[20px] ">
           <Title level={4}>Blog Details</Title>
-          <form className="mt-4" onSubmit={formik.handleSubmit}>
+          <form className="mt-4" onSubmit={editForm.handleSubmit}>
             {/* name */}
             <div className="mb-4">
               <label htmlFor="blogName" className=" font-bold text-sm">
                 Blog Title
               </label>
               <input
-                onChange={formik.handleChange("title")}
-                value={formik.values.title}
+                onChange={editForm.handleChange("title")}
+                value={editForm.values.title}
                 placeholder="Blog Title"
                 type="text"
                 id="blogName"
                 name="blogName"
                 className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
               />
-              {formik.touched.title && formik.errors.title ? (
+              {editForm.touched.title && editForm.errors.title ? (
                 <div className="formik_err text-sm text-red-600">
-                  {formik.errors.title}
+                  {editForm.errors.title}
                 </div>
               ) : null}
             </div>
@@ -179,15 +188,15 @@ const EditBlog = () => {
                 <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
                   theme="snow"
-                  onChange={formik.handleChange("description")}
-                  value={formik.values.description}
+                  onChange={editForm.handleChange("description")}
+                  value={editForm.values.description}
                   placeholder={"Write something..."}
                   modules={modules("t1")}
                   formats={formats}
                 />
-                {formik.touched.description && formik.errors.description ? (
+                {editForm.touched.description && editForm.errors.description ? (
                   <div className="formik_err text-sm text-red-600">
-                    {formik.errors.description}
+                    {editForm.errors.description}
                   </div>
                 ) : null}
               </div>
@@ -209,9 +218,9 @@ const EditBlog = () => {
                 <Radio value="hidden">Hidden</Radio>
               </Space>
             </Radio.Group>
-            {formik.touched.visibility && formik.errors.visibility ? (
+            {editForm.touched.visibility && editForm.errors.visibility ? (
               <div className="formik_err text-sm text-red-600">
-                {formik.errors.visibility}
+                {editForm.errors.visibility}
               </div>
             ) : null}
           </div>

@@ -30,24 +30,12 @@ import { Spin } from "antd";
 
 const AddBlog = () => {
   const { Title } = Typography;
-  const { category, date, visibility, blogImages } = useSelector(
-    (state) => state.blog
-  );
-  const [
-    createBlog,
-    {
-      isSuccess: createIsSuccess,
-      data: createData,
-      isError: createIsError,
-      error: createError,
-      reset: createReset,
-    },
-  ] = useCreateBlogMutation();
-
   const dispatch = useDispatch();
-  // hook
+
+  // Redux Hooks
   const { data: getData, isLoading: getIsLoading } = useGetBlogCatsQuery();
   const blogCats = getData?.data?.data;
+
   const [
     uploadBlogImage,
     {
@@ -60,20 +48,26 @@ const AddBlog = () => {
   const [deleteBlogImage, { isLoading: imageDeleteIsLoading }] =
     useDeleteBlogImageMutation();
 
-  // date
+  const { category, date, visibility, blogImages } = useSelector(
+    (state) => state.blog
+  );
+
+  const [
+    createBlog,
+    {
+      isSuccess: createIsSuccess,
+      data: createData,
+      isError: createIsError,
+      error: createError,
+      reset: createReset,
+    },
+  ] = useCreateBlogMutation();
+
+  // Handle Action
   const handleDate = (date, dateString) => {
     dispatch(setDate(dateString));
   };
 
-  const categoryOptions = [];
-  blogCats?.forEach((cat) => {
-    categoryOptions.push({
-      value: cat._id,
-      label: cat.title,
-    });
-  });
-
-  // image upload
   const handleImgUpload = (image) => {
     const formData = new FormData();
     image.forEach((image) => {
@@ -82,21 +76,22 @@ const AddBlog = () => {
     uploadBlogImage(formData);
   };
 
-  useEffect(() => {
-    if (imageUploadData) {
-      dispatch(setUploadImages(imageUploadData?.data[0]));
-      imageUploadReset();
-    }
-  }, [dispatch, imageUploadData, imageUploadReset]);
-
-  // image delete
   const handleImgDelete = (id) => {
     deleteBlogImage(id);
     const rest = blogImages.filter((img) => img.public_id !== id);
     dispatch(setDeleteImages(rest));
   };
 
-  // validation
+  // Data Processing
+  const categoryOptions = [];
+  blogCats?.forEach((cat) => {
+    categoryOptions.push({
+      value: cat._id,
+      label: cat.title,
+    });
+  });
+
+  // Handle Form
   let blogSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
@@ -108,7 +103,7 @@ const AddBlog = () => {
     images: Yup.array().required("Image is required"),
   });
 
-  const formik = useFormik({
+  const addForm = useFormik({
     initialValues: {
       title: "",
       description: "",
@@ -126,11 +121,12 @@ const AddBlog = () => {
     },
   });
 
+  // Notification
   useEffect(() => {
-    formik.values.category = category;
-    formik.values.visibility = visibility;
-    formik.values.date = date;
-    formik.values.images = blogImages;
+    addForm.values.category = category;
+    addForm.values.visibility = visibility;
+    addForm.values.date = date;
+    addForm.values.images = blogImages;
     if (createIsSuccess) {
       toast(createData?.message);
       createReset();
@@ -143,7 +139,7 @@ const AddBlog = () => {
     visibility,
     blogImages,
     date,
-    formik.values,
+    addForm.values,
     createIsSuccess,
     createIsError,
     createData,
@@ -151,13 +147,21 @@ const AddBlog = () => {
     createReset,
   ]);
 
+  // Handle Image
+  useEffect(() => {
+    if (imageUploadData) {
+      dispatch(setUploadImages(imageUploadData?.data[0]));
+      imageUploadReset();
+    }
+  }, [dispatch, imageUploadData, imageUploadReset]);
+
   return (
     <div>
       <div className="flex justify-between">
         <Title level={3}>Add Blog</Title>
         <button
           type="submit"
-          onClick={formik.handleSubmit}
+          onClick={addForm.handleSubmit}
           className="first_button rounded-md px-5 py-2 text-sm text-white uppercase"
         >
           Save
@@ -166,24 +170,24 @@ const AddBlog = () => {
       <div className="md:flex justify-between mt-[20px] blog">
         <div className="bg-white box_shadow p-[20px] rounded-lg  md:w-[70%] md:mb-0 mb-[20px] ">
           <Title level={4}>Blog Details</Title>
-          <form className="mt-4" onSubmit={formik.handleSubmit}>
+          <form className="mt-4" onSubmit={addForm.handleSubmit}>
             {/* name */}
             <div className="mb-4">
               <label htmlFor="blogName" className=" font-bold text-sm">
                 Blog Title
               </label>
               <input
-                onChange={formik.handleChange("title")}
-                value={formik.values.title}
+                onChange={addForm.handleChange("title")}
+                value={addForm.values.title}
                 placeholder="Blog Title"
                 type="text"
                 id="blogName"
                 name="blogName"
                 className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
               />
-              {formik.touched.title && formik.errors.title ? (
+              {addForm.touched.title && addForm.errors.title ? (
                 <div className="formik_err text-sm text-red-600">
-                  {formik.errors.title}
+                  {addForm.errors.title}
                 </div>
               ) : null}
             </div>
@@ -196,15 +200,15 @@ const AddBlog = () => {
                 <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
                   theme="snow"
-                  onChange={formik.handleChange("description")}
-                  value={formik.values.description}
+                  onChange={addForm.handleChange("description")}
+                  value={addForm.values.description}
                   placeholder={"Write something..."}
                   modules={modules("t1")}
                   formats={formats}
                 />
-                {formik.touched.description && formik.errors.description ? (
+                {addForm.touched.description && addForm.errors.description ? (
                   <div className="formik_err text-sm text-red-600">
-                    {formik.errors.description}
+                    {addForm.errors.description}
                   </div>
                 ) : null}
               </div>
@@ -226,17 +230,17 @@ const AddBlog = () => {
                 <Radio value="hidden">Hidden</Radio>
               </Space>
             </Radio.Group>
-            {formik.touched.visibility && formik.errors.visibility ? (
+            {addForm.touched.visibility && addForm.errors.visibility ? (
               <div className="formik_err text-sm text-red-600">
-                {formik.errors.visibility}
+                {addForm.errors.visibility}
               </div>
             ) : null}
             <h5 className="mb-2 font-bold text-sm">Publish date</h5>
             <div>
               <DatePicker className="w-full h-[40px]" onChange={handleDate} />
-              {formik.touched.date && formik.errors.date ? (
+              {addForm.touched.date && addForm.errors.date ? (
                 <div className="formik_err text-sm text-red-600">
-                  {formik.errors.date}
+                  {addForm.errors.date}
                 </div>
               ) : null}
             </div>
@@ -252,9 +256,9 @@ const AddBlog = () => {
               options={categoryOptions}
             />
             {getIsLoading && <Spin size="large" />}
-            {formik.touched.category && formik.errors.category ? (
+            {addForm.touched.category && addForm.errors.category ? (
               <div className="formik_err text-sm text-red-600">
-                {formik.errors.category}
+                {addForm.errors.category}
               </div>
             ) : null}
           </div>
