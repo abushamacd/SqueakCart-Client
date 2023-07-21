@@ -39,6 +39,8 @@ import EditBlog from "../pages/Dashboard/EditBlog";
 import CouponList from "../pages/Dashboard/CouponList";
 import EditCoupon from "../pages/Dashboard/EditCoupon";
 import EditBlogCat from "../pages/Dashboard/EditBlogCat";
+import Brand from "../pages/Dashboard/Brand";
+import EditBrand from "../pages/Dashboard/EditBrand";
 
 const routes = createBrowserRouter([
   {
@@ -200,6 +202,14 @@ const routes = createBrowserRouter([
       {
         path: "/admin/coupon-edit",
         element: <EditCoupon />,
+      },
+      {
+        path: "/admin/brand",
+        element: <Brand />,
+      },
+      {
+        path: "/admin/brand-edit",
+        element: <EditBrand />,
       },
     ],
   },

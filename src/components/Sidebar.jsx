@@ -1,12 +1,18 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { MdDashboard, MdOutlineList } from "react-icons/md";
+import { MdDashboard, MdOutlineList, MdColorLens } from "react-icons/md";
 import { TbBrandGoogleBigQuery, TbCategory } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { FaUserCircle, FaBlog } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaUserCircle,
+  FaCartPlus,
+  FaBlog,
+} from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
 import { RiCouponFill } from "react-icons/ri";
+import { SiBrandfolder } from "react-icons/si";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -52,6 +58,38 @@ const Sidebar = () => {
             key: "",
             icon: <MdDashboard size={18} />,
             label: "Dashboard",
+          },
+          {
+            key: "product",
+            icon: <FaShoppingCart size={18} />,
+            label: "Products",
+            children: [
+              {
+                key: "product-list",
+                icon: <MdOutlineList size={18} />,
+                label: "Product List",
+              },
+              {
+                key: "add-product",
+                icon: <FaCartPlus size={18} />,
+                label: "Add Product",
+              },
+              {
+                key: "color",
+                icon: <MdColorLens size={18} />,
+                label: "Color",
+              },
+              {
+                key: "category",
+                icon: <TbCategory size={18} />,
+                label: "Catagories",
+              },
+              {
+                key: "brand",
+                icon: <SiBrandfolder size={18} />,
+                label: "Brands",
+              },
+            ],
           },
           {
             key: "coupon",
