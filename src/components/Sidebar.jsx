@@ -80,7 +80,7 @@ const Sidebar = () => {
                 label: "Color",
               },
               {
-                key: "category",
+                key: "pro-cat",
                 icon: <TbCategory size={18} />,
                 label: "Catagories",
               },

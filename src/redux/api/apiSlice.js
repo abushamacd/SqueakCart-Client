@@ -20,6 +20,7 @@ export const api = createApi({
     "blog",
     "coupon",
     "brand",
+    "pro_cat",
   ],
   endpoints: () => ({}),
 });

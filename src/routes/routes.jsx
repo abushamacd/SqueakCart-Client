@@ -41,6 +41,8 @@ import EditCoupon from "../pages/Dashboard/EditCoupon";
 import EditBlogCat from "../pages/Dashboard/EditBlogCat";
 import Brand from "../pages/Dashboard/Brand";
 import EditBrand from "../pages/Dashboard/EditBrand";
+import ProCat from "../pages/Dashboard/ProCat";
+import EditProCat from "../pages/Dashboard/EditProCat";
 
 const routes = createBrowserRouter([
   {
@@ -210,6 +212,14 @@ const routes = createBrowserRouter([
       {
         path: "/admin/brand-edit",
         element: <EditBrand />,
+      },
+      {
+        path: "/admin/pro-cat",
+        element: <ProCat />,
+      },
+      {
+        path: "/admin/procat-edit",
+        element: <EditProCat />,
       },
     ],
   },
