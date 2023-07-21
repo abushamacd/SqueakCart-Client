@@ -42,9 +42,9 @@ const User = () => {
       key: "action",
     },
   ];
-
   const dispatch = useDispatch();
 
+  // Redux Hooks
   const { isLoading, data } = useGetUsersQuery();
   const users = data?.data?.data;
   const { view } = useSelector((state) => state.site);
@@ -81,6 +81,7 @@ const User = () => {
     },
   ] = useDeleteUserMutation();
 
+  // Handle Action
   const handleUpdate = (value, options) => {
     if (options.label === "Unblock") {
       unblockUser(options.id);
@@ -101,6 +102,7 @@ const User = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
+  // Table Processing
   const tableData = [];
   for (let i = 0; i < users?.length; i++) {
     tableData.push({
@@ -136,7 +138,7 @@ const User = () => {
     });
   }
 
-  // notification
+  // Notification
   useEffect(() => {
     if (blockIsSuccess || unblockIsSuccess || deleteIsSuccess) {
       toast(blockData?.message || unblockData?.message || deleteData?.message);

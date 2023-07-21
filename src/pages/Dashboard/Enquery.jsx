@@ -41,9 +41,9 @@ const Enquery = () => {
       key: "action",
     },
   ];
-
   const dispatch = useDispatch();
 
+  // Redux Hooks
   const { isLoading, data } = useGetContactsQuery();
   const contacts = data?.data?.data;
   const { view } = useSelector((state) => state.site);
@@ -69,6 +69,7 @@ const Enquery = () => {
     },
   ] = useDeleteContactMutation();
 
+  // Handle Action
   const handleUpdate = (value, options) => {
     updateContact({ id: options.id, data: { status: options.value } });
   };
@@ -85,6 +86,7 @@ const Enquery = () => {
     dispatch(setView({ data: null, state: false }));
   };
 
+  // Table Processing
   const tableData = [];
   for (let i = 0; i < contacts?.length; i++) {
     tableData.push({
@@ -126,22 +128,15 @@ const Enquery = () => {
     });
   }
 
-  // notification
+  // Notification
   useEffect(() => {
-    // for update
-    if (updateIsSuccess) {
-      toast(updateData?.message);
+    if (updateIsSuccess || deleteIsSuccess) {
+      toast(updateData?.message || deleteData?.message);
       updateReset();
-    } else if (updateIsError) {
-      toast.error(updateError.data?.message);
-      updateReset();
-    }
-    // for delete
-    if (deleteIsSuccess) {
-      toast(deleteData?.message);
       deleteReset();
-    } else if (deleteIsError) {
-      toast.error(deleteError.data?.message);
+    } else if (updateIsError || deleteIsError) {
+      toast.error(updateError.data?.message || deleteError.data?.message);
+      updateReset();
       deleteReset();
     }
   }, [
