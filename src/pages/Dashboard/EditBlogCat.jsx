@@ -2,9 +2,7 @@ import React, { useEffect } from "react";
 import { Typography } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { setDate } from "../../redux/features/coupon/couponSlice";
-import { useUpdateCouponMutation } from "../../redux/features/coupon/couponApi";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/Loading";
@@ -12,7 +10,6 @@ import { useUpdateBlogCatMutation } from "../../redux/features/blog/blogApi";
 
 const EditBlogCat = () => {
   const { Title } = Typography;
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Redux Hooks
