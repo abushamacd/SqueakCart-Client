@@ -95,7 +95,7 @@ const EditBlog = () => {
     visibility: Yup.string().required("visibility is required"),
   });
 
-  const editForm = useFormik({
+  const updateForm = useFormik({
     initialValues: {
       title: blog?.title,
       description: blog?.description,
@@ -113,8 +113,8 @@ const EditBlog = () => {
 
   // Notification
   useEffect(() => {
-    editForm.values.visibility = visibility;
-    editForm.values.images = blogImages;
+    updateForm.values.visibility = visibility;
+    updateForm.values.images = blogImages;
     if (updateIsSuccess) {
       toast(updateData?.message);
       updateReset();
@@ -127,7 +127,7 @@ const EditBlog = () => {
     visibility,
     blogImages,
     navigate,
-    editForm.values,
+    updateForm.values,
     updateIsSuccess,
     updateIsError,
     updateData,
@@ -149,7 +149,7 @@ const EditBlog = () => {
         <Title level={3}>Edit Blog</Title>
         <button
           type="submit"
-          onClick={editForm.handleSubmit}
+          onClick={updateForm.handleSubmit}
           className="first_button rounded-md px-5 py-2 text-sm text-white uppercase"
         >
           Save
@@ -158,24 +158,24 @@ const EditBlog = () => {
       <div className="md:flex justify-between mt-[20px] blog">
         <div className="bg-white box_shadow p-[20px] rounded-lg  md:w-[70%] md:mb-0 mb-[20px] ">
           <Title level={4}>Blog Details</Title>
-          <form className="mt-4" onSubmit={editForm.handleSubmit}>
+          <form className="mt-4" onSubmit={updateForm.handleSubmit}>
             {/* name */}
             <div className="mb-4">
               <label htmlFor="blogName" className=" font-bold text-sm">
                 Blog Title
               </label>
               <input
-                onChange={editForm.handleChange("title")}
-                value={editForm.values.title}
+                onChange={updateForm.handleChange("title")}
+                value={updateForm.values.title}
                 placeholder="Blog Title"
                 type="text"
                 id="blogName"
                 name="blogName"
                 className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
               />
-              {editForm.touched.title && editForm.errors.title ? (
+              {updateForm.touched.title && updateForm.errors.title ? (
                 <div className="formik_err text-sm text-red-600">
-                  {editForm.errors.title}
+                  {updateForm.errors.title}
                 </div>
               ) : null}
             </div>
@@ -188,15 +188,16 @@ const EditBlog = () => {
                 <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
                   theme="snow"
-                  onChange={editForm.handleChange("description")}
-                  value={editForm.values.description}
+                  onChange={updateForm.handleChange("description")}
+                  value={updateForm.values.description}
                   placeholder={"Write something..."}
                   modules={modules("t1")}
                   formats={formats}
                 />
-                {editForm.touched.description && editForm.errors.description ? (
+                {updateForm.touched.description &&
+                updateForm.errors.description ? (
                   <div className="formik_err text-sm text-red-600">
-                    {editForm.errors.description}
+                    {updateForm.errors.description}
                   </div>
                 ) : null}
               </div>
@@ -218,9 +219,9 @@ const EditBlog = () => {
                 <Radio value="hidden">Hidden</Radio>
               </Space>
             </Radio.Group>
-            {editForm.touched.visibility && editForm.errors.visibility ? (
+            {updateForm.touched.visibility && updateForm.errors.visibility ? (
               <div className="formik_err text-sm text-red-600">
-                {editForm.errors.visibility}
+                {updateForm.errors.visibility}
               </div>
             ) : null}
           </div>

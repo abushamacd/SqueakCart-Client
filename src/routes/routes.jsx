@@ -38,6 +38,7 @@ import BlogList from "../pages/Dashboard/BlogList";
 import EditBlog from "../pages/Dashboard/EditBlog";
 import CouponList from "../pages/Dashboard/CouponList";
 import EditCoupon from "../pages/Dashboard/EditCoupon";
+import EditBlogCat from "../pages/Dashboard/EditBlogCat";
 
 const routes = createBrowserRouter([
   {
@@ -177,6 +178,10 @@ const routes = createBrowserRouter([
         element: <BlogCat />,
       },
       {
+        path: "/admin/blogcat-edit",
+        element: <EditBlogCat />,
+      },
+      {
         path: "/admin/add-blog",
         element: <AddBlog />,
       },
@@ -188,7 +193,6 @@ const routes = createBrowserRouter([
         path: "/admin/blog-edit",
         element: <EditBlog />,
       },
-
       {
         path: "/admin/coupon",
         element: <CouponList />,

@@ -10,8 +10,14 @@ import {
   useGetBlogCatsQuery,
 } from "../../redux/features/blog/blogApi";
 import Loading from "../../components/Loading";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setEdit } from "../../redux/features/site/siteSlice";
+import { FiEdit } from "react-icons/fi";
 
 const BlogCat = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { Title } = Typography;
   const columns = [
     {
@@ -62,6 +68,11 @@ const BlogCat = () => {
     deleteBlogCat(contact._id);
   };
 
+  const openEdit = (blogCat) => {
+    dispatch(setEdit({ data: blogCat, state: true }));
+    navigate("/admin/blogcat-edit");
+  };
+
   // Data Processing
   const tableData = [];
   for (let i = 0; i < blogCats?.length; i++) {
@@ -71,6 +82,11 @@ const BlogCat = () => {
       name: <div className="capitalize">{blogCats[i]?.title}</div>,
       action: (
         <div className="flex gap-2">
+          <FiEdit
+            size={22}
+            onClick={() => openEdit(blogCats[i])}
+            className="text-orange-400"
+          />
           <MdDeleteForever
             onClick={() => handleDelete(blogCats[i])}
             size={22}
