@@ -36,6 +36,8 @@ import BlogCat from "../pages/Dashboard/BlogCat";
 import AddBlog from "../pages/Dashboard/AddBlog";
 import BlogList from "../pages/Dashboard/BlogList";
 import EditBlog from "../pages/Dashboard/EditBlog";
+import CouponList from "../pages/Dashboard/CouponList";
+import EditCoupon from "../pages/Dashboard/EditCoupon";
 
 const routes = createBrowserRouter([
   {
@@ -185,6 +187,15 @@ const routes = createBrowserRouter([
       {
         path: "/admin/blog-edit",
         element: <EditBlog />,
+      },
+
+      {
+        path: "/admin/coupon",
+        element: <CouponList />,
+      },
+      {
+        path: "/admin/coupon-edit",
+        element: <EditCoupon />,
       },
     ],
   },

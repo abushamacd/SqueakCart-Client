@@ -4,7 +4,10 @@ const initialState = {
   collapsed: false,
   view: {
     viewState: false,
-    // editState: false,
+    data: null,
+  },
+  edit: {
+    editState: false,
     data: null,
   },
 };
@@ -21,8 +24,8 @@ const siteSlice = createSlice({
       state.view.data = action.payload.data;
     },
     setEdit: (state, action) => {
-      // state.view.editState = action.payload.state;
-      state.view.data = action.payload.data;
+      state.edit.editState = action.payload.state;
+      state.edit.data = action.payload.data;
     },
   },
 });

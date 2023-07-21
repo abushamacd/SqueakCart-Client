@@ -6,6 +6,7 @@ import { TbBrandGoogleBigQuery, TbCategory } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { FaUserCircle, FaBlog } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
+import { RiCouponFill } from "react-icons/ri";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -51,6 +52,11 @@ const Sidebar = () => {
             key: "",
             icon: <MdDashboard size={18} />,
             label: "Dashboard",
+          },
+          {
+            key: "coupon",
+            icon: <RiCouponFill size={18} />,
+            label: "Coupons",
           },
           {
             key: "blog",
