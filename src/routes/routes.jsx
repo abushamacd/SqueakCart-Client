@@ -43,6 +43,8 @@ import Brand from "../pages/Dashboard/Brand";
 import EditBrand from "../pages/Dashboard/EditBrand";
 import ProCat from "../pages/Dashboard/ProCat";
 import EditProCat from "../pages/Dashboard/EditProCat";
+import Color from "../pages/Dashboard/Color";
+import EditColor from "../pages/Dashboard/EditColor";
 
 const routes = createBrowserRouter([
   {
@@ -220,6 +222,14 @@ const routes = createBrowserRouter([
       {
         path: "/admin/procat-edit",
         element: <EditProCat />,
+      },
+      {
+        path: "/admin/color",
+        element: <Color />,
+      },
+      {
+        path: "/admin/color-edit",
+        element: <EditColor />,
       },
     ],
   },

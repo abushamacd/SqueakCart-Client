@@ -21,6 +21,7 @@ export const api = createApi({
     "coupon",
     "brand",
     "pro_cat",
+    "color",
   ],
   endpoints: () => ({}),
 });

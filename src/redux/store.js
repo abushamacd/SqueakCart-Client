@@ -4,6 +4,7 @@ import authReducer from "./features/auth/authSlice";
 import siteReducer from "./features/site/siteSlice";
 import blogReducer from "./features/blog/blogSlice";
 import couponReducer from "./features/coupon/couponSlice";
+import colorReducer from "./features/color/colorSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     site: siteReducer,
     blog: blogReducer,
     coupon: couponReducer,
+    color: colorReducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
