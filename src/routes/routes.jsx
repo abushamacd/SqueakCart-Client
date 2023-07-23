@@ -45,6 +45,7 @@ import ProCat from "../pages/Dashboard/ProCat";
 import EditProCat from "../pages/Dashboard/EditProCat";
 import Color from "../pages/Dashboard/Color";
 import EditColor from "../pages/Dashboard/EditColor";
+import AddProduct from "../pages/Dashboard/AddProduct";
 
 const routes = createBrowserRouter([
   {
@@ -230,6 +231,10 @@ const routes = createBrowserRouter([
       {
         path: "/admin/color-edit",
         element: <EditColor />,
+      },
+      {
+        path: "/admin/add-product",
+        element: <AddProduct />,
       },
     ],
   },

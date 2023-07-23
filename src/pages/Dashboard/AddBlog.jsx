@@ -192,13 +192,14 @@ const AddBlog = () => {
               ) : null}
             </div>
             {/* desc */}
-            <div className="mb-4 ">
+            <div className="md:mb-0 mb-4 ">
               <label htmlFor="desc" className=" font-bold text-sm">
                 Description
               </label>
               <div className="mt-2">
                 <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
+                  className="h-[283px] "
                   theme="snow"
                   onChange={addForm.handleChange("description")}
                   value={addForm.values.description}
