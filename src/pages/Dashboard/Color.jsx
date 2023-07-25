@@ -35,6 +35,11 @@ const Color = () => {
       key: "name",
     },
     {
+      title: "Color",
+      dataIndex: "color",
+      key: "color",
+    },
+    {
       title: "Code",
       dataIndex: "code",
       key: "code",
@@ -91,6 +96,12 @@ const Color = () => {
       key: i + 1,
       no: tableData.length + 1,
       name: <div className="capitalize">{colors[i]?.title}</div>,
+      color: (
+        <div
+          style={{ backgroundColor: `${colors[i]?.code}` }}
+          className={`h-4 w-4 rounded-full `}
+        ></div>
+      ),
       code: <div className={`bg-[${colors[i]?.code}]`}>{colors[i]?.code}</div>,
       action: (
         <div className="flex gap-2">

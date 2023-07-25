@@ -90,7 +90,7 @@ const AddProduct = () => {
   const categoryOptions = [];
   proCats?.forEach((cat) => {
     categoryOptions.push({
-      value: cat.title,
+      value: cat._id,
       label: cat.title,
     });
   });
@@ -118,8 +118,8 @@ const AddProduct = () => {
   const brandOptions = [];
   brands?.forEach((brand) => {
     brandOptions.push({
+      value: brand._id,
       label: brand.title,
-      value: brand.title,
     });
   });
 
@@ -138,7 +138,7 @@ const AddProduct = () => {
   const colorOptions = [];
   colors?.forEach((color) => {
     colorOptions.push({
-      value: color.title,
+      value: color._id,
       label: color.title,
     });
   });
