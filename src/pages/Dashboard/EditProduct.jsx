@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
-import { Typography, Radio, Space } from "antd";
+import { Typography, Radio, Space, Select } from "antd";
 import ReactQuill from "react-quill";
 import EditorToolbar, {
   modules,
@@ -10,11 +10,6 @@ import EditorToolbar, {
 import { AiOutlineDelete } from "react-icons/ai";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {
-  setUploadImages,
-  setDeleteImages,
-  clearImage,
-} from "../../redux/features/product/productSlice";
 import {
   useDeleteProductImageMutation,
   useUpdateProductMutation,
@@ -25,6 +20,16 @@ import { toast } from "react-toastify";
 import { setEdit } from "../../redux/features/site/siteSlice";
 import { useNavigate } from "react-router-dom";
 import { useGetProCatsQuery } from "../../redux/features/proCat/proCatApi";
+import { useGetBrandsQuery } from "../../redux/features/brand/brandApi";
+import { useGetColorsQuery } from "../../redux/features/color/colorApi";
+import {
+  setColor,
+  setTag,
+  setCategory,
+  setUploadImages,
+  setDeleteImages,
+  clearImage,
+} from "../../redux/features/product/productSlice";
 
 const EditProduct = () => {
   const { Title } = Typography;
@@ -36,9 +41,14 @@ const EditProduct = () => {
   const product = edit?.data;
 
   const { visibility, productImages } = useSelector((state) => state.product);
-  const { data: getData } = useGetProCatsQuery();
+  const { data: proCatData, isLoading: proCatIsLoading } = useGetProCatsQuery();
+  const proCats = proCatData?.data?.data;
 
-  const productCats = getData?.data?.data;
+  const { data: brandData, isLoading: brandIsLoading } = useGetBrandsQuery();
+  const brands = brandData?.data?.data;
+
+  const { data: colorData, isLoading: colorIsLoading } = useGetColorsQuery();
+  const colors = colorData?.data?.data;
 
   const [
     uploadProductImage,
@@ -80,38 +90,107 @@ const EditProduct = () => {
 
   // Data Processing
   const categoryOptions = [];
-  productCats?.forEach((cat) => {
+  proCats?.forEach((cat) => {
     categoryOptions.push({
       value: cat._id,
       label: cat.title,
     });
   });
 
+  const tagOptions = [];
+  tagOptions.push(
+    {
+      value: "featured",
+      label: "Featured",
+    },
+    {
+      value: "special",
+      label: "Special",
+    },
+    {
+      value: "new-arrivals",
+      label: "New Arrivals",
+    },
+    {
+      value: "best-selling",
+      label: "Best Selling",
+    }
+  );
+
+  const brandOptions = [];
+  brands?.forEach((brand) => {
+    brandOptions.push({
+      value: brand._id,
+      label: brand.title,
+    });
+  });
+
+  const statusOptions = [];
+  statusOptions.push(
+    {
+      value: "available",
+      label: "Available",
+    },
+    {
+      value: "unavailable",
+      label: "Unavailable",
+    }
+  );
+
+  const colorOptions = [];
+  colors?.forEach((color) => {
+    colorOptions.push({
+      value: color._id,
+      label: color.title,
+    });
+  });
+
   // Handle Form
   let productSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
+    price: Yup.number().required("price is required"),
+    quantity: Yup.number().required("Quantity is required"),
     description: Yup.string().required("Description is required"),
-    visibility: Yup.string().required("visibility is required"),
+    category: Yup.array()
+      .min(1, "Pick at least one category")
+      .required("category is Required"),
+    tag: Yup.array()
+      .min(1, "Pick at least one tag")
+      .required("tag is Required"),
+    brand: Yup.string().required("brand is required"),
+    status: Yup.string().required("Status is required"),
+    color: Yup.array()
+      .min(1, "Pick at least one color")
+      .required("Color is Required"),
+    images: Yup.array().required("Image is required"),
   });
+
+  console.log(product?.category);
 
   const updateForm = useFormik({
     initialValues: {
       title: product?.title,
       description: product?.description,
-      visibility: visibility,
+      price: product?.price,
+      quantity: product?.quantity,
+      category: "",
+      tag: "",
+      brand: "",
+      status: product?.status,
+      color: "",
       images: "",
     },
     validationSchema: productSchema,
     onSubmit: (values, { resetForm }) => {
-      updateProduct({ id: product?._id, data: values });
-      dispatch(setEdit({ data: null, state: false }));
-      dispatch(setDeleteImages([]));
+      console.log(values);
+      // updateProduct({ id: product?._id, data: values });
+      // dispatch(setEdit({ data: null, state: false }));
+      // dispatch(setDeleteImages([]));
     },
   });
 
   // Notification
   useEffect(() => {
-    updateForm.values.visibility = visibility;
     updateForm.values.images = productImages;
     if (updateIsSuccess) {
       toast(updateData?.message);
@@ -177,15 +256,55 @@ const EditProduct = () => {
                 </div>
               ) : null}
             </div>
+            {/* Price */}
+            <div className="mb-4">
+              <label htmlFor="price" className="font-bold text-sm">
+                Product Price
+              </label>
+              <input
+                onChange={updateForm.handleChange("price")}
+                value={updateForm.values.price}
+                placeholder="Product Price"
+                type="number"
+                id="price"
+                name="price"
+                className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
+              />
+              {updateForm.touched.price && updateForm.errors.price ? (
+                <div className="addForm_err text-sm text-red-600">
+                  {updateForm.errors.price}
+                </div>
+              ) : null}
+            </div>
+            {/* Quantity */}
+            <div className="mb-4">
+              <label htmlFor="quantity" className=" font-bold text-sm">
+                Product Quantity
+              </label>
+              <input
+                onChange={updateForm.handleChange("quantity")}
+                value={updateForm.values.quantity}
+                placeholder="Product Quantity"
+                type="number"
+                id="quantity"
+                name="quantity"
+                className="w-full bg-white rounded border border-gray-300 outline-none text-gray-700 py-1 px-3 mt-2 leading-8 transition-colors duration-200 ease-in-out"
+              />
+              {updateForm.touched.quantity && updateForm.errors.quantity ? (
+                <div className="addForm_err text-sm text-red-600">
+                  {updateForm.errors.quantity}
+                </div>
+              ) : null}
+            </div>
             {/* desc */}
-            <div className="mb-4 ">
+            <div className="md:mb-0 mb-4 ">
               <label htmlFor="desc" className=" font-bold text-sm">
                 Description
               </label>
               <div className="mt-2">
                 <EditorToolbar toolbarId={"t1"} />
                 <ReactQuill
-                  className=""
+                  className="md:h-[826px] "
                   theme="snow"
                   onChange={updateForm.handleChange("description")}
                   value={updateForm.values.description}
@@ -204,22 +323,84 @@ const EditProduct = () => {
           </form>
         </div>
         <div className="md:w-[28%]">
-          <div className="visibility bg-white box_shadow p-[20px] rounded-lg">
-            <Title level={4}>Visibility</Title>
-            <Radio.Group
-              className="my-4"
-              defaultValue={product?.visibility}
-              value={visibility}
-            >
-              <Space direction="vertical">
-                <Radio value="published">Published</Radio>
-                <Radio value="scheduled">Scheduled</Radio>
-                <Radio value="hidden">Hidden</Radio>
-              </Space>
-            </Radio.Group>
-            {updateForm.touched.visibility && updateForm.errors.visibility ? (
-              <div className="formik_err text-sm text-red-600">
-                {updateForm.errors.visibility}
+          <div className="product_cat bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Product Category</Title>
+            <Select
+              className="mt-4 h-[40px] w-full capitalize"
+              mode="multiple"
+              allowClear
+              placeholder="Please select"
+              onChange={(e) => dispatch(setCategory(e))}
+              options={categoryOptions}
+            />
+            {proCatIsLoading && <Spin size="large" />}
+            {updateForm.touched.category && updateForm.errors.category ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.category}
+              </div>
+            ) : null}
+          </div>
+          <div className="product_cat mt-4 bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Product Tags</Title>
+            <Select
+              className="mt-4 h-[40px] w-full capitalize"
+              mode="tags"
+              allowClear
+              placeholder="Please select"
+              onChange={(e) => dispatch(setTag(e))}
+              options={tagOptions}
+            />
+            {updateForm.touched.tag && updateForm.errors.tag ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.tag}
+              </div>
+            ) : null}
+          </div>
+          <div className="product_cat mt-4 bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Product Brand</Title>
+            <Select
+              placeholder="Please select"
+              className="mt-4 h-[40px] w-full capitalize"
+              onChange={updateForm.handleChange("brand")}
+              value={updateForm.values.brand}
+              options={brandOptions}
+            />
+            {brandIsLoading && <Spin size="large" />}
+            {updateForm.touched.brand && updateForm.errors.brand ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.brand}
+              </div>
+            ) : null}
+          </div>
+          <div className="product_cat mt-4 bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Product Status</Title>
+            <Select
+              placeholder="Please select"
+              className="mt-4 h-[40px] w-full capitalize"
+              onChange={updateForm.handleChange("status")}
+              value={updateForm.values.status}
+              options={statusOptions}
+            />
+            {updateForm.touched.status && updateForm.errors.status ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.status}
+              </div>
+            ) : null}
+          </div>
+          <div className="product_cat mt-4 bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Product Color</Title>
+            <Select
+              className="mt-4 h-[40px] w-full capitalize"
+              mode="multiple"
+              allowClear
+              placeholder="Please select"
+              onChange={(e) => dispatch(setColor(e))}
+              options={colorOptions}
+            />
+            {colorIsLoading && <Spin size="large" />}
+            {updateForm.touched.color && updateForm.errors.color ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.color}
               </div>
             ) : null}
           </div>
