@@ -246,6 +246,10 @@ const routes = createBrowserRouter([
         path: "/admin/product-edit",
         element: <EditProduct />,
       },
+      {
+        path: "/admin",
+        element: <EditProduct />,
+      },
     ],
   },
   {

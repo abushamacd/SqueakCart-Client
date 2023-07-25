@@ -49,6 +49,7 @@ const Profile = () => {
       });
     },
   });
+  console.log(data);
 
   useEffect(() => {
     if (data) {

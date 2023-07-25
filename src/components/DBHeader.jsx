@@ -13,6 +13,7 @@ const DBHeader = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { user } = useSelector((state) => state.auth);
   const { collapsed } = useSelector((state) => state.site);
   const dispatch = useDispatch();
 
@@ -70,9 +71,9 @@ const DBHeader = () => {
             </div>
             <div className="admin">
               <Title level={5} className="capitalize">
-                Admin Name
+                {user?.role}
               </Title>
-              <Text> email </Text>
+              <Text> {user?.email} </Text>
             </div>
           </div>
         </Dropdown>
