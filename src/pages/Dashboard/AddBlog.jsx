@@ -280,7 +280,7 @@ const AddBlog = () => {
                     <AiOutlineDelete color="red" />
                   </button>
                   <img
-                    className=" rounded-md"
+                    className=" rounded-md md:h-[120px] h-[110px] md:w-[120px] w-[110px] object-cover"
                     alt="product img"
                     src={image?.url}
                   />

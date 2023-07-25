@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
-import { Typography, Radio, Space, Select } from "antd";
+import { Typography, Select } from "antd";
 import ReactQuill from "react-quill";
 import EditorToolbar, {
   modules,
@@ -40,7 +40,9 @@ const EditProduct = () => {
   const { edit } = useSelector((state) => state.site);
   const product = edit?.data;
 
-  const { visibility, productImages } = useSelector((state) => state.product);
+  const { category, tag, color, productImages } = useSelector(
+    (state) => state.product
+  );
   const { data: proCatData, isLoading: proCatIsLoading } = useGetProCatsQuery();
   const proCats = proCatData?.data?.data;
 
@@ -145,6 +147,21 @@ const EditProduct = () => {
     });
   });
 
+  const editCategory = [];
+  product?.category?.forEach((category) => {
+    editCategory.push(category._id);
+  });
+
+  const editTag = [];
+  product?.tag?.forEach((tag) => {
+    editTag.push(tag);
+  });
+
+  const editColor = [];
+  product?.color?.forEach((color) => {
+    editColor.push(color._id);
+  });
+
   // Handle Form
   let productSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -152,20 +169,18 @@ const EditProduct = () => {
     quantity: Yup.number().required("Quantity is required"),
     description: Yup.string().required("Description is required"),
     category: Yup.array()
-      .min(1, "Pick at least one category")
-      .required("category is Required"),
+      .min(1, "Please clear & re-select minimum one category")
+      .required("Please clear & re-select"),
     tag: Yup.array()
-      .min(1, "Pick at least one tag")
-      .required("tag is Required"),
+      .min(1, "Please clear & re-select minimum one tag")
+      .required("Please clear & re-select"),
     brand: Yup.string().required("brand is required"),
     status: Yup.string().required("Status is required"),
     color: Yup.array()
-      .min(1, "Pick at least one color")
-      .required("Color is Required"),
+      .min(1, "Please clear & re-select minimum one color")
+      .required("Please clear & re-select"),
     images: Yup.array().required("Image is required"),
   });
-
-  console.log(product?.category);
 
   const updateForm = useFormik({
     initialValues: {
@@ -173,24 +188,27 @@ const EditProduct = () => {
       description: product?.description,
       price: product?.price,
       quantity: product?.quantity,
-      category: "",
-      tag: "",
-      brand: "",
+      category: editCategory,
+      tag: editTag,
+      brand: product?.brand?._id,
       status: product?.status,
-      color: "",
+      color: editColor,
       images: "",
     },
     validationSchema: productSchema,
     onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      // updateProduct({ id: product?._id, data: values });
-      // dispatch(setEdit({ data: null, state: false }));
-      // dispatch(setDeleteImages([]));
+      updateProduct({ id: product?._id, data: values });
+      dispatch(setEdit({ data: null, state: false }));
+      dispatch(clearImage());
     },
   });
 
   // Notification
+
   useEffect(() => {
+    updateForm.values.category = category;
+    updateForm.values.tag = tag;
+    updateForm.values.color = color;
     updateForm.values.images = productImages;
     if (updateIsSuccess) {
       toast(updateData?.message);
@@ -201,7 +219,6 @@ const EditProduct = () => {
       updateReset();
     }
   }, [
-    visibility,
     productImages,
     navigate,
     updateForm.values,
@@ -210,6 +227,9 @@ const EditProduct = () => {
     updateData,
     updateError,
     updateReset,
+    category,
+    tag,
+    color,
   ]);
 
   // Handle Image
@@ -329,6 +349,7 @@ const EditProduct = () => {
               className="mt-4 h-[40px] w-full capitalize"
               mode="multiple"
               allowClear
+              defaultValue={editCategory}
               placeholder="Please select"
               onChange={(e) => dispatch(setCategory(e))}
               options={categoryOptions}
@@ -346,6 +367,7 @@ const EditProduct = () => {
               className="mt-4 h-[40px] w-full capitalize"
               mode="tags"
               allowClear
+              defaultValue={editTag}
               placeholder="Please select"
               onChange={(e) => dispatch(setTag(e))}
               options={tagOptions}
@@ -393,6 +415,7 @@ const EditProduct = () => {
               className="mt-4 h-[40px] w-full capitalize"
               mode="multiple"
               allowClear
+              defaultValue={editColor}
               placeholder="Please select"
               onChange={(e) => dispatch(setColor(e))}
               options={colorOptions}
@@ -421,7 +444,7 @@ const EditProduct = () => {
                     <AiOutlineDelete color="red" />
                   </button>
                   <img
-                    className=" rounded-md"
+                    className=" rounded-md md:h-[120px] h-[110px] md:w-[120px] w-[110px]  object-cover"
                     alt="product img"
                     src={image?.url}
                   />
