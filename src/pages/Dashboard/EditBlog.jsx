@@ -15,6 +15,8 @@ import {
   setVisibility,
   setDeleteImages,
   clearImage,
+  setCategory,
+  setDate,
 } from "../../redux/features/blog/blogSlice";
 import {
   useDeleteBlogImageMutation,
@@ -26,20 +28,27 @@ import { Spin } from "antd";
 import { toast } from "react-toastify";
 import { setEdit } from "../../redux/features/site/siteSlice";
 import { useNavigate } from "react-router-dom";
+import { Select } from "antd";
+import { DatePicker } from "antd";
+import dayjs from "dayjs";
 
 const EditBlog = () => {
   const { Title } = Typography;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dateFormat = "YYYY/MM/DD";
 
   // Redux Hooks
   const { edit } = useSelector((state) => state.site);
   const blog = edit?.data;
+  console.log(blog);
 
-  const { visibility, blogImages } = useSelector((state) => state.blog);
-  const { data: getData } = useGetBlogCatsQuery();
-
-  const blogCats = getData?.data?.data;
+  const { visibility, date, blogImages, category } = useSelector(
+    (state) => state.blog
+  );
+  const { data: blogCatData, isLoading: blogCatIsLoading } =
+    useGetBlogCatsQuery();
+  const blogCats = blogCatData?.data?.data;
 
   const [
     uploadBlogImage,
@@ -79,6 +88,10 @@ const EditBlog = () => {
     dispatch(setDeleteImages(rest));
   };
 
+  const handleDate = (date, dateString) => {
+    dispatch(setDate(dateString));
+  };
+
   // Data Processing
   const categoryOptions = [];
   blogCats?.forEach((cat) => {
@@ -88,11 +101,20 @@ const EditBlog = () => {
     });
   });
 
+  const editCategory = [];
+  blog?.category?.forEach((category) => {
+    editCategory.push(category._id);
+  });
+
   // Handle Form
   let blogSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     visibility: Yup.string().required("visibility is required"),
+    date: Yup.string().required("Please clear & re-select date"),
+    category: Yup.array()
+      .min(1, "Please clear & re-select minimum one category")
+      .required("Please clear & re-select"),
   });
 
   const updateForm = useFormik({
@@ -100,6 +122,8 @@ const EditBlog = () => {
       title: blog?.title,
       description: blog?.description,
       visibility: visibility,
+      category: editCategory,
+      date: date,
       images: "",
     },
     validationSchema: blogSchema,
@@ -115,6 +139,8 @@ const EditBlog = () => {
   useEffect(() => {
     updateForm.values.visibility = visibility;
     updateForm.values.images = blogImages;
+    updateForm.values.category = category;
+    updateForm.values.date = date;
     if (updateIsSuccess) {
       toast(updateData?.message);
       updateReset();
@@ -126,6 +152,8 @@ const EditBlog = () => {
   }, [
     visibility,
     blogImages,
+    category,
+    date,
     navigate,
     updateForm.values,
     updateIsSuccess,
@@ -222,6 +250,38 @@ const EditBlog = () => {
             {updateForm.touched.visibility && updateForm.errors.visibility ? (
               <div className="formik_err text-sm text-red-600">
                 {updateForm.errors.visibility}
+              </div>
+            ) : null}
+            <h5 className="mb-2 font-bold text-sm">Publish date</h5>
+            <div>
+              <DatePicker
+                defaultValue={dayjs(blog?.date, dateFormat)}
+                format={dateFormat}
+                className="w-full h-[40px]"
+                onChange={handleDate}
+              />
+              {updateForm.touched.date && updateForm.errors.date ? (
+                <div className="formik_err text-sm text-red-600">
+                  {updateForm.errors.date}
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className="product_cat mt-4 bg-white box_shadow p-[20px] rounded-lg">
+            <Title level={4}>Blog Category</Title>
+            <Select
+              className="mt-4 h-[40px] w-full capitalize"
+              mode="multiple"
+              allowClear
+              defaultValue={editCategory}
+              placeholder="Please select"
+              onChange={(e) => dispatch(setCategory(e))}
+              options={categoryOptions}
+            />
+            {blogCatIsLoading && <Spin size="large" />}
+            {updateForm.touched.category && updateForm.errors.category ? (
+              <div className="addForm_err text-sm text-red-600">
+                {updateForm.errors.category}
               </div>
             ) : null}
           </div>
