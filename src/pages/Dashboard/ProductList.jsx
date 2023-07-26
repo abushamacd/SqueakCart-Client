@@ -110,7 +110,7 @@ const ProductList = () => {
       name: products[i]?.title,
       price: products[i]?.price,
       quantity: products[i]?.quantity,
-      brand: <div className="capitalize">{products[i]?.brand.title}</div>,
+      brand: <div className="capitalize">{products[i]?.brand?.title}</div>,
       status: <div className="capitalize">{products[i]?.status}</div>,
       action: (
         <div className="flex gap-2">
@@ -254,7 +254,7 @@ const ProductList = () => {
                         Category:
                         <ul className="ml-2">
                           {product?.category?.map((cat, i) => (
-                            <li key={i}>{cat.title}</li>
+                            <li key={i}>{cat?.title}</li>
                           ))}
                         </ul>
                       </div>

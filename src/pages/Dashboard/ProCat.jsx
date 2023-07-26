@@ -206,7 +206,7 @@ const ProCat = () => {
   if (getIsLoading) {
     return <Loading />;
   }
-  console.log(view.data);
+
   return (
     <div>
       <Title level={3}>Product Category</Title>

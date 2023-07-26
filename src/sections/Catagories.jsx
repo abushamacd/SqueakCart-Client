@@ -1,7 +1,12 @@
 import React from "react";
 import Slider from "react-slick";
+import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
+import Loading from "../components/Loading";
 
 const Catagories = () => {
+  const { data: getData, isLoading: getIsLoading } = useGetProCatsQuery();
+  const proCats = getData?.data?.data;
+
   const settings = {
     className: "center",
     arrows: false,
@@ -37,28 +42,29 @@ const Catagories = () => {
       },
     ],
   };
+
+  if (getIsLoading) {
+    return <Loading />;
+  }
   return (
     <section className="catagories bg-white rounded-xl p-[15px] box_shadow ">
       <Slider {...settings}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map(
-          (catarory) => (
-            <div key={catarory}>
-              <div className="catagory flex justify-between items-center gap-[10px] px-[15px] py-[10px] ">
-                <div className="catagory_info">
-                  <h6 className="catagory_title capitalize font-bold">
-                    Catagory title
-                  </h6>
-                  <p className="catagory_desc text-sm">info</p>
-                </div>
-                <img
-                  className="w-[100px] h-[100px] "
-                  src="/images/camera.jpg"
-                  alt="catagory"
-                />
+        {proCats?.map((catarory) => (
+          <div key={catarory._id}>
+            <div className="catagory flex justify-between items-center gap-[10px] px-[15px] py-[10px] ">
+              <div className="catagory_info">
+                <h4 className="catagory_title capitalize text-lg font-bold">
+                  {catarory?.title}
+                </h4>
               </div>
+              <img
+                className="w-[120px] h-[120px] "
+                src={catarory?.images[0]?.url}
+                alt="catagory"
+              />
             </div>
-          )
-        )}
+          </div>
+        ))}
       </Slider>
     </section>
   );
