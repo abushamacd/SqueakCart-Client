@@ -45,7 +45,7 @@ const FamousCollection = () => {
             <Link to={"/"}>
               <div className="slider overflow-hidden box_shadow relative rounded-xl h-[400px]">
                 <img
-                  className="w-full duration-300 h-full bg-cover rounded-xl"
+                  className="w-full duration-300 h-full object-cover rounded-xl"
                   src="/images/main-banner-1.jpg"
                   alt="banner"
                 />

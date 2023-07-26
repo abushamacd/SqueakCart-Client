@@ -11,7 +11,7 @@ const Banner = () => {
     arrows: false,
     dots: true,
     infinite: true,
-    autoplay: false,
+    autoplay: true,
     fade: true,
     // speed: 3000,
     autoplaySpeed: 3000,

@@ -46,8 +46,8 @@ const SignIn = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: process.env.REACT_APP_ADMIN_EMAIL,
+      password: process.env.REACT_APP_ADMIN_PASSWORD,
     },
 
     validationSchema: formSchema,
