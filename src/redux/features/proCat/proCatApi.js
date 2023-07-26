@@ -29,6 +29,21 @@ const blogApi = api.injectEndpoints({
       }),
       invalidatesTags: ["pro_cat"],
     }),
+    uploadProCatImage: builder.mutation({
+      query: (data) => ({
+        url: `/proCat/upload-img`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [""],
+    }),
+    deleteProCatImage: builder.mutation({
+      query: (id) => ({
+        url: `/proCat/delete-img/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [""],
+    }),
   }),
 });
 
@@ -37,4 +52,6 @@ export const {
   useGetProCatsQuery,
   useDeleteProCatMutation,
   useUpdateProCatMutation,
+  useUploadProCatImageMutation,
+  useDeleteProCatImageMutation,
 } = blogApi;

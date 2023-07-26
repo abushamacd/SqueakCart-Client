@@ -6,6 +6,7 @@ import blogReducer from "./features/blog/blogSlice";
 import couponReducer from "./features/coupon/couponSlice";
 import colorReducer from "./features/color/colorSlice";
 import productReducer from "./features/product/productSlice";
+import proCatReducer from "./features/proCat/proCatSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     coupon: couponReducer,
     color: colorReducer,
     product: productReducer,
+    proCat: proCatReducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
