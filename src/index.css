@@ -923,3 +923,7 @@ span.article,
 .extra_large_modal {
   width: 1000px !important;
 }
+
+.slick-dots li button:before {
+  color: var(--color_38b5fe) !important;
+}

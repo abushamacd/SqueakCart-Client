@@ -1,12 +1,17 @@
 import React from "react";
 import Slider from "react-slick";
+import banner_1 from "../assets/banner/1.jpg";
+import banner_2 from "../assets/banner/2.jpg";
+import banner_3 from "../assets/banner/3.jpg";
+import side_1 from "../assets/banner/side_1.png";
+import side_2 from "../assets/banner/side_2.png";
 
 const Banner = () => {
   var settings = {
     arrows: false,
     dots: true,
     infinite: true,
-    autoplay: true,
+    autoplay: false,
     fade: true,
     // speed: 3000,
     autoplaySpeed: 3000,
@@ -44,99 +49,56 @@ const Banner = () => {
         <Slider {...settings}>
           <div className="slider relative">
             <img
-              className="w-full rounded-xl h-[440px] object-cover"
-              src="/images/main-banner-1.jpg"
+              className="w-full rounded-xl md:h-[440px] md:object-cover"
+              src={banner_1}
               alt="banner"
             />
-            <div className="silder_info h-full w-full rounded-xl absolute top-0 bottom-0 pt-[10%] pl-[5%] ">
-              <h4 className="banner_subtitle capitalize text-[16px] leading-[24px] tracking-[.3px] md:mb-[12px] mb-[6px] ">
-                Subtitle
+          </div>
+          <div className="slider relative">
+            <img
+              className="w-full rounded-xl md:h-[440px] md:object-cover"
+              src={banner_2}
+              alt="banner"
+            />
+            <div className="silder_info h-full w-full rounded-xl absolute top-0 bottom-0 md:pt-[30%] pt-[10%] pl-[5%] ">
+              <h4 className="capitalize text-sm leading-[24px] tracking-[.3px] mb-[6px] text-[#38b5fe] ">
+                A trusted online shop
               </h4>
-              <h4 className="capitalize text-[42px] md:leading-[54px] leading-[35px] tracking-[.2px] font-medium ">
-                Title
+              <h4 className="capitalize text-3xl md:leading-[34px] leading-[35px] tracking-[.2px] font-medium text-white mb-4">
+                All in one place
               </h4>
-              <p className="text-[18px] leading-[28px] tracking-[.4px]">
-                Lorem ipsum dolor sit amet.
-              </p>
               <button
                 type="submit"
-                className="first_button rounded-md px-5 py-1 text-sm text-white uppercase"
+                className="rounded-md px-5 py-1 text-sm text-black bg-[#38b5fe] uppercase"
               >
-                Save
+                Shop Now
               </button>
             </div>
           </div>
           <div className="slider relative">
             <img
-              className="w-full rounded-xl h-[440px] object-cover"
-              src="/images/main-banner-1.jpg"
+              className="w-full rounded-xl md:h-[440px] md:object-cover"
+              src={banner_3}
               alt="banner"
             />
-            <div className="silder_info h-full w-full rounded-xl absolute top-0 bottom-0 pt-[10%] pl-[5%] ">
-              <h4 className="banner_subtitle capitalize text-[16px] leading-[24px] tracking-[.3px] md:mb-[12px] mb-[6px] ">
-                Subtitle
-              </h4>
-              <h4 className="capitalize text-[42px] md:leading-[54px] leading-[35px] tracking-[.2px] font-medium ">
-                Title
-              </h4>
-              <p className="text-[18px] leading-[28px] tracking-[.4px]">
-                Lorem ipsum dolor sit amet.
-              </p>
-              <button
-                type="submit"
-                className="first_button rounded-md px-5 py-1 text-sm text-white uppercase"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-          <div className="slider relative">
-            <img
-              className="w-full rounded-xl h-[440px] object-cover"
-              src="/images/main-banner-1.jpg"
-              alt="banner"
-            />
-            <div className="silder_info h-full w-full rounded-xl absolute top-0 bottom-0 pt-[10%] pl-[5%] ">
-              <h4 className="banner_subtitle capitalize text-[16px] leading-[24px] tracking-[.3px] md:mb-[12px] mb-[6px] ">
-                Subtitle
-              </h4>
-              <h4 className="capitalize text-[42px] md:leading-[54px] leading-[35px] tracking-[.2px] font-medium ">
-                Title
-              </h4>
-              <p className="text-[18px] leading-[28px] tracking-[.4px]">
-                Lorem ipsum dolor sit amet.
-              </p>
-              <button
-                type="submit"
-                className="first_button rounded-md px-5 py-1 text-sm text-white uppercase"
-              >
-                Save
-              </button>
-            </div>
           </div>
         </Slider>
       </div>
       <div className="right_banner md:gap-[30px] gap-[10px] md:w-[30%] w-full flex flex-col">
-        {[1, 2].map((single) => (
-          <div key={single} className="side_banner w-full relative">
-            <img
-              className="w-full h-[200px] rounded-xl object-cover"
-              src="/images/catbanner-01.jpg"
-              alt="banner"
-            />
-            <div className="silder_info h-[200px] w-full rounded-xl absolute top-0 bottom-0  pt-[5%] pl-[5%] ">
-              <h4 className="banner_subtitle capitalize text-[14px] leading-[24px] tracking-[.3px] md:mb-[8px] ">
-                Subtiele
-              </h4>
-              <h4 className="capitalize text-[22px] md:leading-[34px] leading-[30px] tracking-[.2px] font-medium ">
-                Title
-              </h4>
-              <p className="hidden md:block text-[14px] leading-[22px] tracking-[.4px]">
-                Lorem ipsum dolor sit amet.
-              </p>
-            </div>
-          </div>
-        ))}
+        <div className="side_banner w-full relative">
+          <img
+            className="w-full h-[200px] rounded-xl object-fill"
+            src={side_1}
+            alt="banner"
+          />
+        </div>
+        <div className="side_banner w-full relative">
+          <img
+            className="w-full h-[200px] rounded-xl object-fill"
+            src={side_2}
+            alt="banner"
+          />
+        </div>
       </div>
     </div>
   );
