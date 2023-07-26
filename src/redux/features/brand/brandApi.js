@@ -29,6 +29,21 @@ const blogApi = api.injectEndpoints({
       }),
       invalidatesTags: ["brand"],
     }),
+    uploadBrandImage: builder.mutation({
+      query: (data) => ({
+        url: `/brand/upload-img`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [""],
+    }),
+    deleteBrandImage: builder.mutation({
+      query: (id) => ({
+        url: `/brand/delete-img/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [""],
+    }),
   }),
 });
 
@@ -37,4 +52,6 @@ export const {
   useGetBrandsQuery,
   useDeleteBrandMutation,
   useUpdateBrandMutation,
+  useUploadBrandImageMutation,
+  useDeleteBrandImageMutation,
 } = blogApi;

@@ -7,6 +7,7 @@ import couponReducer from "./features/coupon/couponSlice";
 import colorReducer from "./features/color/colorSlice";
 import productReducer from "./features/product/productSlice";
 import proCatReducer from "./features/proCat/proCatSlice";
+import brandReducer from "./features/brand/brandSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     color: colorReducer,
     product: productReducer,
     proCat: proCatReducer,
+    brand: brandReducer,
   },
   devTools: true,
   middleware: (getDefaultMiddleware) =>
