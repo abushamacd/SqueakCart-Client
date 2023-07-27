@@ -2,9 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import Slider from "react-slick";
+import Loading from "../components/Loading";
+import { useGetProductsQuery } from "../redux/features/product/productApi";
 
 const SpecialProducts = () => {
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const { data: productData, isLoading: productIsLoading } =
+    useGetProductsQuery();
+  const products = productData?.data?.data;
+  const specialProducts = products?.filter((product) =>
+    product?.tag?.includes("special")
+  );
+
   var image_settings = {
     arrows: true,
   };
@@ -43,24 +51,27 @@ const SpecialProducts = () => {
     ],
   };
 
+  if (productIsLoading) {
+    return <Loading />;
+  }
   return (
     <section className="special_products_section section_gap">
       <div className="section_heading">
         <h4 className="section_title">Special Products</h4>
       </div>
       <Slider {...product_settings}>
-        {numbers.map((image, index) => (
-          <div key={index} className="py-[10px] ">
+        {specialProducts.map((product) => (
+          <div key={product._id} className="py-[10px] ">
             <div className="special_product md:pr-[20px] md:px-0 px-[10px] ">
               <div className="special_product_inner rounded-xl bg-white box_shadow flex md:flex-row flex-col gap-[20px] p-[20px]">
                 <div className="product_photo md:w-1/2 relative">
                   <Slider {...image_settings}>
-                    {numbers.map((image, index) => (
-                      <div key={index} className="">
+                    {product?.images?.map((image) => (
+                      <div key={image._id} className="">
                         <div className="product_image h-[300px] flex justify-center items-center overflow-hidden rounded-xl">
                           <img
                             className="rounded-xl bg-center  "
-                            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8&w=1000&q=80"
+                            src={image?.url}
                             alt="product"
                           />
                         </div>
@@ -99,12 +110,12 @@ const SpecialProducts = () => {
                   </div>
                 </div>
                 <div className="product_info md:w-1/2">
-                  <h6 className="product_brand capitalize my-[12px] text-xs font-medium">
-                    Hp
+                  <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
+                    {product?.brand?.title}
                   </h6>
                   <Link to="/">
-                    <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] ">
-                      Lorem, ipsum dolor sit amet consectetur
+                    <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px] ">
+                      {product?.title}
                     </h2>
                   </Link>
                   <div className="md:flex  justify-between items-center my-[10px]">
@@ -121,17 +132,20 @@ const SpecialProducts = () => {
                         $
                         <span>
                           <del>
-                            {10.45 + parseInt(((130 / 100) * 12).toFixed(2))}
+                            {product?.price +
+                              parseInt(((130 / 100) * 15).toFixed(2))}
                           </del>
-                        </span>{" "}
+                        </span>
                       </p>
-                      <p className="product_price">
-                        $ <span>10.45</span>{" "}
+                      <p className="product_price ml-1">
+                        $ <span className="font-bold">{product?.price}</span>
                       </p>
                     </div>
                   </div>
                   <div className="stock">
-                    <h4 className="stock_item text-sm">Items in stock: 4</h4>
+                    <h4 className="stock_item text-sm">
+                      Items in stock: {product?.quantity}
+                    </h4>
                     <progress
                       className="progress progress-primary w-full"
                       value="10"
@@ -139,7 +153,7 @@ const SpecialProducts = () => {
                     ></progress>
                   </div>
                   <button className="btn btn-sm product_option rounded-full mt-[20px] ">
-                    Small
+                    Buy Now
                   </button>
                 </div>
               </div>
