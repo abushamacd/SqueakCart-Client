@@ -2,9 +2,20 @@ import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { useGetProductsQuery } from "../redux/features/product/productApi";
+import Loading from "../components/Loading";
 
 const PopularCollection = () => {
-  const numbers = [1, 2, 3, 4, 5, 6];
+  const { data: productData, isLoading: productIsLoading } =
+    useGetProductsQuery();
+  const products = productData?.data?.data;
+
+  if (productIsLoading || !Array.isArray(products)) {
+    return <Loading />;
+  }
+
+  const popularProducts = [...products]?.sort((a, b) => b.view - a.view);
+
   var settings = {
     dots: false,
     infinite: true,
@@ -43,15 +54,15 @@ const PopularCollection = () => {
         <h4 className="section_title">Popular Collections</h4>
       </div>
       <Slider {...settings}>
-        {numbers.map((product) => (
+        {popularProducts?.map((product) => (
           <div
-            key={product}
+            key={product._id}
             className="product min-h-[380px] md:w-1/5 relative"
           >
             <div className="product_inner bg-white rounded-xl box_shadow min-h-[340px] my-[20px] p-4">
-              <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
+              {/* <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
                 tag
-              </div>
+              </div> */}
               <div className="wishlist absolute md:right-[2%] right-[2%] top-[7%] ">
                 <img
                   className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
@@ -86,18 +97,18 @@ const PopularCollection = () => {
                 <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">
                   <img
                     className="rounded-xl bg-center  "
-                    src="https://placehold.co/50x50"
+                    src={product?.images[0]?.url}
                     alt="product"
                   />
                 </div>
               </Link>
               <div className="product_info">
-                <h6 className="product_brand capitalize my-[12px] text-xs font-medium">
-                  Hp
+                <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
+                  {product?.brand?.title}
                 </h6>
                 <Link to="/product/:id">
-                  <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] ">
-                    Lorem, ipsum dolor sit amet consectetur
+                  <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px]">
+                    {product?.title}
                   </h2>
                 </Link>
                 <div className="flex justify-between items-center">
@@ -110,7 +121,7 @@ const PopularCollection = () => {
                     activeColor="#ffd700"
                   />
                   <p className="product_price">
-                    $ <span>10.45</span>{" "}
+                    $ <span className="font-bold">{product?.price}</span>
                   </p>
                 </div>
               </div>
