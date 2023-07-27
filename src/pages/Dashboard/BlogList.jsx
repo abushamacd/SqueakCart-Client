@@ -170,7 +170,7 @@ const BlogList = () => {
             alt="blog images"
           />
           <div
-            className="text-sm"
+            className="text-sm desc_show"
             dangerouslySetInnerHTML={{ __html: view.data?.description }}
           ></div>
           <div className="blog_about flex gap-[30px] my-[20px] felx flex-wrap">
