@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Slider from "react-slick";
 import { useGetBlogsQuery } from "../redux/features/blog/blogApi";
+import Loading from "../components/Loading";
 
 const Blogs = () => {
   const { data: blogData, isLoading: blogIsLoading } = useGetBlogsQuery();
@@ -53,6 +54,10 @@ const Blogs = () => {
       },
     ],
   };
+
+  if (blogIsLoading) {
+    return <Loading />;
+  }
   return (
     <section className="blogs_section rounded-xl section_gap">
       <div className="section_heading">
