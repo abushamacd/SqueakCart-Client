@@ -16,7 +16,7 @@ const Brands = () => {
       <Marquee className="flex items-center">
         {brands?.map((brand) => (
           <div key={brand._id} className="brands mx-[15px]">
-            <img className="h-[120px]" src={brand?.images[0].url} alt="brand" />
+            <img className="h-[100px]" src={brand?.images[0].url} alt="brand" />
           </div>
         ))}
       </Marquee>

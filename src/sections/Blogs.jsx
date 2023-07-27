@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Slider from "react-slick";
 import { useGetBlogsQuery } from "../redux/features/blog/blogApi";
@@ -91,8 +90,8 @@ const Blogs = () => {
                         title={blog?.title}
                         className="title-font text-md font-medium text-gray-900 mb-3 min-h-[50px] border-b"
                       >
-                        {blog?.title.length > 22
-                          ? blog?.title.slice(0, 22) + "..."
+                        {blog?.title.length > 40
+                          ? blog?.title.slice(0, 40) + "..."
                           : blog?.title}
                       </h1>
                       <div
@@ -104,12 +103,9 @@ const Blogs = () => {
                               : blog?.description,
                         }}
                       ></div>
-                      <Link
-                        to="/"
-                        className="inline-flex items-center mb-2 capitalize text-sm text-indigo-500 hover:underline duration-200 "
-                      >
-                        read More <HiOutlineArrowNarrowRight className="ml-2" />
-                      </Link>
+                      <button className="first_button flex items-center duration-300 btn-sm product_option rounded-full my-[10px] ">
+                        Read more <HiOutlineArrowNarrowRight className="ml-2" />
+                      </button>
                     </div>
                   </div>
                 </div>
