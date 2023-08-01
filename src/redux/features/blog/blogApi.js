@@ -58,6 +58,7 @@ const blogApi = api.injectEndpoints({
     }),
     getBlog: builder.query({
       query: (id) => `/blog/${id}`,
+      providesTags: ["blog"],
     }),
     deleteBlog: builder.mutation({
       query: ({ id }) => ({
@@ -69,6 +70,22 @@ const blogApi = api.injectEndpoints({
     updateBlog: builder.mutation({
       query: ({ id, data }) => ({
         url: `/blog/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["blog"],
+    }),
+    likeBlog: builder.mutation({
+      query: ({ data }) => ({
+        url: `/blog/likes`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["blog"],
+    }),
+    dislikeBlog: builder.mutation({
+      query: ({ data }) => ({
+        url: `/blog/dislikes`,
         method: "PATCH",
         body: data,
       }),
@@ -89,4 +106,6 @@ export const {
   useDeleteBlogMutation,
   useUpdateBlogMutation,
   useGetBlogQuery,
+  useLikeBlogMutation,
+  useDislikeBlogMutation,
 } = blogApi;

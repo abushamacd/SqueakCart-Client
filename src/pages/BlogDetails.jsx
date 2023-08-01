@@ -3,27 +3,80 @@ import BreadCrumb from "../components/BreadCrumb";
 import Head from "../components/Head";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { Link, useParams } from "react-router-dom";
-import { useGetBlogQuery } from "../redux/features/blog/blogApi";
+import {
+  useDislikeBlogMutation,
+  useGetBlogQuery,
+  useLikeBlogMutation,
+} from "../redux/features/blog/blogApi";
 import Loading from "../components/Loading";
+import { BiLike, BiDislike } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 const BlogDetails = () => {
   const params = useParams();
 
+  const { user } = useSelector((state) => state.auth);
+
   const { data: blogData, isLoading: blogIsLoading } = useGetBlogQuery(
     params?.id
   );
+
   const blog = blogData?.data;
-  console.log(blog);
+
+  const [
+    likeBlog,
+    {
+      isSuccess: likeIsSuccess,
+      data: likeData,
+      isError: likeIsError,
+      error: likeError,
+      reset: likeReset,
+    },
+  ] = useLikeBlogMutation();
+
+  const [
+    dislikeBlog,
+    {
+      isSuccess: dislikeIsSuccess,
+      data: dislikeData,
+      isError: dislikeIsError,
+      error: dislikeError,
+      reset: dislikeReset,
+    },
+  ] = useDislikeBlogMutation();
+
+  const isLike = blog?.likes?.filter(
+    (likedUser) => likedUser?._id === user?._id
+  );
+
+  const isDislike = blog?.dislikes?.filter(
+    (dislikedUser) => dislikedUser?._id === user?._id
+  );
 
   if (blogIsLoading) {
     return <Loading />;
   }
 
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   return (
     <>
-      <Head title="Blog Title ||" />
+      <Head title={`${blog?.title} ||`} />
       <div className="">
-        <BreadCrumb title="Blog Title" />
+        <BreadCrumb title={blog?.title} />
         <div className="body_wrapper ">
           <div className="flex gap-[20px] layout p-[20px]">
             <div className="filter_options hidden md:block w-[20%]">
@@ -51,9 +104,9 @@ const BlogDetails = () => {
             </div>
             <div className="md:w-[80%] w-full">
               <div className="blog_details">
-                <h2 className="text-xl font-bold">{blog?.title}</h2>
+                <h2 className="text-4xl font-bold">{blog?.title}</h2>
                 <img
-                  className="rounded-xl my-[15px] w-full h-[500px] border"
+                  className="rounded-xl my-[15px] w-full md:h-[500px] border"
                   src={blog?.images[0]?.url}
                   alt="blog images"
                 />
@@ -64,8 +117,14 @@ const BlogDetails = () => {
                   }}
                 ></div>
                 <div className="blog_about flex gap-[30px] my-[20px]">
-                  <p className="date text-sm text-gray-500"> 12, April 2023 </p>
-                  <p className="author text-sm text-gray-500"> Author </p>
+                  <p className="date text-sm text-gray-500">
+                    {new Date(blog?.date)?.getDate()},{" "}
+                    {monthNames[new Date(blog?.date)?.getMonth()]}{" "}
+                    {new Date(blog?.date)?.getFullYear()}{" "}
+                  </p>
+                  <p className="author text-sm text-gray-500">
+                    Author: {blog?.author}{" "}
+                  </p>
                 </div>
                 <div className="blog_footer flex justify-between border-y p-[15px] ">
                   <Link to="/blogs">
@@ -74,9 +133,24 @@ const BlogDetails = () => {
                     </p>
                   </Link>
                   <ul className="right_footer flex gap-3">
-                    <li className="">f</li>
-                    <li className="">t</li>
-                    <li className="">p</li>
+                    <li className="flex items-center">
+                      <BiLike
+                        className={isLike?.length > 0 && "text-[#131921]"}
+                        onClick={() =>
+                          likeBlog({ data: { blogId: blog?._id } })
+                        }
+                      />
+                      ({blog?.likes?.length})
+                    </li>
+                    <li className="flex items-center">
+                      <BiDislike
+                        className={isDislike?.length > 0 && "text-[#131921]"}
+                        onClick={() =>
+                          dislikeBlog({ data: { blogId: blog?._id } })
+                        }
+                      />
+                      ({blog?.dislikes?.length})
+                    </li>
                   </ul>
                 </div>
                 <div className="blog_comment bg-white mt-4 rounded-lg p-4 box_shadow">
