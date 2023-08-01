@@ -150,7 +150,7 @@ const SpecialProducts = () => {
                     </h4>
                     <progress
                       className="progress progress-primary w-full"
-                      value="10"
+                      value={product?.quantity}
                       max="100"
                     ></progress>
                   </div>
