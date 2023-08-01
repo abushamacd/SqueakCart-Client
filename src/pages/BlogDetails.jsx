@@ -14,36 +14,14 @@ import { useSelector } from "react-redux";
 
 const BlogDetails = () => {
   const params = useParams();
-
   const { user } = useSelector((state) => state.auth);
+  const [likeBlog] = useLikeBlogMutation();
+  const [dislikeBlog] = useDislikeBlogMutation();
 
   const { data: blogData, isLoading: blogIsLoading } = useGetBlogQuery(
     params?.id
   );
-
   const blog = blogData?.data;
-
-  const [
-    likeBlog,
-    {
-      isSuccess: likeIsSuccess,
-      data: likeData,
-      isError: likeIsError,
-      error: likeError,
-      reset: likeReset,
-    },
-  ] = useLikeBlogMutation();
-
-  const [
-    dislikeBlog,
-    {
-      isSuccess: dislikeIsSuccess,
-      data: dislikeData,
-      isError: dislikeIsError,
-      error: dislikeError,
-      reset: dislikeReset,
-    },
-  ] = useDislikeBlogMutation();
 
   const isLike = blog?.likes?.filter(
     (likedUser) => likedUser?._id === user?._id

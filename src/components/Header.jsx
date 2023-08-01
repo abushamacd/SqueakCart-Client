@@ -13,12 +13,16 @@ import {
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/features/auth/authSlice";
+import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { data: getData } = useGetProCatsQuery();
+  const proCats = getData?.data?.data;
+  console.log(proCats);
 
   const handleSignout = () => {
     localStorage.removeItem("token");
@@ -105,14 +109,14 @@ const Header = () => {
                       </label>
                       <ul
                         tabIndex={0}
-                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
+                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52 z-[9999]"
                       >
                         <li>
                           <Link to="/">Home</Link>
                         </li>
                         <li onClick={() => setIsOpen(!isOpen)} className="">
                           <div className="flex justify-between">
-                            <Link to="/product">Store</Link>
+                            <Link to="/products">Store</Link>
                             {isOpen ? (
                               <FaAngleUp color="#fff" />
                             ) : (
@@ -121,11 +125,12 @@ const Header = () => {
                           </div>
                         </li>
                         {isOpen && (
-                          <ul className="mobile_dropdown ml-[25px]">
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
+                          <ul className="mobile_dropdown ml-[25px] h-96 overflow-auto">
+                            {proCats?.map((cat) => (
+                              <li key={cat?._id} className="capitalize">
+                                {cat?.title}
+                              </li>
+                            ))}
                           </ul>
                         )}
                         <li className="block md:hidden">
@@ -225,14 +230,14 @@ const Header = () => {
                       </label>
                       <ul
                         tabIndex={0}
-                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52"
+                        className="menu menu-compact top-[65px] rounded-lg dropdown-content p-2 shadow bg-base-100 w-52 z-[9999]"
                       >
                         <li>
                           <Link to="/">Home</Link>
                         </li>
                         <li onClick={() => setIsOpen(!isOpen)} className="">
                           <div className="flex justify-between">
-                            <Link to="/product">Store</Link>
+                            <Link to="/products">Store</Link>
                             {isOpen ? (
                               <FaAngleUp color="#fff" />
                             ) : (
@@ -241,11 +246,12 @@ const Header = () => {
                           </div>
                         </li>
                         {isOpen && (
-                          <ul className="mobile_dropdown ml-[25px]">
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
-                            <li className="">item 1</li>
+                          <ul className="mobile_dropdown ml-[25px] h-96 overflow-auto">
+                            {proCats?.map((cat) => (
+                              <li key={cat?._id} className="capitalize">
+                                {cat?.title}
+                              </li>
+                            ))}
                           </ul>
                         )}
                         <li className="block md:hidden">
@@ -282,116 +288,24 @@ const Header = () => {
                   <NavLink to="/">Home</NavLink>
                   <ul>
                     <li className="mega-menu relative flex gap-1 text-[#000]">
-                      <NavLink className="" to="">
+                      <NavLink className="" to="/products">
                         Store
                       </NavLink>
                       <FaAngleDown color="#fff" />
                       <div className="mega-menu-wrapper box_shadow rounded-[5px]">
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[40px] py-[50px] px-[90px] max-h-[400px] overflow-auto">
-                          <div className="single_menu">
-                            <img
-                              className="w-full h-[130px] rounded-[3px] object-cover"
-                              src="./assets/images/banner/215112.jpg"
-                              alt=""
-                            />
-                            <div className="single_menu mt-[28px] px-[15px]">
-                              <h4 className="logo_color leading-[29px] mb-[12px]">
-                                Collection Name
+                          {proCats?.map((cat) => (
+                            <div key={cat?._id} className="single_menu">
+                              <img
+                                className="w-full h-[200px] rounded-[3px] object-fill"
+                                src={cat?.images[0]?.url}
+                                alt=""
+                              />
+                              <h4 className="mt-[10px] text-white hover:text-[#38b5fe] duration-300 px-[10px] leading-[29px] mb-[12px] capitalize">
+                                {cat?.title}
                               </h4>
-                              <ul className="font_g_book text-[16px]">
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                              </ul>
                             </div>
-                          </div>
-                          <div className="single_menu">
-                            <img
-                              className="w-full h-[130px] rounded-[3px] object-cover"
-                              src="./assets/images/banner/215112.jpg"
-                              alt=""
-                            />
-                            <div className="single_menu mt-[28px] px-[15px]">
-                              <h4 className="logo_color leading-[29px] mb-[12px]">
-                                Collection Name
-                              </h4>
-                              <ul className="font_g_book text-[16px]">
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="single_menu">
-                            <img
-                              className="w-full h-[130px] rounded-[3px] object-cover"
-                              src="./assets/images/banner/215112.jpg"
-                              alt=""
-                            />
-                            <div className="single_menu mt-[28px] px-[15px]">
-                              <h4 className="logo_color leading-[29px] mb-[12px]">
-                                Collection Name
-                              </h4>
-                              <ul className="font_g_book text-[16px]">
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div className="single_menu">
-                            <img
-                              className="w-full h-[130px] rounded-[3px] object-cover"
-                              src="./assets/images/banner/215112.jpg"
-                              alt=""
-                            />
-                            <div className="single_menu mt-[28px] px-[15px]">
-                              <h4 className="logo_color leading-[29px] mb-[12px]">
-                                Collection Name
-                              </h4>
-                              <ul className="font_g_book text-[16px]">
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                                <li className="mb-[5px]">
-                                  {" "}
-                                  <NavLink to="">Items 1</NavLink>{" "}
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     </li>

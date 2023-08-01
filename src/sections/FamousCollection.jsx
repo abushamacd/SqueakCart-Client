@@ -58,7 +58,7 @@ const FamousCollection = () => {
             key={product?._id}
             className="famous_product md:w-1/4  py-[20px]"
           >
-            <Link to={"/"}>
+            <Link to={`/products/${product?._id}`}>
               <div className="slider overflow-hidden box_shadow relative rounded-xl h-[400px]">
                 <img
                   className="w-full duration-300 h-full object-cover rounded-xl"

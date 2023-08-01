@@ -66,13 +66,13 @@ const FeaturedCollection = () => {
               {/* <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
                 tag
               </div> */}
-              <div className="wishlist absolute right-[2%]  top-[7%] ">
+              <button className="wishlist absolute right-[2%]  top-[7%] ">
                 <img
                   className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
                   src="/images/wish.svg"
                   alt=""
                 />
-              </div>
+              </button>
               <div className="action_bar absolute top-[16%] flex flex-col gap-[5px]">
                 <Link to="/">
                   <img
@@ -96,7 +96,7 @@ const FeaturedCollection = () => {
                   />
                 </Link>
               </div>
-              <Link to="/product/:id">
+              <Link to={`/products/${product?._id}`}>
                 <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">
                   <img
                     className="rounded-xl bg-center  "
@@ -104,30 +104,28 @@ const FeaturedCollection = () => {
                     alt="product"
                   />
                 </div>
-              </Link>
-              <div className="product_info">
-                <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
-                  {product?.brand?.title}
-                </h6>
-                <Link to="/product/:id">
+                <div className="product_info">
+                  <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
+                    {product?.brand?.title}
+                  </h6>
                   <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px]">
                     {product?.title}
                   </h2>
-                </Link>
-                <div className="flex justify-between items-center">
-                  <ReactStars
-                    count={5}
-                    className="my-[10px]"
-                    size={20}
-                    value={3}
-                    edit={false}
-                    activeColor="#ffd700"
-                  />
-                  <p className="product_price product_brand">
-                    $ <span className="font-bold">{product?.price}</span>{" "}
-                  </p>
+                  <div className="flex justify-between items-center">
+                    <ReactStars
+                      count={5}
+                      className="my-[10px]"
+                      size={20}
+                      value={3}
+                      edit={false}
+                      activeColor="#ffd700"
+                    />
+                    <p className="product_price product_brand">
+                      $ <span className="font-bold">{product?.price}</span>{" "}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         ))}

@@ -69,11 +69,13 @@ const SpecialProducts = () => {
                     {product?.images?.map((image) => (
                       <div key={image._id} className="">
                         <div className="product_image h-[300px] flex justify-center items-center overflow-hidden rounded-xl">
-                          <img
-                            className="rounded-xl bg-center  "
-                            src={image?.url}
-                            alt="product"
-                          />
+                          <Link to={`/products/${product?._id}`}>
+                            <img
+                              className="rounded-xl bg-center  "
+                              src={image?.url}
+                              alt="product"
+                            />
+                          </Link>
                         </div>
                       </div>
                     ))}
@@ -113,7 +115,7 @@ const SpecialProducts = () => {
                   <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
                     {product?.brand?.title}
                   </h6>
-                  <Link to="/">
+                  <Link to={`/products/${product?._id}`}>
                     <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px] ">
                       {product?.title}
                     </h2>
