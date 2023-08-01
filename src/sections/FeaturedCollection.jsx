@@ -57,7 +57,7 @@ const FeaturedCollection = () => {
         <h4 className="section_title">Featured Collections</h4>
       </div>
       <Slider {...settings}>
-        {featuredProducts.map((product) => (
+        {featuredProducts?.map((product) => (
           <div
             key={product?._id}
             className="product min-h-[380px] md:w-1/5 relative"

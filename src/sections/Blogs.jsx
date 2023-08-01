@@ -3,6 +3,7 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Slider from "react-slick";
 import { useGetBlogsQuery } from "../redux/features/blog/blogApi";
 import Loading from "../components/Loading";
+import { Link } from "react-router-dom";
 
 const Blogs = () => {
   const { data: blogData, isLoading: blogIsLoading } = useGetBlogsQuery();
@@ -66,7 +67,7 @@ const Blogs = () => {
         <div className="blog relative mx-auto">
           <Slider {...settings}>
             {blogs?.map((blog) => (
-              <div key={blog} className="py-4 md:w-1/4">
+              <div key={blog?._id} className="py-4 md:w-1/4">
                 <div className="blog box_shadow rounded-xl">
                   <img
                     className="rounded-xl mb-[10px] w-full h-[170px]"
@@ -82,7 +83,7 @@ const Blogs = () => {
                         {new Date(blog?.date)?.getDate()}
                       </span>
                     </div>
-                    <div className="flex-grow pl-6">
+                    <div className="flex-grow pl-6 pr-2">
                       <h2 className="tracking-widest text-xs title-font uppercase mb-1 ">
                         {blog?.category[0]?.title}
                       </h2>
@@ -103,9 +104,12 @@ const Blogs = () => {
                               : blog?.description,
                         }}
                       ></div>
-                      <button className="first_button flex items-center duration-300 btn-sm product_option rounded-full my-[10px] ">
+                      <Link
+                        to={`/blogs/${blog?._id}`}
+                        className="first_button flex items-center w-36 duration-300 rounded-full py-[8px] px-[20px] font-medium my-[10px] "
+                      >
                         Read more <HiOutlineArrowNarrowRight className="ml-2" />
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>

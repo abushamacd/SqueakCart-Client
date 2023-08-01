@@ -17,7 +17,7 @@ import Forget from "../pages/User/Forget";
 import Reset from "../pages/User/Reset";
 import Store from "../pages/Store";
 import ProductDetails from "../pages/ProductDetails";
-import Blogs from "../sections/Blogs";
+import Blogs from "../pages/Blogs";
 import BlogDetails from "../pages/BlogDetails";
 import CompareProducts from "../pages/CompareProducts";
 import Wishlist from "../pages/Wishlist";

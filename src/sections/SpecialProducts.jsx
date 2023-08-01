@@ -60,7 +60,7 @@ const SpecialProducts = () => {
         <h4 className="section_title">Special Products</h4>
       </div>
       <Slider {...product_settings}>
-        {specialProducts.map((product) => (
+        {specialProducts?.map((product) => (
           <div key={product._id} className="py-[10px] ">
             <div className="special_product md:pr-[20px] md:px-0 px-[10px] ">
               <div className="special_product_inner rounded-xl bg-white box_shadow flex md:flex-row flex-col gap-[20px] p-[20px]">

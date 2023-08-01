@@ -2,9 +2,23 @@ import React from "react";
 import BreadCrumb from "../components/BreadCrumb";
 import Head from "../components/Head";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetBlogQuery } from "../redux/features/blog/blogApi";
+import Loading from "../components/Loading";
 
 const BlogDetails = () => {
+  const params = useParams();
+
+  const { data: blogData, isLoading: blogIsLoading } = useGetBlogQuery(
+    params?.id
+  );
+  const blog = blogData?.data;
+  console.log(blog);
+
+  if (blogIsLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head title="Blog Title ||" />
@@ -37,27 +51,18 @@ const BlogDetails = () => {
             </div>
             <div className="md:w-[80%] w-full">
               <div className="blog_details">
-                <h2 className="text-xl font-bold">Blog Title</h2>
+                <h2 className="text-xl font-bold">{blog?.title}</h2>
                 <img
-                  className="rounded-xl my-[15px] w-full h-[300px] border"
-                  src="images/camera.jpg"
+                  className="rounded-xl my-[15px] w-full h-[500px] border"
+                  src={blog?.images[0]?.url}
                   alt="blog images"
                 />
-                <p className="text-sm">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Reiciendis ea magni corporis distinctio dolores reprehenderit
-                  quod ut similique nemo, ex possimus aliquid dignissimos
-                  laborum debitis. Quidem cumque, velit aliquam eos voluptatibus
-                  minus similique voluptatem! Quasi ipsam laborum iste ab
-                  officia inventore quod, repudiandae error dolorum rerum!
-                  Maiores ipsa commodi culpa quae saepe animi eius maxime eum
-                  esse magnam minus doloremque, a vel, in tenetur optio ducimus
-                  neque facere odio, sed quis? Nisi, labore! Repellendus dolore
-                  consequuntur quibusdam quia numquam soluta maiores velit sit
-                  obcaecati nisi optio quis facilis ipsam corrupti porro
-                  perspiciatis odio officiis repudiandae inventore animi
-                  laborum, pariatur vel.
-                </p>
+                <div
+                  className="text-sm desc_show min-h-[80px]  border-b"
+                  dangerouslySetInnerHTML={{
+                    __html: blog?.description,
+                  }}
+                ></div>
                 <div className="blog_about flex gap-[30px] my-[20px]">
                   <p className="date text-sm text-gray-500"> 12, April 2023 </p>
                   <p className="author text-sm text-gray-500"> Author </p>
