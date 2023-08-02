@@ -8,7 +8,7 @@ import Loading from "../components/Loading";
 
 const FeaturedCollection = () => {
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
   const featuredProducts = products?.filter((product) =>
     product?.tag?.includes("featured")

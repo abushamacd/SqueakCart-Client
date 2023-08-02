@@ -66,7 +66,7 @@ const ProductList = () => {
 
   // Redux Hooks
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
 
   const [

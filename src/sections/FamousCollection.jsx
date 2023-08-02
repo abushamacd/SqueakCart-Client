@@ -6,7 +6,7 @@ import Loading from "../components/Loading";
 
 const FamousCollection = () => {
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
   const famousProducts = products?.filter((product) =>
     product?.tag?.includes("Famous")

@@ -7,7 +7,7 @@ import Loading from "../components/Loading";
 
 const PopularCollection = () => {
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
 
   if (productIsLoading || !Array.isArray(products)) {

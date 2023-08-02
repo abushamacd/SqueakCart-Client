@@ -3,14 +3,28 @@ import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
+import { useDispatch, useSelector } from "react-redux";
+import { setMeta } from "../redux/features/product/productSlice";
 
 const StoreProducts = () => {
+  const dispatch = useDispatch();
+  const { limit, page, sortOrder, sortBy } = useSelector(
+    (state) => state.product
+  );
+
+  const query = `?&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&page=${page}`;
+
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: query });
   const products = productData?.data?.data;
+  const meta = productData?.data?.meta;
+
+  if (meta) {
+    dispatch(setMeta(meta));
+  }
 
   if (productIsLoading) {
-    <Loading />;
+    return <Loading />;
   }
 
   return (

@@ -2,70 +2,20 @@ import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
+import { useGetBrandsQuery } from "../redux/features/brand/brandApi";
+import { useGetColorsQuery } from "../redux/features/color/colorApi";
+import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
 
 const StoreSidebar = () => {
-  const { data: productData } = useGetProductsQuery();
-  const products = productData?.data?.data;
+  const { data: categoryData, isLoading: categoryIsLoading } =
+    useGetProCatsQuery();
+  const categories = categoryData?.data?.data;
 
-  let categories = [];
-  for (let i = 0; i < products?.length; i++) {
-    const isExist = categories.find(
-      (category) => category?._id === products[i].category[0]?._id
-    );
+  const { data: colorData, isLoading: colorIsLoading } = useGetColorsQuery();
+  const colors = colorData?.data?.data;
 
-    if (!isExist) {
-      categories.push(...products[i].category);
-    }
-  }
-
-  let allStatus = [];
-  for (let i = 0; i < products?.length; i++) {
-    const isExist = allStatus.find((status) => status === products[i].status);
-
-    if (!isExist) {
-      allStatus.push(products[i].status);
-    }
-  }
-
-  let colors = [];
-  products?.forEach((product) => {
-    product?.color.forEach((color) => {
-      const isExist = colors?.find((c) => c?._id === color?._id);
-      if (!isExist) {
-        colors.push(color);
-      }
-    });
-  });
-
-  let brands = [];
-  for (let i = 0; i < products?.length; i++) {
-    const isExist = brands.find(
-      (brand) => brand?._id === products[i].brand?._id
-    );
-
-    if (!isExist) {
-      brands.push(products[i].brand);
-    }
-  }
-
-  let tags = [];
-  products?.forEach((product) => {
-    product?.tag.forEach((tag) => {
-      const isExist = tags?.find((t) => t === tag);
-      if (!isExist) {
-        tags.push(tag);
-      }
-    });
-  });
-
-  function getRandomProducts(products, count) {
-    const shuffledArray = products?.slice().sort(() => Math.random() - 0.5);
-    return shuffledArray?.slice(0, count);
-  }
-
-  const randomProducts = getRandomProducts(products, 3);
-
-  console.log(randomProducts);
+  const { data: brandData, isLoading: brandIsLoading } = useGetBrandsQuery();
+  const brands = brandData?.data?.data;
 
   return (
     <div>
@@ -99,24 +49,32 @@ const StoreSidebar = () => {
         <div className="sub_filter mb-[15px]">
           <h5 className="sub_filter_title">Availability</h5>
           <ul className="filte_menu">
-            {allStatus?.map((status, i) => (
-              <li
-                key={i}
-                className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium "
-              >
-                <div className="flex items-center">
-                  <input
-                    id="link-checkbox"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
-                  />
-                  <label htmlFor="link-checkbox" className="ml-2 capitalize ">
-                    {status}
-                  </label>
-                </div>
-              </li>
-            ))}
+            <li className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium ">
+              <div className="flex items-center">
+                <input
+                  id="link-checkbox"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
+                />
+                <label htmlFor="link-checkbox" className="ml-2 capitalize ">
+                  In Stock
+                </label>
+              </div>
+            </li>
+            <li className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium ">
+              <div className="flex items-center">
+                <input
+                  id="link-checkbox"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
+                />
+                <label htmlFor="link-checkbox" className="ml-2 capitalize ">
+                  Out of Stock
+                </label>
+              </div>
+            </li>
           </ul>
         </div>
         <div className="sub_filter mb-[15px]">
@@ -181,7 +139,7 @@ const StoreSidebar = () => {
           </ul>
         </div>
       </div>
-      <div className="bytag filter_card bg-white p-[20px] rounded-xl box_shadow ">
+      {/* <div className="bytag filter_card bg-white p-[20px] rounded-xl box_shadow ">
         <h4 className="filter_title capitalize">Product Tag</h4>
         <div className="product_tag flex flex-wrap gap-[10px]">
           {tags?.map((tag, i) => (
@@ -193,11 +151,11 @@ const StoreSidebar = () => {
             </button>
           ))}
         </div>
-      </div>
-      <div className="random_products filter_card bg-white p-[20px] rounded-xl box_shadow ">
+      </div> */}
+      {/* <div className="random_products filter_card bg-white p-[20px] rounded-xl box_shadow ">
         <h4 className="filter_title capitalize">Random Products</h4>
         {randomProducts?.map((product) => (
-          <Link to={`/products/${product?._id}`}>
+          <Link key={product?._id} to={`/products/${product?._id}`}>
             <div className="random_product flex gap-[10px] border-b py-2">
               <img
                 className="w-[80px] h-full rounded-md"
@@ -228,7 +186,7 @@ const StoreSidebar = () => {
             </div>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

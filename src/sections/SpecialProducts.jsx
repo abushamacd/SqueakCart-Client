@@ -7,7 +7,7 @@ import { useGetProductsQuery } from "../redux/features/product/productApi";
 
 const SpecialProducts = () => {
   const { data: productData, isLoading: productIsLoading } =
-    useGetProductsQuery();
+    useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
   const specialProducts = products?.filter((product) =>
     product?.tag?.includes("special")
