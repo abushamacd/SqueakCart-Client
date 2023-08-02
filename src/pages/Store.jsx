@@ -11,7 +11,7 @@ const Store = () => {
     <>
       <Head title="Store ||" />
       <div className="">
-        <BreadCrumb title="Our Store" />
+        <BreadCrumb title="All Products" />
         <div className="body_wrapper ">
           <div className="flex gap-[20px] layout p-[20px]">
             <div className="filter_options hidden md:block w-[20%]">

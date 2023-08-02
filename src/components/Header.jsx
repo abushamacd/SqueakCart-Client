@@ -22,7 +22,6 @@ const Header = () => {
   const { user } = useSelector((state) => state.auth);
   const { data: getData } = useGetProCatsQuery();
   const proCats = getData?.data?.data;
-  console.log(proCats);
 
   const handleSignout = () => {
     localStorage.removeItem("token");

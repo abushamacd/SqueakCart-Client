@@ -1,6 +1,10 @@
 import React from "react";
+import { useGetProductsQuery } from "../redux/features/product/productApi";
 
 const StoreHeader = () => {
+  const { data: productData } =
+    useGetProductsQuery();
+  const products = productData?.data?.data;
   return (
     <div className="store_header flex justify-between items-center bg-white p-2 rounded-xl box_shadow">
       <div className="flex items-center gap-[15px]">
@@ -9,15 +13,15 @@ const StoreHeader = () => {
           {/* <option disabled selected>
             Pick your favorite Simpson
           </option> */}
-          <option>Best Selling</option>
-          <option>New Arrivals</option>
-          <option>Bart</option>
-          <option>Lisa</option>
-          <option>Maggie</option>
+          <option>Accending</option>
+          <option>Desending</option>
+          <option>Title</option>
         </select>
       </div>
       <div className="">
-        <h4 className="store_header_text text-xs ">22 Products</h4>
+        <h4 className="store_header_text text-xs ">
+          {products?.length} Products
+        </h4>
       </div>
     </div>
   );
