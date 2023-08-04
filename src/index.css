@@ -562,7 +562,6 @@ input[type="number"]::-webkit-outer-spin-button {
   text-transform: capitalize;
   letter-spacing: 0.8px;
   color: var(--color_131921);
-  margin-bottom: 20px;
 }
 
 .filter_card {

@@ -10,6 +10,11 @@ const initialState = {
   sortBy: "createdAt",
   sortOrder: "desc",
   meta: {},
+  queryCat: null,
+  queryBrand: null,
+  queryStatus: null,
+  queryColor: null,
+  products: null,
 };
 
 const userSlice = createSlice({
@@ -49,6 +54,21 @@ const userSlice = createSlice({
     setMeta: (state, action) => {
       state.meta = action.payload;
     },
+    setQueryCat: (state, action) => {
+      state.queryCat = action.payload;
+    },
+    setQueryBrand: (state, action) => {
+      state.queryBrand = action.payload;
+    },
+    setQueryStatus: (state, action) => {
+      state.queryStatus = action.payload;
+    },
+    setQueryColor: (state, action) => {
+      state.queryColor = action.payload;
+    },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
   },
 });
 
@@ -64,6 +84,11 @@ export const {
   setSortBy,
   setSortOrder,
   setMeta,
+  setQueryCat,
+  setQueryBrand,
+  setQueryStatus,
+  setQueryColor,
+  setProducts,
 } = userSlice.actions;
 
 export default userSlice.reducer;

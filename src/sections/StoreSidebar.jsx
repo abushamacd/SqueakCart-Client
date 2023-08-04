@@ -5,11 +5,45 @@ import { useGetProductsQuery } from "../redux/features/product/productApi";
 import { useGetBrandsQuery } from "../redux/features/brand/brandApi";
 import { useGetColorsQuery } from "../redux/features/color/colorApi";
 import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setQueryBrand,
+  setQueryCat,
+  setQueryColor,
+  setQueryStatus,
+} from "../redux/features/product/productSlice";
+import { RiDeleteBack2Line } from "react-icons/ri";
 
 const StoreSidebar = () => {
+  const dispatch = useDispatch();
+
+  const {
+    limit,
+    page,
+    sortOrder,
+    sortBy,
+    queryCat,
+    queryBrand,
+    queryStatus,
+    queryColor,
+    products,
+  } = useSelector((state) => state.product);
   const { data: categoryData, isLoading: categoryIsLoading } =
     useGetProCatsQuery();
   const categories = categoryData?.data?.data;
+
+  console.log(products);
+
+  // let categories = [];
+  // for (let i = 0; i < products?.length; i++) {
+  //   const isExist = categories.find(
+  //     (category) => category?._id === products[i].category[0]?._id
+  //   );
+
+  //   if (!isExist) {
+  //     categories.push(...products[i].category);
+  //   }
+  // }
 
   const { data: colorData, isLoading: colorIsLoading } = useGetColorsQuery();
   const colors = colorData?.data?.data;
@@ -20,22 +54,33 @@ const StoreSidebar = () => {
   return (
     <div>
       <div className="bycatagory filter_card bg-white p-[20px] rounded-xl box_shadow ">
-        <h4 className="filter_title capitalize">Shop By Categories</h4>
-        <div className="">
+        <div className="flex justify-between items-center">
+          <h4 className="filter_title capitalize">Shop By Categories</h4>
+          <span>
+            <RiDeleteBack2Line
+              onClick={() => dispatch(setQueryCat(null))}
+              color="red"
+              size={20}
+            />
+          </span>
+        </div>
+        <div className="mt-[20px]">
           <ul className="filte_menu max-h-[200px] overflow-auto ">
-            {categories?.map((category) => (
+            {categories?.map((category, i) => (
               <li
                 key={category?._id}
                 className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium "
               >
                 <div className="flex items-center">
                   <input
-                    id="link-checkbox"
+                    id={`category-${i}`}
                     type="checkbox"
-                    value=""
+                    value={category?._id}
+                    checked={category?._id === queryCat}
+                    onChange={(e) => dispatch(setQueryCat(e.target.value))}
                     className="w-4 h-4 rounded"
                   />
-                  <label htmlFor="link-checkbox" className="ml-2 ">
+                  <label htmlFor={`category-${i}`} className="ml-2 ">
                     {category?.title}
                   </label>
                 </div>
@@ -52,12 +97,13 @@ const StoreSidebar = () => {
             <li className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium ">
               <div className="flex items-center">
                 <input
-                  id="link-checkbox"
+                  id={`In Stock`}
+                  onChange={(e) => dispatch(setQueryStatus(e.target.value))}
                   type="checkbox"
-                  value=""
+                  value="available"
                   className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
                 />
-                <label htmlFor="link-checkbox" className="ml-2 capitalize ">
+                <label htmlFor={`In Stock`} className="ml-2 capitalize ">
                   In Stock
                 </label>
               </div>
@@ -65,12 +111,13 @@ const StoreSidebar = () => {
             <li className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium ">
               <div className="flex items-center">
                 <input
-                  id="link-checkbox"
+                  id={`Out of Stock`}
+                  onChange={(e) => dispatch(setQueryStatus(e.target.value))}
                   type="checkbox"
-                  value=""
+                  value="unavailable"
                   className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
                 />
-                <label htmlFor="link-checkbox" className="ml-2 capitalize ">
+                <label htmlFor={`Out of Stock`} className="ml-2 capitalize ">
                   Out of Stock
                 </label>
               </div>
@@ -108,6 +155,7 @@ const StoreSidebar = () => {
           <div className="flex flex-wrap">
             {colors?.map((color, i) => (
               <button
+                onClick={() => dispatch(setQueryColor(color?._id))}
                 style={{ backgroundColor: `${color.code}` }}
                 key={i}
                 className={`ml-1 m-1 rounded-full w-6 h-6 focus:outline-none`}
@@ -118,19 +166,20 @@ const StoreSidebar = () => {
         <div className="sub_filter mb-[15px]">
           <h5 className="sub_filter_title">Brands</h5>
           <ul className="filte_menu  max-h-[200px] overflow-auto">
-            {brands?.map((brand) => (
+            {brands?.map((brand, i) => (
               <li
                 key={brand?._id}
                 className="filter_menu_item text-[13px] leading-[28px] capitalize font-medium "
               >
                 <div className="flex items-center">
                   <input
-                    id="link-checkbox"
+                    id={`brand-${i}`}
                     type="checkbox"
-                    value=""
+                    value={brand?._id}
+                    onChange={(e) => dispatch(setQueryBrand(e.target.value))}
                     className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
                   />
-                  <label htmlFor="link-checkbox" className="ml-2 ">
+                  <label htmlFor={`brand-${i}`} className="ml-2 ">
                     {brand?.title}
                   </label>
                 </div>
