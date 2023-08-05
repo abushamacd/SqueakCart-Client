@@ -18,13 +18,17 @@ const StoreProducts = () => {
     queryStatus,
     queryColor,
     searchTerm,
+    minPrice,
+    maxPrice,
   } = useSelector((state) => state.product);
 
   const query = `?&searchTerm=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&page=${page}&${
     queryCat && `category=${queryCat}`
   }&${queryBrand && `brand=${queryBrand}`}&${
     queryStatus && `status=${queryStatus}`
-  }&${queryColor && `color=${queryColor}`}`;
+  }&${queryColor && `color=${queryColor}`}&${
+    minPrice && `minPrice=${minPrice}`
+  }&${maxPrice && `maxPrice=${maxPrice}`}`;
 
   const { data: productData, isLoading: productIsLoading } =
     useGetProductsQuery({ data: query });

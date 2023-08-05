@@ -4,6 +4,8 @@ import { useGetColorsQuery } from "../redux/features/color/colorApi";
 import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setMaxPrice,
+  setMinPrice,
   setQueryBrand,
   setQueryCat,
   setQueryColor,
@@ -72,6 +74,7 @@ const StoreSidebar = () => {
       </div>
       <div className="byfilter filter_card bg-white p-[20px] rounded-xl box_shadow ">
         <h4 className="filter_title capitalize">Filter By</h4>
+        {/* status */}
         <div className="sub_filter my-[15px]">
           <div className="flex justify-between items-center">
             <h5 className="sub_filter_title">Availability</h5>
@@ -116,6 +119,7 @@ const StoreSidebar = () => {
             </li>
           </ul>
         </div>
+        {/* price */}
         <div className="sub_filter mb-[15px]">
           <h5 className="sub_filter_title">Price</h5>
           <div className="price_range flex justify-between items-center">
@@ -124,8 +128,9 @@ const StoreSidebar = () => {
                 <span className="label-text">$</span>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="From"
+                onChange={(e) => dispatch(setMinPrice(e.target.value))}
                 className="input text-sm p-[5px] h-[2rem] input-bordered w-20 "
               />
             </div>
@@ -135,13 +140,15 @@ const StoreSidebar = () => {
                 <span className="label-text">$</span>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="To"
+                onChange={(e) => dispatch(setMaxPrice(e.target.value))}
                 className="input text-sm p-[5px] h-[2rem] input-bordered w-20 "
               />
             </div>
           </div>
         </div>
+        {/* colors */}
         <div className="sub_filter mb-[15px]">
           <div className="flex justify-between items-center">
             <h5 className="sub_filter_title">Colors</h5>
@@ -166,6 +173,7 @@ const StoreSidebar = () => {
             ))}
           </div>
         </div>
+        {/* brands */}
         <div className="sub_filter mb-[15px]">
           <div className="flex justify-between items-center">
             <h5 className="sub_filter_title">Brands</h5>

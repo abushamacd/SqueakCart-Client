@@ -10,11 +10,13 @@ const initialState = {
   sortBy: "createdAt",
   sortOrder: "desc",
   meta: {},
+  searchTerm: "",
   queryCat: null,
   queryBrand: null,
   queryStatus: null,
   queryColor: null,
-  searchTerm: "",
+  minPrice: null,
+  maxPrice: null,
 };
 
 const userSlice = createSlice({
@@ -69,6 +71,12 @@ const userSlice = createSlice({
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
     },
+    setMinPrice: (state, action) => {
+      state.minPrice = action.payload;
+    },
+    setMaxPrice: (state, action) => {
+      state.maxPrice = action.payload;
+    },
   },
 });
 
@@ -89,6 +97,8 @@ export const {
   setQueryStatus,
   setQueryColor,
   setSearchTerm,
+  setMinPrice,
+  setMaxPrice,
 } = userSlice.actions;
 
 export default userSlice.reducer;
