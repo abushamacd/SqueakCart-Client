@@ -5,7 +5,7 @@ const initialState = {
   tag: [],
   color: [],
   productImages: [],
-  limit: 20,
+  limit: 15,
   page: 1,
   sortBy: "createdAt",
   sortOrder: "desc",
@@ -14,7 +14,7 @@ const initialState = {
   queryBrand: null,
   queryStatus: null,
   queryColor: null,
-  products: null,
+  searchTerm: "",
 };
 
 const userSlice = createSlice({
@@ -66,8 +66,8 @@ const userSlice = createSlice({
     setQueryColor: (state, action) => {
       state.queryColor = action.payload;
     },
-    setProducts: (state, action) => {
-      state.products = action.payload;
+    setSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
     },
   },
 });
@@ -88,7 +88,7 @@ export const {
   setQueryBrand,
   setQueryStatus,
   setQueryColor,
-  setProducts,
+  setSearchTerm,
 } = userSlice.actions;
 
 export default userSlice.reducer;

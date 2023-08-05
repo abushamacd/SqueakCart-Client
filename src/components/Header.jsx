@@ -14,6 +14,9 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/features/auth/authSlice";
 import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
+import { setSearchTerm } from "../redux/features/product/productSlice";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +31,30 @@ const Header = () => {
     dispatch(logout());
   };
 
+  let formSchema = Yup.object().shape({
+    searchTerm: Yup.string().required("Write something"),
+  });
+  const formik = useFormik({
+    initialValues: {
+      searchTerm: "",
+    },
+
+    validationSchema: formSchema,
+
+    onSubmit: (values) => {
+      dispatch(setSearchTerm(values.searchTerm));
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const closeSearch = () => {
+    setOpenSearch(!openSearch);
+    dispatch(setSearchTerm(""));
+  };
+
   return (
     <header className={``}>
       {/* Search bar */}
@@ -37,23 +64,32 @@ const Header = () => {
           openSearch && "active"
         } md:px-[70px] px-[20px] h-[105px] flex justify-between items-center absolute bg-[#131921] z-[999] left-0 top-0 w-full`}
       >
-        <form className="flex flex-row-reverse" action="">
+        <form
+          className="flex flex-row-reverse justify-between gap-5  md:w-[950px] w-[250px]"
+          onSubmit={(e) => handleSubmit(e)}
+          onChange={formik.handleSubmit}
+        >
           <input
             type="text"
             className="text-[25px] border-0 rounded-md p-1 focus:outline-none text-gray-500 md:w-[1060px] w-[260px]"
-            name="search"
-            id="serach"
+            name="searchTerm"
+            id="searchTerm"
+            onChange={formik.handleChange("searchTerm")}
+            value={formik.values.searchTerm}
             placeholder="Search our store"
           />
           <button type="submit" className="md:mr-[50px] mr-[30px]">
-            <FiSearch size="20" color="#fff" />
+            <Link to={`/products`}>
+              <FiSearch size="20" color="#fff" />
+            </Link>
           </button>
         </form>
-        <RxCross1
-          size="20"
-          onClick={() => setOpenSearch(!openSearch)}
-          color="#fff"
-        />
+        <RxCross1 size="20" onClick={closeSearch} color="#fff" />
+        {formik.touched.searchTerm && formik.errors.searchTerm ? (
+          <div className="formik_err absolute bottom-0 mb-[-25px] text-sm text-white">
+            {formik.errors.searchTerm}
+          </div>
+        ) : null}
       </div>
 
       <div className="header_top py-1 ">

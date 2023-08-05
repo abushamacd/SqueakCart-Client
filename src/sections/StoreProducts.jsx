@@ -4,7 +4,7 @@ import ReactStars from "react-rating-stars-component";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { setMeta, setProducts } from "../redux/features/product/productSlice";
+import { setMeta } from "../redux/features/product/productSlice";
 
 const StoreProducts = () => {
   const dispatch = useDispatch();
@@ -17,11 +17,10 @@ const StoreProducts = () => {
     queryBrand,
     queryStatus,
     queryColor,
+    searchTerm,
   } = useSelector((state) => state.product);
 
-  queryColor && console.log(`color=${queryColor}`);
-
-  const query = `?&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&page=${page}&${
+  const query = `?&searchTerm=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&page=${page}&${
     queryCat && `category=${queryCat}`
   }&${queryBrand && `brand=${queryBrand}`}&${
     queryStatus && `status=${queryStatus}`
@@ -35,11 +34,6 @@ const StoreProducts = () => {
   if (meta) {
     dispatch(setMeta(meta));
   }
-  if (products) {
-    dispatch(setProducts(products));
-  }
-
-  console.log("first");
 
   if (productIsLoading) {
     return <Loading />;
@@ -54,6 +48,11 @@ const StoreProducts = () => {
             className="product min-h-[380px] md:w-[19%] w-[48%] relative"
           >
             <div className="product_inner bg-white rounded-xl box_shadow min-h-[340px] my-[20px] p-4">
+              {product?.status === "unavailable" && (
+                <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
+                  <p className="">Out of stock</p>
+                </div>
+              )}
               <div className="wishlist absolute right-[2%]  top-[7%] ">
                 <img
                   className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
