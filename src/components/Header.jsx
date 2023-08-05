@@ -14,7 +14,10 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/features/auth/authSlice";
 import { useGetProCatsQuery } from "../redux/features/proCat/proCatApi";
-import { setSearchTerm } from "../redux/features/product/productSlice";
+import {
+  setQueryCat,
+  setSearchTerm,
+} from "../redux/features/product/productSlice";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
@@ -162,9 +165,16 @@ const Header = () => {
                         {isOpen && (
                           <ul className="mobile_dropdown ml-[25px] h-96 overflow-auto">
                             {proCats?.map((cat) => (
-                              <li key={cat?._id} className="capitalize">
-                                {cat?.title}
-                              </li>
+                              <Link key={cat?._id} to={`/products`}>
+                                <li
+                                  onClick={() =>
+                                    dispatch(setQueryCat(cat?._id))
+                                  }
+                                  className="capitalize"
+                                >
+                                  {cat?.title}
+                                </li>
+                              </Link>
                             ))}
                           </ul>
                         )}
@@ -330,16 +340,21 @@ const Header = () => {
                       <div className="mega-menu-wrapper box_shadow rounded-[5px]">
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[40px] py-[50px] px-[90px] max-h-[400px] overflow-auto">
                           {proCats?.map((cat) => (
-                            <div key={cat?._id} className="single_menu">
-                              <img
-                                className="w-full h-[200px] rounded-[3px] object-fill"
-                                src={cat?.images[0]?.url}
-                                alt=""
-                              />
-                              <h4 className="mt-[10px] text-white hover:text-[#38b5fe] duration-300 px-[10px] leading-[29px] mb-[12px] capitalize">
-                                {cat?.title}
-                              </h4>
-                            </div>
+                            <Link key={cat?._id} to={`/products`}>
+                              <div
+                                onClick={() => dispatch(setQueryCat(cat?._id))}
+                                className="single_menu"
+                              >
+                                <img
+                                  className="w-full h-[200px] rounded-[3px] object-fill"
+                                  src={cat?.images[0]?.url}
+                                  alt=""
+                                />
+                                <h4 className="mt-[10px] text-white hover:text-[#38b5fe] duration-300 px-[10px] leading-[29px] mb-[12px] capitalize">
+                                  {cat?.title}
+                                </h4>
+                              </div>
+                            </Link>
                           ))}
                         </div>
                       </div>
