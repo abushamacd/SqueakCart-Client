@@ -45,7 +45,7 @@ const StoreProducts = () => {
 
   return (
     <div className="flex flex-wrap md:gap-[1%] gap-[2%]">
-      {products.length > 0 ? (
+      {products?.length > 0 ? (
         products?.map((product) => (
           <div
             key={product?._id}
@@ -64,25 +64,11 @@ const StoreProducts = () => {
                   alt=""
                 />
               </div>
-              <div className="action_bar absolute top-[16%] flex flex-col gap-[5px]">
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/prodcompare.svg"
-                    alt=""
-                  />
-                </Link>
+              <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                 <Link to="/">
                   <img
                     className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
                     src="/images/view.svg"
-                    alt=""
-                  />
-                </Link>
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/add-cart.svg"
                     alt=""
                   />
                 </Link>
@@ -103,7 +89,7 @@ const StoreProducts = () => {
                     title={product?.title}
                     className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px]"
                   >
-                    {product?.title.length > 30
+                    {product?.title?.length > 30
                       ? product?.title.slice(0, 30) + "..."
                       : product?.title}
                   </h2>
@@ -118,7 +104,7 @@ const StoreProducts = () => {
                       activeColor="#ffd700"
                     />
                     <p className="product_price product_brand">
-                      $ <span className="font-bold">{product?.price}</span>{" "}
+                      $ <span className="font-bold">{product?.price}</span>
                     </p>
                   </div>
                 </div>

@@ -63,9 +63,11 @@ const FeaturedCollection = () => {
             className="product min-h-[380px] md:w-1/5 relative"
           >
             <div className="product_inner bg-white rounded-xl box_shadow min-h-[340px] my-[20px] p-4">
-              {/* <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
-                tag
-              </div> */}
+              {product?.status === "unavailable" && (
+                <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
+                  <p className="">Out of stock</p>
+                </div>
+              )}
               <button className="wishlist absolute right-[2%]  top-[7%] ">
                 <img
                   className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
@@ -73,14 +75,7 @@ const FeaturedCollection = () => {
                   alt=""
                 />
               </button>
-              <div className="action_bar absolute top-[16%] flex flex-col gap-[5px]">
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/prodcompare.svg"
-                    alt=""
-                  />
-                </Link>
+              <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                 <label htmlFor="my-modal-5">
                   <img
                     className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
@@ -88,13 +83,6 @@ const FeaturedCollection = () => {
                     alt=""
                   />
                 </label>
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/add-cart.svg"
-                    alt=""
-                  />
-                </Link>
               </div>
               <Link to={`/products/${product?._id}`}>
                 <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">
@@ -121,7 +109,7 @@ const FeaturedCollection = () => {
                       activeColor="#ffd700"
                     />
                     <p className="product_price product_brand">
-                      $ <span className="font-bold">{product?.price}</span>{" "}
+                      $ <span className="font-bold">{product?.price}</span>
                     </p>
                   </div>
                 </div>

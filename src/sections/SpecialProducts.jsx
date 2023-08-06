@@ -87,14 +87,7 @@ const SpecialProducts = () => {
                       alt=""
                     />
                   </div>
-                  <div className="action_bar absolute top-[11%] flex flex-col gap-[5px]">
-                    <Link to="/">
-                      <img
-                        className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                        src="/images/prodcompare.svg"
-                        alt=""
-                      />
-                    </Link>
+                  <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                     <Link to="/">
                       <img
                         className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
@@ -102,19 +95,19 @@ const SpecialProducts = () => {
                         alt=""
                       />
                     </Link>
-                    <Link to="/">
-                      <img
-                        className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                        src="/images/add-cart.svg"
-                        alt=""
-                      />
-                    </Link>
                   </div>
                 </div>
                 <div className="product_info md:w-1/2">
-                  <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
-                    {product?.brand?.title}
-                  </h6>
+                  <div className="flex justify-between">
+                    <h6 className="product_brand uppercase my-[12px] text-sm font-medium">
+                      {product?.brand?.title}
+                    </h6>
+                    {product?.status === "unavailable" && (
+                      <div className="product_tag duration-300 badge badge-warning capitalize font-medium text-xs">
+                        <p className="">Out of stock</p>
+                      </div>
+                    )}
+                  </div>
                   <Link to={`/products/${product?._id}`}>
                     <h2 className="product_title capitalize font-medium text-[15px] leading-[22px] tracking-[.3px] min-h-[50px] ">
                       {product?.title}

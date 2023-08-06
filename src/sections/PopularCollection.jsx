@@ -61,9 +61,11 @@ const PopularCollection = () => {
             className="product min-h-[380px] md:w-1/5 relative"
           >
             <div className="product_inner bg-white rounded-xl box_shadow min-h-[340px] my-[20px] p-4">
-              {/* <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
-                tag
-              </div> */}
+              {product?.status === "unavailable" && (
+                <div className="product_tag duration-300 badge badge-warning absolute top-[7%] left-[2%] capitalize font-medium text-xs">
+                  <p className="">Out of stock</p>
+                </div>
+              )}
               <div className="wishlist absolute md:right-[2%] right-[2%] top-[7%] ">
                 <img
                   className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
@@ -71,25 +73,11 @@ const PopularCollection = () => {
                   alt=""
                 />
               </div>
-              <div className="action_bar absolute top-[16%] flex flex-col gap-[5px]">
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/prodcompare.svg"
-                    alt=""
-                  />
-                </Link>
+              <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                 <Link to="/">
                   <img
                     className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
                     src="/images/view.svg"
-                    alt=""
-                  />
-                </Link>
-                <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/add-cart.svg"
                     alt=""
                   />
                 </Link>
