@@ -1,5 +1,9 @@
 import React from "react";
 import Slider from "react-slick";
+import { LiaShippingFastSolid } from "react-icons/lia";
+import { FiGift } from "react-icons/fi";
+import { BiSolidOffer, BiSupport } from "react-icons/bi";
+import { MdPayment } from "react-icons/md";
 
 const Services = () => {
   var settings = {
@@ -44,7 +48,7 @@ const Services = () => {
         <Slider {...settings}>
           <div className="">
             <div className="service flex justify-center items-center gap-[10px]">
-              <img src="/images/service.png" alt="" className="" />
+              <LiaShippingFastSolid color="#000" size={40} />
               <div className="service_info">
                 <h6 className="capitalize setvice_title font-bold ">
                   Free Shipping
@@ -57,7 +61,7 @@ const Services = () => {
           </div>
           <div className="">
             <div className="service flex justify-center items-center gap-[10px]">
-              <img src="/images/service-02.png" alt="" className="" />
+              <FiGift color="#000" size={40} />
               <div className="service_info">
                 <h6 className="capitalize setvice_title font-bold ">
                   Daily Surprise offer
@@ -70,7 +74,7 @@ const Services = () => {
           </div>
           <div className="">
             <div className="service flex justify-center items-center gap-[10px]">
-              <img src="/images/service-03.png" alt="" className="" />
+              <BiSupport color="#000" size={40} />
               <div className="service_info">
                 <h6 className="capitalize setvice_title font-bold ">
                   support 24/7
@@ -83,7 +87,7 @@ const Services = () => {
           </div>
           <div className="">
             <div className="service flex justify-center items-center gap-[10px]">
-              <img src="/images/service-04.png" alt="" className="" />
+              <BiSolidOffer color="#000" size={40} />
               <div className="service_info">
                 <h6 className="capitalize setvice_title font-bold ">
                   Afordable Price
@@ -96,7 +100,7 @@ const Services = () => {
           </div>
           <div className="">
             <div className="service flex justify-center items-center gap-[10px]">
-              <img src="/images/service-05.png" alt="" className="" />
+              <MdPayment color="#000" size={40} />
               <div className="service_info">
                 <h6 className="capitalize setvice_title font-bold ">
                   Secure Payment

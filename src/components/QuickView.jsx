@@ -18,6 +18,7 @@ import { RxDimensions } from "react-icons/rx";
 import Slider from "react-slick";
 import ReactStars from "react-rating-stars-component";
 import { useNavigate } from "react-router-dom";
+import { FiHeart } from "react-icons/fi";
 
 const QuickView = () => {
   const [copied, setCopied] = useState(false);
@@ -172,23 +173,12 @@ const QuickView = () => {
                       </div>
                       <div className="flex gap-4">
                         <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
-                          <img
-                            className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
-                            src="/images/wish.svg"
-                            alt=""
+                          <FiHeart
+                            className="duration-300 text-black p-1 rounded-full "
+                            size="24"
                           />
                           <p className="text-sm md:hidden block">
                             Add to wishlist
-                          </p>
-                        </div>
-                        <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
-                          <img
-                            className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                            src="/images/prodcompare.svg"
-                            alt=""
-                          />
-                          <p className="text-sm md:hidden block">
-                            Add to compare
                           </p>
                         </div>
                       </div>

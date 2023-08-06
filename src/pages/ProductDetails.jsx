@@ -25,6 +25,7 @@ import { useGetProductQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
 import { useAddToCartMutation } from "../redux/features/cart/cartApi";
+import { FiHeart } from "react-icons/fi";
 const httpStatus = require("http-status");
 
 const ProductDetails = () => {
@@ -267,23 +268,12 @@ const ProductDetails = () => {
                       </div>
                       <div className="flex gap-4">
                         <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
-                          <img
-                            className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
-                            src="/images/wish.svg"
-                            alt=""
+                          <FiHeart
+                            className="duration-300 text-black p-1 rounded-full "
+                            size="24"
                           />
                           <p className="text-sm md:hidden block">
                             Add to wishlist
-                          </p>
-                        </div>
-                        <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
-                          <img
-                            className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                            src="/images/prodcompare.svg"
-                            alt=""
-                          />
-                          <p className="text-sm md:hidden block">
-                            Add to compare
                           </p>
                         </div>
                       </div>

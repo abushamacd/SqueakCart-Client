@@ -7,6 +7,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import { FaRegNewspaper } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -16,7 +17,7 @@ const Footer = () => {
           <div className="footer_top py-[20px]">
             <div className="flex md:flex-row flex-col items-center justify-between gap-[20px]">
               <div className="flex items-center gap-[15px]">
-                <img src="/images/newsletter.png" alt="newsletter" />
+                <FaRegNewspaper size={30} color={"#38b5fe"} />
                 <h3 className="uppercase text-white md:text-2xl">
                   Sign up for newsletter
                 </h3>

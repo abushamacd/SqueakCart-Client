@@ -13,6 +13,7 @@ import {
 import { ImBlog } from "react-icons/im";
 import { RiCouponFill } from "react-icons/ri";
 import { SiBrandfolder } from "react-icons/si";
+import main_logo from "../assets/main_logo.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -35,11 +36,7 @@ const Sidebar = () => {
               alt="logo"
             />
           ) : (
-            <img
-              className="p-4 w-[200px] mx-auto"
-              src="images/main_logo.png"
-              alt="logo"
-            />
+            <img className="p-4 w-[200px] mx-auto" src={main_logo} alt="logo" />
           )}
         </Link>
       </div>

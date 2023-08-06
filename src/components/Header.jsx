@@ -21,6 +21,7 @@ import {
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useGetUserProfileQuery } from "../redux/features/user/userApi";
+import main_logo from "../assets/main_logo.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -200,7 +201,7 @@ const Header = () => {
                 <Link to="/" className="text-white text-2xl">
                   <img
                     className="md:w-[180px] w-[150px]"
-                    src="images/main_logo.png"
+                    src={main_logo}
                     alt=""
                   />
                 </Link>

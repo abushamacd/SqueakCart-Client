@@ -2,6 +2,7 @@ import React from "react";
 import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
 import { Link } from "react-router-dom";
+import { RxCross1 } from "react-icons/rx";
 
 const Wishlist = () => {
   const numbers = [1, 2, 3, 4, 5, 6];
@@ -17,17 +18,16 @@ const Wishlist = () => {
                 key={product}
                 className="product min-h-[380px] md:w-[19%] w-[48%] relative"
               >
-                <img
+                <RxCross1
                   className="absolute cursor-pointer duration-300 cross h-[15px] w-[15px] right-[10px] top-[30px] "
-                  src="images/cross.svg"
-                  alt=""
+                  size="24"
                 />
                 <div className="product_inner bg-white rounded-xl box_shadow min-h-[300px] my-[20px] p-4">
                   <Link to="/">
                     <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">
                       <img
                         className="rounded-xl bg-center  "
-                        src="images/watch.jpg"
+                        src="https://res.cloudinary.com/delu47omx/image/upload/v1690453303/pniug5l6jej9debzyzlj.jpg"
                         alt="product"
                       />
                     </div>

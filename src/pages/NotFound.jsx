@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import main_logo from "../assets/main_logo.png";
 
 const NotFound = () => {
   return (
@@ -23,11 +24,7 @@ const NotFound = () => {
               </Link>
             </div>
             <div class="mt-4">
-              <img
-                src="images/main_logo.png"
-                alt="img"
-                class="w-[500px] h-[200]"
-              />
+              <img src={main_logo} alt="img" class="w-[500px] h-[200]" />
             </div>
           </div>
         </div>

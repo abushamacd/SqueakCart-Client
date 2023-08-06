@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
+import { FiHeart, FiEye } from "react-icons/fi";
 
 const PopularCollection = () => {
   const { data: productData, isLoading: productIsLoading } =
@@ -67,18 +68,16 @@ const PopularCollection = () => {
                 </div>
               )}
               <div className="wishlist absolute md:right-[2%] right-[2%] top-[7%] ">
-                <img
-                  className=" bg-white h-[25px] duration-300 w-[25px] rounded-full p-[5px] "
-                  src="/images/wish.svg"
-                  alt=""
+                <FiHeart
+                  className="duration-300 text-black p-1 rounded-full "
+                  size="24"
                 />
               </div>
               <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                 <Link to="/">
-                  <img
-                    className="duration-300 bg-white h-[25px] w-[25px] rounded-full p-[5px] "
-                    src="/images/view.svg"
-                    alt=""
+                  <FiEye
+                    className="duration-300 text-black p-1 rounded-full "
+                    size="24"
                   />
                 </Link>
               </div>

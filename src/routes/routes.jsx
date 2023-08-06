@@ -19,7 +19,6 @@ import Store from "../pages/Store";
 import ProductDetails from "../pages/ProductDetails";
 import Blogs from "../pages/Blogs";
 import BlogDetails from "../pages/BlogDetails";
-import CompareProducts from "../pages/CompareProducts";
 import Wishlist from "../pages/Wishlist";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
@@ -89,10 +88,6 @@ const routes = createBrowserRouter([
       {
         path: "/blogs/:id",
         element: <BlogDetails />,
-      },
-      {
-        path: "compare",
-        element: <CompareProducts />,
       },
       {
         path: "wishlist",

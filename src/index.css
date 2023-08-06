@@ -400,8 +400,8 @@ input[type="number"]::-webkit-outer-spin-button {
   color: var(--color_232f3e);
 }
 
-.wishlist img:hover,
-.action_bar img:hover {
+.wishlist svg:hover,
+.action_bar svg:hover {
   background-color: var(--color_febd69);
 }
 
