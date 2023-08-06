@@ -30,7 +30,7 @@ const Header = () => {
   const { data: getData } = useGetProCatsQuery();
   const proCats = getData?.data?.data;
 
-  const { data: userData, isLoading: userIsLoading } = useGetUserProfileQuery();
+  const { data: userData } = useGetUserProfileQuery();
 
   const handleSignout = () => {
     localStorage.removeItem("token");
@@ -248,11 +248,13 @@ const Header = () => {
                   </div>
                 </div>
                 <div className="cart flex flex-col items-center justify-center text-white duration-300 hover:text-[#38b5fe] relative">
-                  <FiShoppingCart size="20" />
-                  <p className="text-[13px] hidden md:block">My Cart</p>
-                  <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0 text-white">
-                    {userData?.data?.cart[0]?.products?.length || 0}
-                  </div>
+                  <Link to={"/cart"}>
+                    <FiShoppingCart size="20" />
+                    <p className="text-[13px] hidden md:block">My Cart</p>
+                    <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0 text-white">
+                      {userData?.data?.cart[0]?.products?.length || 0}
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

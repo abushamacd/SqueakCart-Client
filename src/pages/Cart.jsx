@@ -3,8 +3,18 @@ import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useGetUserProfileQuery } from "../redux/features/user/userApi";
+import Loading from "../components/Loading";
 
 const Cart = () => {
+  const { data, isLoading } = useGetUserProfileQuery();
+  const cart = data?.data?.cart[0];
+  console.log(cart);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head title="Cart ||" />
@@ -13,10 +23,12 @@ const Cart = () => {
         <div className="layout">
           <div className="container mx-auto mt-10">
             <div className="flex md:flex-row flex-col my-10">
-              <div className="md:w-3/4 bg-white px-10 py-10 rounded-lg box_shadow">
+              <div className="md:w-3/4 bg-white md:p-10 p-2  rounded-lg box_shadow">
                 <div className="flex justify-between border-b pb-8">
                   <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-                  <h2 className="font-semibold text-2xl">3 Items</h2>
+                  <h2 className="font-semibold text-2xl">
+                    {cart?.products?.length} Items
+                  </h2>
                 </div>
                 <div className="flex mb-5 border-b py-4">
                   <h3 className="font-semibold text-gray-600 text-xs uppercase md:w-2/5">
@@ -25,105 +37,80 @@ const Cart = () => {
                   <h3 className="hidden md:block font-semibold text-center text-gray-600 text-xs uppercase w-1/5">
                     Quantity
                   </h3>
-                  <h3 className="hidden md:block font-semibold text-center text-gray-600 text-xs uppercase w-1/5 ">
+                  <h3 className="hidden md:block font-semibold text-right text-gray-600 text-xs uppercase w-1/5">
                     Price
                   </h3>
-                  <h3 className="hidden md:block font-semibold text-center text-gray-600 text-xs uppercase w-1/5 ">
+                  <h3 className="hidden md:block font-semibold text-right text-gray-600 text-xs uppercase w-1/5 md:mr-8">
                     Total
                   </h3>
                 </div>
                 {/* Single product */}
-                <div className="flex md:flex-row flex-col gap-4 items-center rounded-lg hover:bg-gray-100 md:px-6 px-2 py-5 pb-4 border-b">
-                  <div className="flex md:w-2/5">
-                    <div className="w-20">
-                      <img
-                        className="h-24"
-                        src="https://drive.google.com/uc?id=18KkAVkGFvaGNqPy2DIvTqmUH_nk39o3z"
-                        alt=""
-                      />
+                <div className="h-[60vh] overflow-x-hidden overflow-y-auto">
+                  {cart?.products?.map((item) => (
+                    <div
+                      key={item?._id}
+                      className="flex md:flex-row flex-col gap-4 items-center rounded-lg hover:bg-gray-100 md:px-6 px-2 py-5 pb-4 border-b"
+                    >
+                      <div className="flex md:w-2/5">
+                        <div className="w-[100px]">
+                          <img
+                            className="h-[100px] w-[100px]"
+                            src={item?.productId?.images[0].url}
+                            alt=""
+                          />
+                        </div>
+                        <div className="flex flex-col justify-between ml-4 w-[200px]">
+                          <span className="font-bold text-sm">
+                            {item?.productId?.title}
+                          </span>
+                          <div className="flex items-center">
+                            <span className="text-gray-500 text-md">
+                              Color:{" "}
+                            </span>
+                            <button
+                              // onClick={() => setSelectColor(color?._id)}
+                              style={{ backgroundColor: `${item?.color.code}` }}
+                              className={` ml-1 rounded-full w-4 h-4 focus:outline-none`}
+                            ></button>
+                          </div>
+                          <Link
+                            to=""
+                            className="font-semibold hover:text-red-500 text-gray-500 text-xs"
+                          >
+                            Remove
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="mr-3">Quantity</span>
+                        <input
+                          type="number"
+                          min="1"
+                          value={item?.count}
+                          // onChange={(e) => setQuantity(e.target.value)}
+                          max={item?.productId?.quantity}
+                          className="text-center border w-20 bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 outline-none rounded-md"
+                          name=""
+                        />
+                      </div>
+                      <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
+                        <p className="block md:hidden">Price :</p>
+                        <p className="float-right">
+                          $ {item?.productId?.price}
+                        </p>
+                      </div>
+                      <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
+                        <p className="block md:hidden">Total :</p>
+                        <p className="float-right">
+                          $ {item?.productId?.price * item?.count}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col justify-between ml-4 flex-grow">
-                      <span className="font-bold text-sm">Iphone 6S</span>
-                      <span className="text-red-500 text-xs">Apple</span>
-                      <Link
-                        to=""
-                        className="font-semibold hover:text-red-500 text-gray-500 text-xs"
-                      >
-                        Remove
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="flex flex-row h-8 md:w-1/5 rounded-lg relative bg-transparent mt-1">
-                    <button className=" border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-l cursor-pointer outline-none">
-                      <span className="m-auto text-2xl font-thin">−</span>
-                    </button>
-                    <input
-                      type="number"
-                      className="text-center border w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
-                      name="custom-input-number"
-                      value="0"
-                      readOnly
-                    ></input>
-                    <button className="border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-r cursor-pointer">
-                      <span className="m-auto text-2xl font-thin">+</span>
-                    </button>
-                  </div>
-                  <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
-                    <p className="block md:hidden">Price :</p>
-                    <p>$400.00</p>
-                  </div>
-                  <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
-                    <p className="block md:hidden">Total :</p>
-                    <p>$400.00</p>
-                  </div>
+                  ))}
                 </div>
-                {/* Single product */}
-                <div className="flex md:flex-row flex-col gap-4 items-center rounded-lg hover:bg-gray-100 md:px-6 px-2 py-5 pb-4 border-b">
-                  <div className="flex md:w-2/5">
-                    <div className="w-20">
-                      <img
-                        className="h-24"
-                        src="https://drive.google.com/uc?id=18KkAVkGFvaGNqPy2DIvTqmUH_nk39o3z"
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-col justify-between ml-4 flex-grow">
-                      <span className="font-bold text-sm">Iphone 6S</span>
-                      <span className="text-red-500 text-xs">Apple</span>
-                      <Link
-                        to=""
-                        className="font-semibold hover:text-red-500 text-gray-500 text-xs"
-                      >
-                        Remove
-                      </Link>
-                    </div>
-                  </div>
-                  <div className="flex flex-row h-8 md:w-1/5 rounded-lg relative bg-transparent mt-1">
-                    <button className=" border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-l cursor-pointer outline-none">
-                      <span className="m-auto text-2xl font-thin">−</span>
-                    </button>
-                    <input
-                      type="number"
-                      className="text-center border w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
-                      name="custom-input-number"
-                      value="0"
-                      readOnly
-                    ></input>
-                    <button className="border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-r cursor-pointer">
-                      <span className="m-auto text-2xl font-thin">+</span>
-                    </button>
-                  </div>
-                  <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
-                    <p className="block md:hidden">Price :</p>
-                    <p>$400.00</p>
-                  </div>
-                  <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
-                    <p className="block md:hidden">Total :</p>
-                    <p>$400.00</p>
-                  </div>
-                </div>
+
                 <Link
-                  to={`${window.location.origin}/product`}
+                  to={`${window.location.origin}/products`}
                   className="flex items-center gap-2 font-semibold text-indigo-600 text-sm mt-10"
                 >
                   <BsArrowLeft />
@@ -136,10 +123,12 @@ const Cart = () => {
                   Order Summary
                 </h1>
                 <div className="flex justify-between mt-10 mb-5">
-                  <span className="font-semibold text-sm uppercase">
-                    Items 3
+                  <span className="font-semibold text-sm capitalize">
+                    Cart Total
                   </span>
-                  <span className="font-semibold text-sm">590$</span>
+                  <span className="font-semibold text-sm">
+                    $ {cart?.cartTotal}
+                  </span>
                 </div>
                 <div>
                   <label className="font-medium inline-block mb-3 text-sm uppercase">
