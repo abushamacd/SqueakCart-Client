@@ -20,6 +20,7 @@ import {
 } from "../redux/features/product/productSlice";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,8 @@ const Header = () => {
   const { user } = useSelector((state) => state.auth);
   const { data: getData } = useGetProCatsQuery();
   const proCats = getData?.data?.data;
+
+  const { data: userData, isLoading: userIsLoading } = useGetUserProfileQuery();
 
   const handleSignout = () => {
     localStorage.removeItem("token");
@@ -247,8 +250,8 @@ const Header = () => {
                 <div className="cart flex flex-col items-center justify-center text-white duration-300 hover:text-[#38b5fe] relative">
                   <FiShoppingCart size="20" />
                   <p className="text-[13px] hidden md:block">My Cart</p>
-                  <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0">
-                    1
+                  <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0 text-white">
+                    {userData?.data?.cart[0]?.products?.length || 0}
                   </div>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "../components/Head";
 import PopularCollection from "../sections/PopularCollection";
 import BreadCrumb from "../components/BreadCrumb";
@@ -23,13 +23,29 @@ import "react-accessible-accordion/dist/fancy-example.css";
 import { useParams } from "react-router-dom";
 import { useGetProductQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
+import { toast } from "react-toastify";
+import { useAddToCartMutation } from "../redux/features/cart/cartApi";
+const httpStatus = require("http-status");
 
 const ProductDetails = () => {
+  const [quantity, setQuantity] = useState(1);
+  const [selectColor, setSelectColor] = useState("");
   const params = useParams();
   const { data: productData, isLoading: productIsLoading } = useGetProductQuery(
     params?.id
   );
   const product = productData?.data;
+
+  const [
+    addToCart,
+    {
+      isSuccess: addToCartIsSuccess,
+      data: addToCartData,
+      isError: addToCartIsError,
+      error: addToCartError,
+      reset: addToCartReset,
+    },
+  ] = useAddToCartMutation();
 
   const [openReview, setOpenReview] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -86,9 +102,46 @@ const ProductDetails = () => {
     }, 1000);
   };
 
+  const handleAddToCart = (product) => {
+    if (selectColor === "") {
+      toast.error("Please select a color");
+    } else {
+      const data = {
+        productId: product?._id,
+        count: Number(quantity),
+        color: selectColor,
+        price: product?.price,
+      };
+      addToCart(data);
+    }
+  };
+
+  useEffect(() => {
+    if (addToCartError?.status === 401) {
+      toast.error("Please login first");
+    } else if (addToCartError?.status === httpStatus.FORBIDDEN) {
+      toast.error("First logout then login");
+    }
+
+    if (addToCartIsSuccess) {
+      toast(addToCartData?.message);
+      addToCartReset();
+    } else if (addToCartIsError) {
+      toast.error("First logout then login");
+      addToCartReset("Product added failed");
+    }
+  }, [
+    addToCartError,
+    addToCartData,
+    addToCartIsSuccess,
+    addToCartIsError,
+    addToCartReset,
+  ]);
+
   if (productIsLoading) {
     return <Loading />;
   }
+
   return (
     <>
       <Head title={`${product?.title} ||`} />
@@ -175,40 +228,35 @@ const ProductDetails = () => {
                         <span className="mr-3">Color</span>
                         {product?.color?.map((color, i) => (
                           <button
+                            onClick={() => setSelectColor(color?._id)}
                             style={{ backgroundColor: `${color.code}` }}
                             key={i}
-                            className={`ml-1 rounded-full w-6 h-6 focus:outline-none`}
+                            className={`${
+                              selectColor === color?._id &&
+                              `border-4 border-black`
+                            } ml-1 rounded-full w-6 h-6 focus:outline-none`}
                           ></button>
                         ))}
                       </div>
                       <div className="flex items-center">
                         <span className="mr-3">Quantity</span>
-                        <div className="relative">
-                          <div className="flex flex-row h-10 w-[140px] rounded-lg relative bg-transparent mt-1">
-                            <button className=" border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-l cursor-pointer outline-none">
-                              <span className="m-auto text-2xl font-thin">
-                                −
-                              </span>
-                            </button>
-                            <input
-                              type="number"
-                              className="text-center border w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none"
-                              name="custom-input-number"
-                              value="0"
-                              readOnly
-                            ></input>
-                            <button className="border text-gray-600 hover:text-gray-700 hover:bg-gray-200 h-full w-20 rounded-r cursor-pointer">
-                              <span className="m-auto text-2xl font-thin">
-                                +
-                              </span>
-                            </button>
-                          </div>
-                        </div>
+                        <input
+                          type="number"
+                          min="1"
+                          value={quantity}
+                          onChange={(e) => setQuantity(e.target.value)}
+                          max={product?.quantity}
+                          className="text-center border w-20 bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 outline-none rounded-md"
+                          name=""
+                        />
                       </div>
                     </div>
                     <div className="flex md:flex-row flex-col justify-between md:items-center mt-[20px] gap-4">
                       <div className="flex gap-[20px]">
-                        <button className="first_button duration-300 rounded-full py-[8px] px-[20px] font-medium ">
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className="first_button duration-300 rounded-full py-[8px] px-[20px] font-medium "
+                        >
                           Add to Cart
                         </button>
                         <button>
