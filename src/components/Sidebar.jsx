@@ -14,6 +14,7 @@ import { ImBlog } from "react-icons/im";
 import { RiCouponFill } from "react-icons/ri";
 import { SiBrandfolder } from "react-icons/si";
 import main_logo from "../assets/main_logo.png";
+import mobile_logo from "../assets/mobile_logo.png";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const Sidebar = () => {
           {collapsed ? (
             <img
               className="p-2 w-[200px] mx-auto"
-              src="images/mobile_logo.png"
+              src={mobile_logo}
               alt="logo"
             />
           ) : (
