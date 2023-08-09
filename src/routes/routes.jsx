@@ -47,6 +47,7 @@ import EditColor from "../pages/Dashboard/EditColor";
 import AddProduct from "../pages/Dashboard/AddProduct";
 import ProductList from "../pages/Dashboard/ProductList";
 import EditProduct from "../pages/Dashboard/EditProduct";
+import BuyNow from "../pages/BuyNow";
 
 const routes = createBrowserRouter([
   {
@@ -98,6 +99,14 @@ const routes = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Cart />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "buy",
+        element: (
+          <PrivateRoute>
+            <BuyNow />
           </PrivateRoute>
         ),
       },

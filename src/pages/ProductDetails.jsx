@@ -20,7 +20,7 @@ import {
   AccordionItemPanel,
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetProductQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
@@ -32,6 +32,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectColor, setSelectColor] = useState("");
   const params = useParams();
+  const navigate = useNavigate();
   const { data: productData, isLoading: productIsLoading } = useGetProductQuery(
     params?.id
   );
@@ -114,6 +115,20 @@ const ProductDetails = () => {
         price: product?.price,
       };
       addToCart(data);
+    }
+  };
+
+  const handleBuyNow = async (product) => {
+    if (selectColor === "") {
+      toast.error("Please select a color");
+    } else {
+      const data = {
+        productId: product?._id,
+        count: Number(quantity),
+        color: selectColor,
+      };
+      localStorage.setItem("sc_buyNow", JSON.stringify(data));
+      navigate("/buy");
     }
   };
 
@@ -260,7 +275,7 @@ const ProductDetails = () => {
                         >
                           Add to Cart
                         </button>
-                        <button>
+                        <button onClick={() => handleBuyNow(product)}>
                           <p className="second_button cursor-pointer duration-300 rounded-full py-[8px] px-[20px] font-medium ">
                             Buy Now
                           </p>
