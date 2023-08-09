@@ -5,10 +5,32 @@ import { BsArrowLeft } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 import Loading from "../components/Loading";
+import { useClearCartMutation } from "../redux/features/cart/cartApi";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const { data, isLoading } = useGetUserProfileQuery();
   const cart = data?.data?.cart[0];
+
+  const dispatch = useDispatch();
+
+  const [
+    clearCart,
+    {
+      isSuccess: clearCartIsSuccess,
+      data: clearCartData,
+      isError: clearCartIsError,
+      error: clearCartError,
+      reset: clearCartReset,
+    },
+  ] = useClearCartMutation();
+
+  console.log(clearCartIsSuccess, clearCartData);
+
+  if (clearCartIsSuccess) {
+    toast("Cart clear");
+  }
 
   if (isLoading) {
     return <Loading />;
@@ -67,7 +89,6 @@ const Cart = () => {
                               Color:{" "}
                             </span>
                             <button
-                              // onClick={() => setSelectColor(color?._id)}
                               style={{ backgroundColor: `${item?.color.code}` }}
                               className={` ml-1 rounded-full w-4 h-4 focus:outline-none`}
                             ></button>
@@ -86,7 +107,6 @@ const Cart = () => {
                           type="number"
                           min="1"
                           value={item?.count}
-                          // onChange={(e) => setQuantity(e.target.value)}
                           max={item?.productId?.quantity}
                           className="text-center border w-20 bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 outline-none rounded-md"
                           name=""
@@ -108,13 +128,23 @@ const Cart = () => {
                   ))}
                 </div>
 
-                <Link
-                  to={`${window.location.origin}/products`}
-                  className="flex items-center gap-2 font-semibold text-indigo-600 text-sm mt-10"
-                >
-                  <BsArrowLeft />
-                  Continue Shopping
-                </Link>
+                <div className="flex justify-between">
+                  <Link
+                    to={`${window.location.origin}/products`}
+                    className="flex items-center gap-2 font-semibold text-indigo-600 text-sm mt-10"
+                  >
+                    <BsArrowLeft />
+                    Continue Shopping
+                  </Link>
+                  <button
+                    // onClick={() => {
+                    //   dispatch(clearCart());
+                    // }}
+                    className="flex items-center gap-2 font-semibold text-red-600 text-sm mt-10"
+                  >
+                    Clear Cart
+                  </button>
+                </div>
               </div>
 
               <div id="summary" className="md:w-1/4 px-8 py-10">

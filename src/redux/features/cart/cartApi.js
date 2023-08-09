@@ -10,7 +10,14 @@ const cartApi = api.injectEndpoints({
       }),
       invalidatesTags: ["profileUpdate", "user"],
     }),
+    clearCart: builder.mutation({
+      query: (data) => ({
+        url: `/cart`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["profileUpdate"],
+    }),
   }),
 });
 
-export const { useAddToCartMutation } = cartApi;
+export const { useAddToCartMutation, useClearCartMutation } = cartApi;
