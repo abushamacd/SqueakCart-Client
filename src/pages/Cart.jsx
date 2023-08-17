@@ -7,6 +7,7 @@ import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 import Loading from "../components/Loading";
 import {
   useClearCartMutation,
+  useRemoveFromCartMutation,
   useUpdateQuantityMutation,
 } from "../redux/features/cart/cartApi";
 import { useDispatch } from "react-redux";
@@ -30,6 +31,17 @@ const Cart = () => {
     },
   ] = useClearCartMutation();
 
+  const [
+    removeFromCart,
+    {
+      isSuccess: removeIsSuccess,
+      data: removeData,
+      isError: removeIsError,
+      error: removeError,
+      reset: removeReset,
+    },
+  ] = useRemoveFromCartMutation();
+
   const [updateQuantity, { isLoading: updateIsLoading, reset: updateReset }] =
     useUpdateQuantityMutation();
 
@@ -52,6 +64,14 @@ const Cart = () => {
       });
     }
   };
+  const handleRemove = (pId, cId) => {
+    removeFromCart({
+      id: pId,
+      data: {
+        color: cId,
+      },
+    });
+  };
 
   if (clearCartIsSuccess) {
     toast("Cart clear");
@@ -62,6 +82,19 @@ const Cart = () => {
       autoClose: 1000,
     });
     updateReset();
+  }
+
+  if (removeIsSuccess || removeIsError) {
+    // removeData, removeError
+    removeIsSuccess &&
+      toast(removeData?.message, {
+        autoClose: 1000,
+      });
+    removeIsError &&
+      toast.error(removeError?.data?.message, {
+        autoClose: 1000,
+      });
+    removeReset();
   }
 
   if (isLoading) {
@@ -130,12 +163,17 @@ const Cart = () => {
                                   className={` ml-1 rounded-full w-4 h-4 focus:outline-none`}
                                 ></button>
                               </div>
-                              <Link
-                                to=""
-                                className="font-semibold hover:text-red-500 text-gray-500 text-xs"
+                              <p
+                                onClick={() =>
+                                  handleRemove(
+                                    item?.productId?._id,
+                                    item?.color._id
+                                  )
+                                }
+                                className="font-semibold hover:text-red-500 text-gray-500 text-xs cursor-pointer"
                               >
                                 Remove
-                              </Link>
+                              </p>
                             </div>
                           </div>
                           <div className="flex items-center">

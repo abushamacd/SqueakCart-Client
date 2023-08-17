@@ -25,6 +25,14 @@ const cartApi = api.injectEndpoints({
       }),
       invalidatesTags: ["profileUpdate", "user"],
     }),
+    removeFromCart: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/cart/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["profileUpdate", "user"],
+    }),
   }),
 });
 
@@ -32,4 +40,5 @@ export const {
   useAddToCartMutation,
   useClearCartMutation,
   useUpdateQuantityMutation,
+  useRemoveFromCartMutation,
 } = cartApi;
