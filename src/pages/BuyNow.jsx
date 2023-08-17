@@ -7,8 +7,11 @@ import Loading from "../components/Loading";
 import { useGetProductQuery } from "../redux/features/product/productApi";
 import { useGetCouponsQuery } from "../redux/features/coupon/couponApi";
 import { toast } from "react-toastify";
+import { setOrder } from "../redux/features/order/orderSlice";
+import { useDispatch } from "react-redux";
 
 const BuyNow = () => {
+  const dispatch = useDispatch();
   const buyNow = localStorage.getItem("sc_buyNow")
     ? JSON.parse(localStorage.getItem("sc_buyNow"))
     : null;
@@ -144,14 +147,13 @@ const BuyNow = () => {
                 </div>
 
                 <Link
-                  to={`${window.location.origin}/products`}
+                  to={`/products`}
                   className="flex items-center gap-2 font-semibold text-indigo-600 text-sm mt-10"
                 >
                   <BsArrowLeft />
                   Continue Shopping
                 </Link>
               </div>
-
               <div id="summary" className="md:w-1/4 px-8 py-10">
                 <h1 className="font-semibold text-2xl border-b pb-8">
                   Order Summary
@@ -224,7 +226,23 @@ const BuyNow = () => {
                     </span>
                   </div>
                   <Link to={`/checkout`}>
-                    <button className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          setOrder({
+                            products: [
+                              {
+                                productId: productData?.data,
+                                count: quantity,
+                                color: color[0],
+                              },
+                            ],
+                            totalCost: totalCost?.toFixed(2),
+                          })
+                        )
+                      }
+                      className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full"
+                    >
                       Place Order
                     </button>
                   </Link>

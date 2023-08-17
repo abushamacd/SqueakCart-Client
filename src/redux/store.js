@@ -8,6 +8,7 @@ import colorReducer from "./features/color/colorSlice";
 import productReducer from "./features/product/productSlice";
 import proCatReducer from "./features/proCat/proCatSlice";
 import brandReducer from "./features/brand/brandSlice";
+import orderReducer from "./features/order/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     product: productReducer,
     proCat: proCatReducer,
     brand: brandReducer,
+    order: orderReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>

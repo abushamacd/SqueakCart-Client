@@ -13,6 +13,7 @@ import {
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useGetCouponsQuery } from "../redux/features/coupon/couponApi";
+import { setOrder } from "../redux/features/order/orderSlice";
 
 const Cart = () => {
   const { data, isLoading } = useGetUserProfileQuery();
@@ -340,7 +341,17 @@ const Cart = () => {
                     </span>
                   </div>
                   <Link to={`/checkout`}>
-                    <button className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          setOrder({
+                            products,
+                            totalCost: totalCost?.toFixed(2),
+                          })
+                        )
+                      }
+                      className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full"
+                    >
                       Place Order
                     </button>
                   </Link>

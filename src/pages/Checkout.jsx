@@ -1,30 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {
-  FaAngleDown,
-  FaAngleUp,
-  FaAngleLeft,
-  FaShoppingCart,
-} from "react-icons/fa";
+import { FaAngleLeft } from "react-icons/fa";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import {
-  useGetUserAddressQuery,
-  useGetUserProfileQuery,
-} from "../redux/features/user/userApi";
+import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 import { useEffect } from "react";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { Modal } from "antd";
+import { setView } from "../redux/features/site/siteSlice";
 
 const Checkout = () => {
+  const dispatch = useDispatch();
   const { data, isLoading } = useGetUserProfileQuery();
+  const { view } = useSelector((state) => state.site);
   const navigate = useNavigate();
-  const { data: addresses, isLoading: addressLoading } =
-    useGetUserAddressQuery();
-
+  const openView = (blog) => {
+    setPmState("stripe");
+    dispatch(setView({ data: blog, state: true }));
+  };
+  const closeView = () => {
+    dispatch(setView({ data: null, state: false }));
+  };
+  const [pmState, setPmState] = useState("COD");
+  const { products, totalCost } = useSelector((state) => state.order);
+  console.log(products, totalCost);
   // form handle
   let formSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -58,6 +61,8 @@ const Checkout = () => {
       if (!address[0]?._id) {
         toast("Set shippnig address first");
         navigate("/profile");
+      } else if (totalCost < 1) {
+        navigate(window.history.back());
       } else {
         formik.setValues({
           firstname,
@@ -68,9 +73,9 @@ const Checkout = () => {
         });
       }
     }
-  }, [data]);
+  }, [data, totalCost]);
 
-  if (isLoading || addressLoading) {
+  if (isLoading) {
     return <Loading />;
   }
   return (
@@ -81,7 +86,7 @@ const Checkout = () => {
         <div className="layout">
           <div className="information">
             <div className="flex md:flex-row flex-col justify-center">
-              <div className="md:w-7/12 bg-[#fff] rounded-lg box_shadow md:px-[50px] md:py-[30px] px-[15px] py-[15px] ">
+              <div className="md:w-6/12 bg-[#fff] rounded-lg box_shadow md:px-[50px] md:py-[30px] px-[15px] py-[15px] ">
                 <div className="text-sm breadcrumbs">
                   <ul>
                     <li>
@@ -162,145 +167,109 @@ const Checkout = () => {
                   </button>
                 </form> */}
                 <hr className="md:mt-[30px] mt-[20px]" />
-                <Link to="/cart">
-                  <p className="text-[14px] mt-4 flex items-center gap-1">
-                    <FaAngleLeft />
-                    Return to Cart
-                  </p>
-                </Link>
+                <p
+                  className="text-[14px] mt-4 flex items-center gap-1 cursor-pointer"
+                  onClick={() => navigate(window.history.back())}
+                >
+                  <FaAngleLeft />
+                  Return back
+                </p>
               </div>
-              <div className="md:w-5/12 md:block md:pr-[100px] md:pl-[50px] md:py-[30px]">
+              <div className="md:w-6/12 md:block md:pr-[100px] md:pl-[50px] md:py-[30px]">
                 <div className="order_details ">
                   <div className="products max-h-[300px] overflow-auto">
-                    <div className="product my-[12px] flex items-center md:gap-[15px]">
-                      <div className="relative w-1/6 md:mr-0 mr-[10px]">
-                        <img
-                          src="./assets/images/banner/81234.jpg"
-                          alt=""
-                          className="w-[65px] h-[65px] object-cover rounded-[5px] border-[1px] border-[#C2C2C2]"
-                        />
-                        <span className="absolute  top-[-10px] right-[-10px] h-5 w-5 text-[14px] rounded-full text-center text-[#fff] bg-[#6d6d6d]">
-                          1
-                        </span>
-                      </div>
-                      <div className="product_info mr-[10px]  w-4/6">
-                        <h2 className="product_name  font-bold text-[14px]">
-                          Sportv Cable - 2.0m | USB C | Lightning
-                        </h2>
-                        <p className="variant  text-gray-500 text-[12px]">
-                          2.0M / Lightning
-                        </p>
-                      </div>
-                      <p className="price  font-bold text-[14px]  w-1/6">
-                        $ <span className="amount">24.95</span>
-                      </p>
-                    </div>
-                    <div className="product my-[12px] flex items-center md:gap-[15px]">
-                      <div className="relative w-1/6 md:mr-0 mr-[10px]">
-                        <img
-                          src="./assets/images/banner/81234.jpg"
-                          alt=""
-                          className="w-[65px] h-[65px] object-cover rounded-[5px] border-[1px] border-[#C2C2C2]"
-                        />
-                        <span className="absolute  top-[-10px] right-[-10px] h-5 w-5 text-[14px] rounded-full text-center text-[#fff] bg-[#6d6d6d]">
-                          1
-                        </span>
-                      </div>
-                      <div className="product_info mr-[10px]  w-4/6">
-                        <h2 className="product_name  font-bold text-[14px]">
-                          Sportv Cable - 2.0m | USB C | Lightning
-                        </h2>
-                        <p className="variant  text-gray-500 text-[12px]">
-                          2.0M / Lightning
-                        </p>
-                      </div>
-                      <p className="price  font-bold text-[14px]  w-1/6">
-                        $ <span className="amount">24.95</span>
-                      </p>
-                    </div>
-                    <div className="product my-[12px] flex items-center md:gap-[15px]">
-                      <div className="relative w-1/6 md:mr-0 mr-[10px]">
-                        <img
-                          src="./assets/images/banner/81234.jpg"
-                          alt=""
-                          className="w-[65px] h-[65px] object-cover rounded-[5px] border-[1px] border-[#C2C2C2]"
-                        />
-                        <span className="absolute  top-[-10px] right-[-10px] h-5 w-5 text-[14px] rounded-full text-center text-[#fff] bg-[#6d6d6d]">
-                          1
-                        </span>
-                      </div>
-                      <div className="product_info mr-[10px]  w-4/6">
-                        <h2 className="product_name  font-bold text-[14px]">
-                          Sportv Cable - 2.0m | USB C | Lightning
-                        </h2>
-                        <p className="variant  text-gray-500 text-[12px]">
-                          2.0M / Lightning
-                        </p>
-                      </div>
-                      <p className="price  font-bold text-[14px]  w-1/6">
-                        $ <span className="amount">24.95</span>
-                      </p>
-                    </div>
-                    <div className="product my-[12px] flex items-center md:gap-[15px]">
-                      <div className="relative w-1/6 md:mr-0 mr-[10px]">
-                        <img
-                          src="./assets/images/banner/81234.jpg"
-                          alt=""
-                          className="w-[65px] h-[65px] object-cover rounded-[5px] border-[1px] border-[#C2C2C2]"
-                        />
-                        <span className="absolute  top-[-10px] right-[-10px] h-5 w-5 text-[14px] rounded-full text-center text-[#fff] bg-[#6d6d6d]">
-                          1
-                        </span>
-                      </div>
-                      <div className="product_info mr-[10px]  w-4/6">
-                        <h2 className="product_name  font-bold text-[14px]">
-                          Sportv Cable - 2.0m | USB C | Lightning
-                        </h2>
-                        <p className="variant  text-gray-500 text-[12px]">
-                          2.0M / Lightning
-                        </p>
-                      </div>
-                      <p className="price  font-bold text-[14px]  w-1/6">
-                        $ <span className="amount">24.95</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="cupon border-t-[1px] border-b-[1px] border-[#C2C2C2] py-[20px]">
-                    <form action="" className="newsletter flex gap-[10px]">
-                      <input
-                        placeholder="Gift card or discount code"
-                        className="w-full input-sm py-[8px] px-2 text-[14px] rounded-[3px] border-2 border-gray-200 focus:outline-none focus:border-2 focus:border-black"
-                        type="text"
-                        name="company"
-                        id="company"
-                      />
-                      <button
-                        type="submit"
-                        className="first_button rounded px-[20px] text-[12px] text-[#fff] bg-[#000]"
+                    {products?.map((product) => (
+                      <div
+                        key={product?.productId?._id}
+                        className="product my-[12px] flex items-center md:gap-[15px]"
                       >
-                        Apply
-                      </button>
-                    </form>
+                        <div className="relative w-1/6 md:mr-0 mr-[10px]">
+                          <img
+                            src={product?.productId?.images[0]?.url}
+                            alt=""
+                            className="w-[65px] h-[65px] object-cover rounded-[5px] border-[1px] border-[#C2C2C2]"
+                          />
+                        </div>
+                        <div className="product_info mr-[10px]  w-4/6">
+                          <h2 className="product_name  font-bold text-[14px]">
+                            {product?.productId?.title}
+                          </h2>
+                          <p className="variant  text-gray-500 text-[12px]">
+                            <button
+                              style={{
+                                backgroundColor: `${product?.color?.code}`,
+                              }}
+                              className={` ml-1 rounded-full w-4 h-4 focus:outline-none`}
+                            ></button>
+                          </p>
+                        </div>
+                        <p className="text-[14px]  w-1/6">
+                          <span className="amount float-right">
+                            {product?.count} pices
+                          </span>
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <div className="caculation border-b-[1px] border-[#C2C2C2] py-[20px]">
-                    <div className="flex justify-between items-center mb-[5px]">
-                      <h5 className=" text-[14px] text-[#6d6d6d]">Subtotal</h5>
+                  <div className="border-y my-4">
+                    <div className="flex py-1 justify-between items-center my-[20px]">
+                      <h5 className=" text-[17px] ">Delivery Method Fee</h5>
                       <h5 className=" text-[14px] font-bold ">
-                        $<span className="amount">345.23</span>
+                        $
+                        <span className="amount">
+                          {pmState === "stripe" ? 0 : 5}
+                        </span>
                       </h5>
                     </div>
-                    <div className="flex justify-between items-center mb-[5px]">
-                      <h5 className=" text-[14px] text-[#6d6d6d]">Shipping</h5>
-                      <h5 className=" text-[12px] font-bold text-[#6d6d6d] ">
-                        Calculated at next step
+                    <div className="flex py-1 justify-between items-center my-[20px]">
+                      <h5 className=" text-[17px] ">Total</h5>
+                      <h5 className=" text-[14px] font-bold ">
+                        $
+                        <span className="amount">
+                          {(
+                            parseFloat(totalCost) +
+                            (pmState === "stripe" ? 0 : 5)
+                          ).toFixed(2)}
+                        </span>
                       </h5>
                     </div>
                   </div>
-                  <div className="flex justify-between items-center my-[20px]">
-                    <h5 className=" text-[14px] ">Total</h5>
-                    <h5 className=" text-[20px] font-bold ">
-                      $<span className="amount">345.23</span>
-                    </h5>
+                  <div className="flex md:flex-row flex-col gap-4">
+                    <h4>Payment Method: </h4>
+                    <div className="flex gap-4">
+                      <div
+                        onClick={() => openView("sdsd")}
+                        className={`w-40 flex flex-col items-center border-2 ${
+                          pmState === "stripe" && `border-green-600`
+                        } rounded-lg p-2 box_shadow relative`}
+                      >
+                        <p className="absolute right-[3%] top-0 font-bold">
+                          $ 0{" "}
+                        </p>
+                        <img
+                          className="w-10"
+                          src="https://laz-img-cdn.alicdn.com/tfs/TB1qIthr67nBKNjSZLeXXbxCFXa-80-80.png"
+                          alt=""
+                        />
+                        <h4 className="text-sm font-bold">Stripe</h4>
+                      </div>
+                      <div
+                        onClick={() => setPmState("COD")}
+                        className={`w-40 flex flex-col items-center border-2 ${
+                          pmState === "COD" && `border-green-600`
+                        } rounded-lg p-2 box_shadow relative`}
+                      >
+                        <p className="absolute right-[3%] top-0 font-bold">
+                          $ 5{" "}
+                        </p>
+                        <img
+                          className="w-10"
+                          src="https://laz-img-cdn.alicdn.com/tfs/TB1utb_r8jTBKNjSZFwXXcG4XXa-80-80.png"
+                          alt=""
+                        />
+                        <h4 className="text-sm font-bold">Cash on Delivary</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -308,6 +277,17 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      {/* Payment */}
+      <Modal
+        className="large_modal"
+        // title={`Blog ID: ${view.data?._id}`}
+        open={view.viewState}
+        centered
+        footer={null}
+        onCancel={closeView}
+      >
+        <p>pay</p>
+      </Modal>
     </>
   );
 };
