@@ -176,16 +176,20 @@ const Cart = () => {
                         >
                           <div className="flex md:w-2/5">
                             <div className="w-[100px]">
-                              <img
-                                className="h-[100px] w-[100px]"
-                                src={item?.productId?.images[0].url}
-                                alt=""
-                              />
+                              <Link to={`/products/${item?.productId?._id}`}>
+                                <img
+                                  className="h-[100px] w-[100px]"
+                                  src={item?.productId?.images[0].url}
+                                  alt=""
+                                />
+                              </Link>
                             </div>
                             <div className="flex flex-col justify-between ml-4 w-[200px]">
-                              <span className="font-bold text-sm">
-                                {item?.productId?.title}
-                              </span>
+                              <Link to={`/products/${item?.productId?._id}`}>
+                                <span className="font-bold text-sm">
+                                  {item?.productId?.title}
+                                </span>
+                              </Link>
                               <div className="flex items-center">
                                 <span className="text-gray-500 text-md">
                                   Color:{" "}

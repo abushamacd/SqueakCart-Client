@@ -94,16 +94,20 @@ const BuyNow = () => {
                   >
                     <div className="flex md:w-2/5">
                       <div className="w-[100px]">
-                        <img
-                          className="h-[100px] w-[100px]"
-                          src={product?.images[0].url}
-                          alt=""
-                        />
+                        <Link to={`/products/${product?._id}`}>
+                          <img
+                            className="h-[100px] w-[100px]"
+                            src={product?.images[0].url}
+                            alt=""
+                          />
+                        </Link>
                       </div>
                       <div className="flex flex-col justify-center ml-4 w-[200px]">
-                        <span className="font-bold text-sm">
-                          {product?.title}
-                        </span>
+                        <Link to={`/products/${product?._id}`}>
+                          <span className="font-bold text-sm">
+                            {product?.title}
+                          </span>
+                        </Link>
                         <div className="flex items-center">
                           <span className="text-gray-500 text-md">Color: </span>
                           <button
