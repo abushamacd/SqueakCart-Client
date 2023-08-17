@@ -235,14 +235,14 @@ const Cart = () => {
                           <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
                             <p className="block md:hidden">Price :</p>
                             <p className="float-right">
-                              $ {(item?.productId?.price).toFixed(2)}
+                              $ {item?.productId?.price?.toFixed(2)}
                             </p>
                           </div>
                           <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
                             <p className="block md:hidden">Total :</p>
                             <p className="float-right">
                               ${" "}
-                              {(item?.productId?.price * item?.count).toFixed(
+                              {(item?.productId?.price * item?.count)?.toFixed(
                                 2
                               )}
                             </p>
@@ -316,19 +316,19 @@ const Cart = () => {
                   <div className="flex justify-between mt-2">
                     <span className="text-sm capitalize">Cart Total</span>
                     <span className="font-semibold text-sm">
-                      $ {cart?.cartTotal.toFixed(2)}
+                      $ {cart?.cartTotal?.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">
                     <span className="text-sm capitalize">Delivery Fee</span>
                     <span className="font-semibold text-sm">
-                      $ {deliveryFee.toFixed(2)}
+                      $ {deliveryFee?.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">
                     <span className="text-sm capitalize">Discounted Price</span>
                     <span className="font-semibold text-sm">
-                      $ {(totalCost - deliveryFee).toFixed(2)}
+                      $ {(totalCost - deliveryFee)?.toFixed(2)}
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">
@@ -336,12 +336,14 @@ const Cart = () => {
                       Total cost
                     </span>
                     <span className="font-semibold text-sm">
-                      $ {totalCost.toFixed(2)}
+                      $ {totalCost?.toFixed(2)}
                     </span>
                   </div>
-                  <button className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
-                    Place Order
-                  </button>
+                  <Link to={`/checkout`}>
+                    <button className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
+                      Place Order
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

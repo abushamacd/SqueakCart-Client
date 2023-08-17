@@ -49,7 +49,6 @@ const Profile = () => {
       });
     },
   });
-  console.log(data);
 
   useEffect(() => {
     if (data) {
@@ -159,7 +158,7 @@ const Profile = () => {
           </div>
           {/* Address */}
           <div className="w-full mb-3">
-            <label htmlFor="address font-bold">Default Address</label>
+            <label htmlFor="address font-bold">Shipping Address</label>
             <div className=" mb-3">
               <ul className="pl-[20px] leading-5">
                 <li className="">

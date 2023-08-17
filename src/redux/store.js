@@ -21,7 +21,7 @@ export const store = configureStore({
     proCat: proCatReducer,
     brand: brandReducer,
   },
-  devTools: true,
+  devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
 });
