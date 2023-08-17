@@ -921,3 +921,7 @@ span.article,
 .slick-dots li button:before {
   color: var(--color_38b5fe) !important;
 }
+
+.shipping select {
+  background-color: #fff !important;
+}

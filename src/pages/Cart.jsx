@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Head from "../components/Head";
 import BreadCrumb from "../components/BreadCrumb";
 import { BsArrowLeft } from "react-icons/bs";
@@ -12,13 +12,18 @@ import {
 } from "../redux/features/cart/cartApi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useGetCouponsQuery } from "../redux/features/coupon/couponApi";
 
 const Cart = () => {
   const { data, isLoading } = useGetUserProfileQuery();
   const cart = data?.data?.cart[0];
   const products = cart?.products;
-
   const dispatch = useDispatch();
+
+  const [couponValue, setCouponValue] = useState("");
+  const [deliveryFee, setDeliveryFee] = useState(10);
+
+  const { data: couponData } = useGetCouponsQuery();
 
   const [
     clearCart,
@@ -64,6 +69,7 @@ const Cart = () => {
       });
     }
   };
+
   const handleRemove = (pId, cId) => {
     removeFromCart({
       id: pId,
@@ -97,6 +103,34 @@ const Cart = () => {
     removeReset();
   }
 
+  const [totalCost, setTotalCost] = useState(cart?.cartTotal);
+
+  const applyCoupon = () => {
+    const coupon = couponData?.data?.data.filter(
+      (coupon) => coupon.title === couponValue
+    );
+    if (coupon?.length < 1) {
+      toast.error("Invalid Coupon");
+    } else {
+      const today = new Date();
+      const couponDate = new Date(coupon[0]?.date);
+      if (today > couponDate) {
+        toast.error("Coupon has expired.");
+      } else {
+        setTotalCost(
+          cart?.cartTotal -
+            (cart?.cartTotal * coupon[0]?.discount) / 100 +
+            deliveryFee
+        );
+        toast(`🥳! You get ${coupon[0]?.discount} % discount`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setTotalCost(cart?.cartTotal + deliveryFee);
+  }, [cart?.cartTotal, deliveryFee]);
+
   if (isLoading) {
     return <Loading />;
   }
@@ -126,7 +160,7 @@ const Cart = () => {
                   <h3 className="hidden md:block font-semibold text-right text-gray-600 text-xs uppercase w-1/5">
                     Price
                   </h3>
-                  <h3 className="hidden md:block font-semibold text-right text-gray-600 text-xs uppercase w-1/5 md:mr-8">
+                  <h3 className="hidden md:block font-semibold text-right text-gray-600 text-xs uppercase w-1/5 md:mr-16">
                     Total
                   </h3>
                 </div>
@@ -197,13 +231,16 @@ const Cart = () => {
                           <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
                             <p className="block md:hidden">Price :</p>
                             <p className="float-right">
-                              $ {item?.productId?.price}
+                              $ {(item?.productId?.price).toFixed(2)}
                             </p>
                           </div>
                           <div className="text-center md:block flex gap-4 md:w-1/5 font-semibold text-sm">
                             <p className="block md:hidden">Total :</p>
                             <p className="float-right">
-                              $ {item?.productId?.price * item?.count}
+                              ${" "}
+                              {(item?.productId?.price * item?.count).toFixed(
+                                2
+                              )}
                             </p>
                           </div>
                         </div>
@@ -233,49 +270,74 @@ const Cart = () => {
                 <h1 className="font-semibold text-2xl border-b pb-8">
                   Order Summary
                 </h1>
-                <div className="flex justify-between mt-10 mb-5">
-                  <span className="font-semibold text-sm capitalize">
-                    Cart Total
-                  </span>
-                  <span className="font-semibold text-sm">
-                    $ {cart?.cartTotal}
-                  </span>
-                </div>
-                <div>
-                  <label className="font-medium inline-block mb-3 text-sm uppercase">
+                <div className="shipping">
+                  <label className="font-medium inline-block mb-3 text-sm">
                     Shipping
                   </label>
-                  <select className="block p-2 text-gray-600 w-full text-sm rounded-md">
-                    <option>Standard shipping - $10.00</option>
+                  <select
+                    onChange={(e) => setDeliveryFee(parseInt(e.target.value))}
+                    className="block p-2 text-gray-600 w-full text-sm rounded-md "
+                  >
+                    <option value={10}>Standard shipping - $10.00</option>
+                    <option value={15}>Express shipping - $15.00</option>
                   </select>
                 </div>
-                <div className="py-10">
+                <div className="pt-6">
                   <label
                     htmlFor="promo"
-                    className="font-semibold inline-block mb-3 text-sm uppercase"
+                    className="font-semibold inline-block mb-3 text-sm "
                   >
-                    Promo Code
+                    Coupon Code
                   </label>
                   <input
                     type="text"
                     id="promo"
+                    name="promo"
+                    value={couponValue}
+                    onChange={(e) => setCouponValue(e.target.value)}
                     placeholder="Enter your code"
                     className="p-2 text-sm w-full input_bg_white rounded-md"
                   />
+                  <p className="text-sm text-red-500 mt-1">
+                    * Coupon code apply at last
+                  </p>
+                  <button
+                    onClick={applyCoupon}
+                    className="first_button mt-4 duration-300 rounded-full px-5 py-2 text-sm text-white "
+                  >
+                    Apply
+                  </button>
                 </div>
-                <button className="first_button rounded-full px-5 py-2 text-sm text-white uppercase">
-                  Apply
-                </button>
-                <div className="border-t mt-8">
-                  <div className="flex font-semibold justify-between py-6 text-sm uppercase">
-                    <span>Total cost</span>
-                    <span>$600</span>
+                <div className="border-t mt-4">
+                  <div className="flex justify-between mt-2">
+                    <span className="text-sm capitalize">Cart Total</span>
+                    <span className="font-semibold text-sm">
+                      $ {cart?.cartTotal.toFixed(2)}
+                    </span>
                   </div>
-                  <Link to={`${window.location.origin}/checkout`}>
-                    <button className="first_button rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
-                      Checkout
-                    </button>
-                  </Link>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-sm capitalize">Delivery Fee</span>
+                    <span className="font-semibold text-sm">
+                      $ {deliveryFee.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="text-sm capitalize">Discounted Price</span>
+                    <span className="font-semibold text-sm">
+                      $ {(totalCost - deliveryFee).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className="font-semibold text-sm capitalize">
+                      Total cost
+                    </span>
+                    <span className="font-semibold text-sm">
+                      $ {totalCost.toFixed(2)}
+                    </span>
+                  </div>
+                  <button className="first_button mt-4 duration-300 rounded-full font-semibold py-3 text-sm text-white uppercase w-full">
+                    Place Order
+                  </button>
                 </div>
               </div>
             </div>

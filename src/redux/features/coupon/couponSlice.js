@@ -4,8 +4,8 @@ const initialState = {
   date: "",
 };
 
-const userSlice = createSlice({
-  name: "blog",
+const couponSlice = createSlice({
+  name: "coupon",
   initialState,
   reducers: {
     setDate: (state, action) => {
@@ -14,6 +14,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setDate, setEditTitle, setEditDiscount } = userSlice.actions;
+export const { setDate, setEditTitle, setEditDiscount } = couponSlice.actions;
 
-export default userSlice.reducer;
+export default couponSlice.reducer;
