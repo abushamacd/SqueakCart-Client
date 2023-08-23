@@ -23,7 +23,7 @@ const orderApi = api.injectEndpoints({
     }),
     getOrders: builder.query({
       query: () => "/order",
-      providesTags: [],
+      providesTags: ["getOrders"],
     }),
     deleteOrder: builder.mutation({
       query: (id) => ({

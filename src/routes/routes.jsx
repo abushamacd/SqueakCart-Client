@@ -48,6 +48,7 @@ import AddProduct from "../pages/Dashboard/AddProduct";
 import ProductList from "../pages/Dashboard/ProductList";
 import EditProduct from "../pages/Dashboard/EditProduct";
 import BuyNow from "../pages/BuyNow";
+import OrderList from "../pages/Dashboard/OrderList";
 
 const routes = createBrowserRouter([
   {
@@ -259,8 +260,8 @@ const routes = createBrowserRouter([
         element: <EditProduct />,
       },
       {
-        path: "/admin",
-        element: <EditProduct />,
+        path: "/admin/all-order",
+        element: <OrderList />,
       },
     ],
   },

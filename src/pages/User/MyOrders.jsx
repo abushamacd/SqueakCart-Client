@@ -115,7 +115,7 @@ const MyOrders = () => {
         <div className="">
           <div className="bg-white md:p-10 p-2  rounded-lg box_shadow">
             <div className="flex justify-between border-b pb-8">
-              <h1 className="font-semibold text-2xl">Shopping Cart</h1>
+              <h1 className="font-semibold text-2xl">Order Details</h1>
               <h2 className="font-semibold text-2xl">
                 {view?.data?.products?.length} Items
               </h2>

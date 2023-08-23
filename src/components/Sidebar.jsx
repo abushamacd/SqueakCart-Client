@@ -9,6 +9,7 @@ import {
   FaUserCircle,
   FaCartPlus,
   FaBlog,
+  FaRegNewspaper,
 } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
 import { RiCouponFill } from "react-icons/ri";
@@ -93,6 +94,18 @@ const Sidebar = () => {
             key: "coupon",
             icon: <RiCouponFill size={18} />,
             label: "Coupons",
+          },
+          {
+            key: "order",
+            icon: <FaRegNewspaper size={18} />,
+            label: "Order",
+            children: [
+              {
+                key: "all-order",
+                icon: <MdOutlineList size={18} />,
+                label: "Order List",
+              },
+            ],
           },
           {
             key: "blog",
