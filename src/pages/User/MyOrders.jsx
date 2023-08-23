@@ -153,7 +153,9 @@ const MyOrders = () => {
                     </div>
                     <div className="flex flex-col justify-between ml-4 w-[200px]">
                       <Link to={`/products/${item?.product?._id}`}>
-                        <span className="font-bold text-sm">{item?.title}</span>
+                        <span className="font-bold text-sm">
+                          {item?.product?.title}
+                        </span>
                       </Link>
                       <div className="flex items-center">
                         <span className="text-gray-500 text-md">Color: </span>

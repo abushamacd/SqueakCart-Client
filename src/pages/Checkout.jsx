@@ -273,7 +273,7 @@ const Checkout = () => {
                     <h4>Payment Method: </h4>
                     <div className="flex gap-4">
                       <div
-                        onClick={() => openView("sdsd")}
+                        onClick={() => openView()}
                         className={`w-40 flex flex-col items-center border-2 ${
                           pmState === "stripe" && `border-green-600`
                         } rounded-lg p-2 box_shadow relative`}

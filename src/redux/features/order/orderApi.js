@@ -19,7 +19,7 @@ const orderApi = api.injectEndpoints({
     }),
     getUserOrders: builder.query({
       query: () => "/order/user",
-      providesTags: [],
+      providesTags: ["order"],
     }),
     getOrders: builder.query({
       query: () => "/order",

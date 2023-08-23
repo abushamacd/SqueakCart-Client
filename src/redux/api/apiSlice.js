@@ -22,6 +22,7 @@ export const api = createApi({
     "brand",
     "pro_cat",
     "color",
+    "order",
   ],
   endpoints: () => ({}),
 });

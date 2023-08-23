@@ -7,8 +7,11 @@ import {
 } from "../redux/features/order/orderApi";
 import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 import { useNavigate } from "react-router-dom";
+import { setView } from "../redux/features/site/siteSlice";
+import { useDispatch } from "react-redux";
 
 const CheckoutForm = ({ products, total }) => {
+  const dispatch = useDispatch();
   const { data } = useGetUserProfileQuery();
   const navigate = useNavigate();
   const stripe = useStripe();
@@ -92,6 +95,7 @@ const CheckoutForm = ({ products, total }) => {
 
   if (orderIsSuccess) {
     toast(orderData?.message);
+    dispatch(setView({ data: null, state: false }));
     navigate("/profile/myorders");
     orderReset();
   } else if (orderIsError) {
