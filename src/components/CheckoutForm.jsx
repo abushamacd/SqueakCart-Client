@@ -28,13 +28,7 @@ const CheckoutForm = ({ products, total }) => {
 
   const [
     createIntent,
-    {
-      isSuccess: intentIsSuccess,
-      data: intentData,
-      isError: intentIsError,
-      error: intentError,
-      reset: intentReset,
-    },
+    { isSuccess: intentIsSuccess, data: intentData, isError: intentIsError },
   ] = useCreateIntentMutation();
 
   useEffect(() => {
@@ -55,7 +49,7 @@ const CheckoutForm = ({ products, total }) => {
     }
 
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+    const { error } = await stripe.createPaymentMethod({
       type: "card",
       card,
     });
