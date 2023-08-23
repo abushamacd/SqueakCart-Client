@@ -12,6 +12,12 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
 import { setView } from "../redux/features/site/siteSlice";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../components/CheckoutForm";
+import { loadStripe } from "@stripe/stripe-js";
+import { useCreateOrderMutation } from "../redux/features/order/orderApi";
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -27,7 +33,6 @@ const Checkout = () => {
   };
   const [pmState, setPmState] = useState("COD");
   const { products, totalCost } = useSelector((state) => state.order);
-  console.log(products, totalCost);
   // form handle
   let formSchema = Yup.object().shape({
     firstname: Yup.string().required("First name is required"),
@@ -74,6 +79,45 @@ const Checkout = () => {
       }
     }
   }, [data, totalCost]);
+
+  const cartProducts = [];
+  products?.forEach((product) => {
+    cartProducts.push({
+      product: product?.productId?._id,
+      count: product?.count,
+      color: product?.color?._id,
+    });
+  });
+
+  const [
+    createOrder,
+    {
+      isSuccess: orderIsSuccess,
+      data: orderData,
+      isError: orderIsError,
+      error: orderError,
+      reset: orderReset,
+    },
+  ] = useCreateOrderMutation();
+
+  const placeOrder = () => {
+    createOrder({
+      data: {
+        products: cartProducts,
+        total: parseFloat(
+          (parseFloat(totalCost) + (pmState === "stripe" ? 0 : 5)).toFixed(2)
+        ),
+      },
+    });
+  };
+
+  if (orderIsSuccess) {
+    toast(orderData?.message);
+    navigate("/profile/myorders");
+    orderReset();
+  } else if (orderIsError) {
+    toast.error(orderError?.data?.message);
+  }
 
   if (isLoading) {
     return <Loading />;
@@ -157,15 +201,6 @@ const Checkout = () => {
                     </ul>
                   </div>
                 </div>
-
-                {/* <form className="mt-4" onSubmit={formik.handleSubmit}>
-                  <button
-                    type="submit"
-                    className="second_button duration-300 rounded-full py-[8px] px-[20px] font-medium "
-                  >
-                    Change shipping address
-                  </button>
-                </form> */}
                 <hr className="md:mt-[30px] mt-[20px]" />
                 <p
                   className="text-[14px] mt-4 flex items-center gap-1 cursor-pointer"
@@ -271,6 +306,14 @@ const Checkout = () => {
                       </div>
                     </div>
                   </div>
+                  {pmState === "COD" && (
+                    <button
+                      onClick={placeOrder}
+                      className="first_button float-right mt-4 duration-300 rounded-full px-5 py-2 text-sm text-white"
+                    >
+                      Confirm Order
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -279,14 +322,23 @@ const Checkout = () => {
       </div>
       {/* Payment */}
       <Modal
-        className="large_modal"
-        // title={`Blog ID: ${view.data?._id}`}
+        className=""
+        title={`Thanks for choosing stripe payment`}
         open={view.viewState}
         centered
         footer={null}
         onCancel={closeView}
       >
-        <p>pay</p>
+        <Elements stripe={stripePromise}>
+          <CheckoutForm
+            products={cartProducts}
+            total={parseFloat(
+              (parseFloat(totalCost) + (pmState === "stripe" ? 0 : 5)).toFixed(
+                2
+              )
+            )}
+          />
+        </Elements>
       </Modal>
     </>
   );

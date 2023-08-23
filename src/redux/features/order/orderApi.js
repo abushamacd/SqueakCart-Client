@@ -2,39 +2,47 @@ import { api } from "../../api/apiSlice";
 
 const orderApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    createCoupon: builder.mutation({
+    createIntent: builder.mutation({
+      query: (total) => ({
+        url: `order/createIntent`,
+        method: "POST",
+        body: total,
+      }),
+    }),
+    createOrder: builder.mutation({
       query: (data) => ({
-        url: `/coupon`,
+        url: `/order`,
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["coupon"],
+      invalidatesTags: ["order"],
     }),
-    getCoupons: builder.query({
-      query: () => "/coupon",
-      providesTags: ["coupon"],
+    getOrders: builder.query({
+      query: () => "/order",
+      providesTags: ["order"],
     }),
-    deleteCoupon: builder.mutation({
+    deleteOrder: builder.mutation({
       query: (id) => ({
-        url: `/coupon/${id}`,
+        url: `/order/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["coupon"],
+      invalidatesTags: ["order"],
     }),
-    updateCoupon: builder.mutation({
+    updateOrder: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/coupon/${id}`,
+        url: `/order/${id}`,
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["coupon"],
+      invalidatesTags: ["order"],
     }),
   }),
 });
 
 export const {
-  useCreateCouponMutation,
-  useGetCouponsQuery,
-  useDeleteCouponMutation,
-  useUpdateCouponMutation,
+  useCreateIntentMutation,
+  useCreateOrderMutation,
+  useGetOrdersQuery,
+  useDeleteOrderMutation,
+  useUpdateOrderMutation,
 } = orderApi;
