@@ -5,8 +5,11 @@ import Slider from "react-slick";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { FiHeart, FiEye } from "react-icons/fi";
+import { setView } from "../redux/features/site/siteSlice";
+import { useDispatch } from "react-redux";
 
 const PopularCollection = () => {
+  const dispatch = useDispatch();
   const { data: productData, isLoading: productIsLoading } =
     useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
@@ -74,12 +77,15 @@ const PopularCollection = () => {
                 />
               </div>
               <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
-                <Link to="/">
+                <label htmlFor="my-modal-5">
                   <FiEye
+                    onClick={() =>
+                      dispatch(setView({ data: product, state: true }))
+                    }
                     className="duration-300 text-black p-1 rounded-full "
                     size="24"
                   />
-                </Link>
+                </label>
               </div>
               <Link to={`/products/${product?._id}`}>
                 <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">

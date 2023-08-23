@@ -6,8 +6,11 @@ import QuickView from "../components/QuickView";
 import { useGetProductsQuery } from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { FiHeart, FiEye } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { setView } from "../redux/features/site/siteSlice";
 
 const FeaturedCollection = () => {
+  const dispatch = useDispatch();
   const { data: productData, isLoading: productIsLoading } =
     useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
@@ -78,6 +81,9 @@ const FeaturedCollection = () => {
               <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
                 <label htmlFor="my-modal-5">
                   <FiEye
+                    onClick={() =>
+                      dispatch(setView({ data: product, state: true }))
+                    }
                     className="duration-300 text-black p-1 rounded-full "
                     size="24"
                   />

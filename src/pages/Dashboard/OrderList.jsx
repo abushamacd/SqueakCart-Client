@@ -52,7 +52,6 @@ const OrderList = () => {
   // Redux Hooks
   const { data: orderData, isLoading } = useGetOrdersQuery();
   const orders = orderData?.data?.data;
-  console.log(orders);
 
   const { view } = useSelector((state) => state.site);
   const [
