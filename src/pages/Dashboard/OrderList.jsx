@@ -51,8 +51,9 @@ const OrderList = () => {
 
   // Redux Hooks
   const { data: orderData, isLoading } = useGetOrdersQuery();
-  const orders = orderData?.data;
+  const orders = orderData?.data?.data;
   console.log(orders);
+
   const { view } = useSelector((state) => state.site);
   const [
     updateOrder,
@@ -78,8 +79,7 @@ const OrderList = () => {
 
   // Handle Action
   const handleUpdate = (value, options) => {
-    console.log(options.value);
-    // updateOrder({ id: options.id, data: { status: options.value } });
+    updateOrder({ id: options.id, data: { orderStatus: options.value } });
   };
 
   const openView = (order) => {
@@ -104,19 +104,15 @@ const OrderList = () => {
       paymentStatus: (
         <p
           className={`
+            ${orders[i]?.paymentStatus === "Due" && `text-red-500 font-bold`}
             ${
-              orderData?.data[i]?.paymentStatus === "Due" &&
-              `text-red-500 font-bold`
-            }
-            ${
-              orderData?.data[i]?.paymentStatus === "Paid" &&
-              `text-green-500 font-bold`
+              orders[i]?.paymentStatus === "Paid" && `text-green-500 font-bold`
             } `}
         >
-          {orderData?.data[i]?.paymentStatus}
+          {orders[i]?.paymentStatus}
         </p>
       ),
-      paymentMethod: orderData?.data[i]?.paymentMethod,
+      paymentMethod: orders[i]?.paymentMethod,
       orderStatus: (
         <Select
           defaultValue={orders[i]?.orderStatus}
@@ -124,18 +120,18 @@ const OrderList = () => {
           onChange={handleUpdate}
           options={[
             {
-              id: `Not Processed`,
+              id: orders[i]?._id,
               value: `Not Processed`,
               label: "Not Processed",
             },
-            { id: `Processing`, value: "Processing", label: "Processing" },
+            { id: orders[i]?._id, value: "Processing", label: "Processing" },
             {
-              id: `On Currier`,
+              id: orders[i]?._id,
               value: "On Currier",
               label: "On Currier",
             },
-            { id: `Delivered`, value: "Delivered", label: "Delivered" },
-            { id: `Cancelled`, value: "Cancelled", label: "Cancelled" },
+            { id: orders[i]?._id, value: "Delivered", label: "Delivered" },
+            { id: orders[i]?._id, value: "Cancelled", label: "Cancelled" },
           ]}
         />
       ),
