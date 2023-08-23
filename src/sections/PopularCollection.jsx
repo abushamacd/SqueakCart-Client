@@ -7,12 +7,32 @@ import Loading from "../components/Loading";
 import { FiHeart, FiEye } from "react-icons/fi";
 import { setView } from "../redux/features/site/siteSlice";
 import { useDispatch } from "react-redux";
+import { useAddToWishlistMutation } from "../redux/features/user/userApi";
+import { toast } from "react-toastify";
 
 const PopularCollection = () => {
   const dispatch = useDispatch();
   const { data: productData, isLoading: productIsLoading } =
     useGetProductsQuery({ data: `` });
   const products = productData?.data?.data;
+  const [
+    addToWishlist,
+    {
+      data: addToWishlistData,
+      error: addToWishlistError,
+      isError: addToWishlistIsError,
+      isSuccess: addToWishlistIsSuccess,
+      reset: addToWishlistReset,
+    },
+  ] = useAddToWishlistMutation();
+
+  if (addToWishlistIsSuccess) {
+    toast(addToWishlistData?.message);
+    addToWishlistReset();
+  } else if (addToWishlistIsError) {
+    toast.error(addToWishlistError?.data?.message);
+    addToWishlistReset();
+  }
 
   if (productIsLoading || !Array.isArray(products)) {
     return <Loading />;
@@ -72,6 +92,9 @@ const PopularCollection = () => {
               )}
               <div className="wishlist absolute md:right-[2%] right-[2%] top-[7%] ">
                 <FiHeart
+                  onClick={() =>
+                    addToWishlist({ data: { productId: product?._id } })
+                  }
                   className="duration-300 text-black p-1 rounded-full "
                   size="24"
                 />

@@ -26,6 +26,7 @@ import Loading from "../components/Loading";
 import { toast } from "react-toastify";
 import { useAddToCartMutation } from "../redux/features/cart/cartApi";
 import { FiHeart } from "react-icons/fi";
+import { useAddToWishlistMutation } from "../redux/features/user/userApi";
 const httpStatus = require("http-status");
 
 const ProductDetails = () => {
@@ -48,6 +49,25 @@ const ProductDetails = () => {
       reset: addToCartReset,
     },
   ] = useAddToCartMutation();
+
+  const [
+    addToWishlist,
+    {
+      data: addToWishlistData,
+      error: addToWishlistError,
+      isError: addToWishlistIsError,
+      isSuccess: addToWishlistIsSuccess,
+      reset: addToWishlistReset,
+    },
+  ] = useAddToWishlistMutation();
+
+  if (addToWishlistIsSuccess) {
+    toast(addToWishlistData?.message);
+    addToWishlistReset();
+  } else if (addToWishlistIsError) {
+    toast.error(addToWishlistError?.data?.message);
+    addToWishlistReset();
+  }
 
   const [openReview, setOpenReview] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -284,6 +304,11 @@ const ProductDetails = () => {
                       <div className="flex gap-4">
                         <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
                           <FiHeart
+                            onClick={() =>
+                              addToWishlist({
+                                data: { productId: product?._id },
+                              })
+                            }
                             className="duration-300 text-black p-1 rounded-full "
                             size="24"
                           />

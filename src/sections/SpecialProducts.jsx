@@ -7,6 +7,8 @@ import { useGetProductsQuery } from "../redux/features/product/productApi";
 import { FiHeart, FiEye } from "react-icons/fi";
 import { setView } from "../redux/features/site/siteSlice";
 import { useDispatch } from "react-redux";
+import { useAddToWishlistMutation } from "../redux/features/user/userApi";
+import { toast } from "react-toastify";
 
 const SpecialProducts = () => {
   const dispatch = useDispatch();
@@ -16,6 +18,25 @@ const SpecialProducts = () => {
   const specialProducts = products?.filter((product) =>
     product?.tag?.includes("special")
   );
+
+  const [
+    addToWishlist,
+    {
+      data: addToWishlistData,
+      error: addToWishlistError,
+      isError: addToWishlistIsError,
+      isSuccess: addToWishlistIsSuccess,
+      reset: addToWishlistReset,
+    },
+  ] = useAddToWishlistMutation();
+
+  if (addToWishlistIsSuccess) {
+    toast(addToWishlistData?.message);
+    addToWishlistReset();
+  } else if (addToWishlistIsError) {
+    toast.error(addToWishlistError?.data?.message);
+    addToWishlistReset();
+  }
 
   var image_settings = {
     arrows: true,
@@ -86,6 +107,9 @@ const SpecialProducts = () => {
                   </Slider>
                   <div className="wishlist absolute md:right-[-3%] right-[-2%] top-[3%] ">
                     <FiHeart
+                      onClick={() =>
+                        addToWishlist({ data: { productId: product?._id } })
+                      }
                       className="duration-300 text-black p-1 rounded-full "
                       size="24"
                     />

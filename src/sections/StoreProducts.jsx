@@ -6,6 +6,8 @@ import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { setMeta } from "../redux/features/product/productSlice";
 import { FiHeart, FiEye } from "react-icons/fi";
+import { useAddToWishlistMutation } from "../redux/features/user/userApi";
+import { toast } from "react-toastify";
 
 const StoreProducts = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,25 @@ const StoreProducts = () => {
     minPrice,
     maxPrice,
   } = useSelector((state) => state.product);
+
+  const [
+    addToWishlist,
+    {
+      data: addToWishlistData,
+      error: addToWishlistError,
+      isError: addToWishlistIsError,
+      isSuccess: addToWishlistIsSuccess,
+      reset: addToWishlistReset,
+    },
+  ] = useAddToWishlistMutation();
+
+  if (addToWishlistIsSuccess) {
+    toast(addToWishlistData?.message);
+    addToWishlistReset();
+  } else if (addToWishlistIsError) {
+    toast.error(addToWishlistError?.data?.message);
+    addToWishlistReset();
+  }
 
   const query = `?&searchTerm=${searchTerm}&sortBy=${sortBy}&sortOrder=${sortOrder}&limit=${limit}&page=${page}&${
     queryCat && `category=${queryCat}`
@@ -60,6 +81,9 @@ const StoreProducts = () => {
               )}
               <div className="wishlist absolute right-[2%]  top-[7%] ">
                 <FiHeart
+                  onClick={() =>
+                    addToWishlist({ data: { productId: product?._id } })
+                  }
                   className="duration-300 text-black p-1 rounded-full "
                   size="24"
                 />

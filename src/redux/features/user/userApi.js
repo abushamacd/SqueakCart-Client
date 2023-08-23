@@ -45,6 +45,14 @@ const userApi = api.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    addToWishlist: builder.mutation({
+      query: ({ data }) => ({
+        url: `/user/wishlist`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["user"],
+    }),
     blockUser: builder.mutation({
       query: (id) => ({
         url: `/user/block/${id}`,
@@ -78,4 +86,5 @@ export const {
   useBlockUserMutation,
   useUnblockUserMutation,
   useDeleteUserMutation,
+  useAddToWishlistMutation,
 } = userApi;

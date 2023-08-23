@@ -26,6 +26,7 @@ import httpStatus from "http-status";
 import Head from "./Head";
 import BreadCrumb from "./BreadCrumb";
 import { setView } from "../redux/features/site/siteSlice";
+import { useAddToWishlistMutation } from "../redux/features/user/userApi";
 
 const QuickView = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,25 @@ const QuickView = () => {
       reset: addToCartReset,
     },
   ] = useAddToCartMutation();
+
+  const [
+    addToWishlist,
+    {
+      data: addToWishlistData,
+      error: addToWishlistError,
+      isError: addToWishlistIsError,
+      isSuccess: addToWishlistIsSuccess,
+      reset: addToWishlistReset,
+    },
+  ] = useAddToWishlistMutation();
+
+  if (addToWishlistIsSuccess) {
+    toast(addToWishlistData?.message);
+    addToWishlistReset();
+  } else if (addToWishlistIsError) {
+    toast.error(addToWishlistError?.data?.message);
+    addToWishlistReset();
+  }
 
   const [copied, setCopied] = useState(false);
   const [nav1, setNav1] = useState();
@@ -279,6 +299,11 @@ const QuickView = () => {
                             <div className="flex gap-4">
                               <div className="wishlist cursor-pointer flex justify-center items-center gap-1">
                                 <FiHeart
+                                  onClick={() =>
+                                    addToWishlist({
+                                      data: { productId: product?._id },
+                                    })
+                                  }
                                   className="duration-300 text-black p-1 rounded-full "
                                   size="24"
                                 />
