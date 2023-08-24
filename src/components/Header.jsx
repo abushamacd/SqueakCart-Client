@@ -241,16 +241,19 @@ const Header = () => {
                   <FiSearch size="20" />
                   <p className="text-[13px] hidden md:block">Search</p>
                 </div>
-                <div className="wishlist flex flex-col items-center justify-center text-white duration-300 hover:text-[#38b5fe] relative">
-                  <FiHeart size="20" />
-                  <p className="text-[13px] hidden md:block">Wishlist</p>
-                  <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0">
-                    1
-                  </div>
+                <div className="flex flex-col items-center justify-center text-white duration-300 hover:text-[#38b5fe] relative">
+                  <Link to={"/wishlist"}>
+                    <FiHeart className="mx-auto" size="20" />
+                    <p className="text-[13px] hidden md:block">Wishlist</p>
+                    <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0 text-white">
+                      {userData?.data?.wishlist?.length || 0}
+                      {/* const wishlist = data?.data?.wishlist; */}
+                    </div>
+                  </Link>
                 </div>
                 <div className="cart flex flex-col items-center justify-center text-white duration-300 hover:text-[#38b5fe] relative">
                   <Link to={"/cart"}>
-                    <FiShoppingCart size="20" />
+                    <FiShoppingCart className="mx-auto" size="20" />
                     <p className="text-[13px] hidden md:block">My Cart</p>
                     <div className="bg-[#38b5fe] badge badge-sm absolute text-[12px] top-[-10px] right-[-10px] md:right-0 text-white">
                       {userData?.data?.cart[0]?.products?.length || 0}

@@ -8,6 +8,8 @@ import { setMeta } from "../redux/features/product/productSlice";
 import { FiHeart, FiEye } from "react-icons/fi";
 import { useAddToWishlistMutation } from "../redux/features/user/userApi";
 import { toast } from "react-toastify";
+import { setView } from "../redux/features/site/siteSlice";
+import QuickView from "../components/QuickView";
 
 const StoreProducts = () => {
   const dispatch = useDispatch();
@@ -89,12 +91,15 @@ const StoreProducts = () => {
                 />
               </div>
               <div className="action_bar absolute top-[14%] flex flex-col gap-[5px]">
-                <Link to="/">
+                <label htmlFor="my-modal-5">
                   <FiEye
+                    onClick={() =>
+                      dispatch(setView({ data: product, state: true }))
+                    }
                     className="duration-300 text-black p-1 rounded-full "
                     size="24"
                   />
-                </Link>
+                </label>
               </div>
               <Link to={`/products/${product?._id}`}>
                 <div className="product_image h-[200px] flex justify-center items-center overflow-hidden rounded-xl">
@@ -140,6 +145,7 @@ const StoreProducts = () => {
           No product found on your query
         </h1>
       )}
+      <QuickView />
     </div>
   );
 };
