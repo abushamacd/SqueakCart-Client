@@ -78,6 +78,7 @@ const Checkout = () => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, totalCost]);
 
   const cartProducts = [];

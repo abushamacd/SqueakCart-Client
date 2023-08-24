@@ -8,7 +8,6 @@ import {
 } from "react-accessible-accordion";
 import { useState } from "react";
 import {
-  FaAngleDown,
   FaClipboardCheck,
   FaRegClipboard,
   FaShippingFast,
@@ -23,8 +22,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAddToCartMutation } from "../redux/features/cart/cartApi";
 import { toast } from "react-toastify";
 import httpStatus from "http-status";
-import Head from "./Head";
-import BreadCrumb from "./BreadCrumb";
 import { setView } from "../redux/features/site/siteSlice";
 import { useAddToWishlistMutation } from "../redux/features/user/userApi";
 

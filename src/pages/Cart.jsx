@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { useGetUserProfileQuery } from "../redux/features/user/userApi";
 import Loading from "../components/Loading";
 import {
-  useClearCartMutation,
   useRemoveFromCartMutation,
   useUpdateQuantityMutation,
 } from "../redux/features/cart/cartApi";
@@ -25,17 +24,6 @@ const Cart = () => {
   const [deliveryFee, setDeliveryFee] = useState(10);
 
   const { data: couponData } = useGetCouponsQuery();
-
-  const [
-    clearCart,
-    {
-      isSuccess: clearCartIsSuccess,
-      data: clearCartData,
-      isError: clearCartIsError,
-      error: clearCartError,
-      reset: clearCartReset,
-    },
-  ] = useClearCartMutation();
 
   const [
     removeFromCart,
@@ -79,10 +67,6 @@ const Cart = () => {
       },
     });
   };
-
-  if (clearCartIsSuccess) {
-    toast("Cart clear");
-  }
 
   if (updateIsLoading) {
     toast(`Quantity updating`, {
@@ -260,14 +244,6 @@ const Cart = () => {
                     <BsArrowLeft />
                     Continue Shopping
                   </Link>
-                  <button
-                    // onClick={() => {
-                    //   dispatch(clearCart())
-                    // }}
-                    className="flex items-center gap-2 font-semibold text-red-600 text-sm mt-10"
-                  >
-                    Clear Cart
-                  </button>
                 </div>
               </div>
 
