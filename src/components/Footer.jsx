@@ -99,7 +99,7 @@ const Footer = () => {
                 <div className="footer_info">
                   <ul className="quick_menu md:text-start text-center">
                     <li className="mb-2 capitalize text-sm ">
-                      <Link className="hover:ml-2 duration-300" to="/">
+                      <Link className="hover:ml-2 duration-300" to="/profile">
                         my account
                       </Link>
                     </li>
@@ -214,7 +214,7 @@ const Footer = () => {
                   <div className="footer_info">
                     <ul className="quick_menu">
                       <li className="mb-2 capitalize text-sm ">
-                        <Link className="hover:ml-2 duration-300" to="/">
+                        <Link className="hover:ml-2 duration-300" to="/profile">
                           my account
                         </Link>
                       </li>

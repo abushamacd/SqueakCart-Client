@@ -355,7 +355,7 @@ const Header = () => {
                                 className="single_menu"
                               >
                                 <img
-                                  className="w-full h-[200px] rounded-[3px] object-fill"
+                                  className="w-full h-[250px] rounded-[3px] object-fill"
                                   src={cat?.images[0]?.url}
                                   alt=""
                                 />
