@@ -50,6 +50,14 @@ const productApi = api.injectEndpoints({
       }),
       invalidatesTags: ["product"],
     }),
+    rating: builder.mutation({
+      query: ({ data }) => ({
+        url: `/product/rating`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["product"],
+    }),
   }),
 });
 
@@ -61,4 +69,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetProductQuery,
+  useRatingMutation,
 } = productApi;

@@ -7,10 +7,13 @@ import {
   useDislikeBlogMutation,
   useGetBlogQuery,
   useLikeBlogMutation,
+  useUpdateBlogMutation,
 } from "../redux/features/blog/blogApi";
 import Loading from "../components/Loading";
 import { BiLike, BiDislike } from "react-icons/bi";
 import { useSelector } from "react-redux";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 
 const BlogDetails = () => {
   const params = useParams();
@@ -23,6 +26,8 @@ const BlogDetails = () => {
   );
   const blog = blogData?.data;
 
+  const [updateBlog] = useUpdateBlogMutation();
+
   const isLike = blog?.likes?.filter(
     (likedUser) => likedUser?._id === user?._id
   );
@@ -30,10 +35,6 @@ const BlogDetails = () => {
   const isDislike = blog?.dislikes?.filter(
     (dislikedUser) => dislikedUser?._id === user?._id
   );
-
-  if (blogIsLoading) {
-    return <Loading />;
-  }
 
   const monthNames = [
     "Jan",
@@ -49,6 +50,37 @@ const BlogDetails = () => {
     "Nov",
     "Dec",
   ];
+
+  let formSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().required("Email is required"),
+    comment: Yup.string().required("Comment is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      comment: "",
+    },
+
+    validationSchema: formSchema,
+
+    onSubmit: (values, { resetForm }) => {
+      resetForm();
+      updateBlog({
+        id: blog._id,
+        data: values,
+      });
+    },
+  });
+
+  const comments = blogData?.data?.comments;
+  if (blogIsLoading || !Array.isArray(comments)) {
+    return <Loading />;
+  }
+
+  const reversed = [...comments]?.reverse();
 
   return (
     <>
@@ -133,30 +165,36 @@ const BlogDetails = () => {
                 </div>
                 <div className="blog_comment bg-white mt-4 rounded-lg p-4 box_shadow">
                   <h4 className="text-lg">Leave a comment</h4>
-                  <form action="">
+                  <form onSubmit={formik.handleSubmit}>
                     <input
                       className="md:w-[48%] w-full md:mr-[2%] p-2 mt-[20px] rounded-md"
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="Name*"
+                      placeholder="Name *"
                       required
+                      onChange={formik.handleChange("name")}
+                      value={formik.values.name}
                     />
                     <input
                       className="md:w-[48%] w-full md:ml-[2%] p-2 mt-[20px] rounded-md"
                       type="email"
                       name="email"
                       id="email"
-                      placeholder="Email*"
+                      placeholder="Email *"
                       required
+                      onChange={formik.handleChange("email")}
+                      value={formik.values.email}
                     />
                     <textarea
                       className="w-full mt-[20px] p-2 rounded-md"
-                      name="message"
-                      id="message"
+                      name="comment"
+                      id="comment"
                       cols="30"
                       rows="4"
-                      placeholder="Comment*"
+                      placeholder="Comment *"
+                      onChange={formik.handleChange("comment")}
+                      value={formik.values.comment}
                     ></textarea>
                     <button
                       type="submit"
@@ -165,6 +203,22 @@ const BlogDetails = () => {
                       Post Comment
                     </button>
                   </form>
+                  {reversed?.map((comment) => (
+                    <div
+                      key={comment?._id}
+                      className="customer_review py-4 border-b"
+                    >
+                      <h3 className="review_title font-semibold">
+                        {comment?.comment}
+                      </h3>
+                      <p className=" text-[14px] mt-1 ">
+                        <span className="article">-- </span>
+                        <span className="customer_name font-medium italic">
+                          {comment?.name}
+                        </span>
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

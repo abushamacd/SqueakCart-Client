@@ -21,16 +21,22 @@ import {
 } from "react-accessible-accordion";
 import "react-accessible-accordion/dist/fancy-example.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetProductQuery } from "../redux/features/product/productApi";
+import {
+  useGetProductQuery,
+  useRatingMutation,
+} from "../redux/features/product/productApi";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
 import { useAddToCartMutation } from "../redux/features/cart/cartApi";
 import { FiHeart } from "react-icons/fi";
 import { useAddToWishlistMutation } from "../redux/features/user/userApi";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const httpStatus = require("http-status");
 
 const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
+  const [star, setStar] = useState(1);
   const [selectColor, setSelectColor] = useState("");
   const params = useParams();
   const navigate = useNavigate();
@@ -60,6 +66,8 @@ const ProductDetails = () => {
       reset: addToWishlistReset,
     },
   ] = useAddToWishlistMutation();
+
+  const [rating] = useRatingMutation();
 
   if (addToWishlistIsSuccess) {
     toast(addToWishlistData?.message);
@@ -151,6 +159,31 @@ const ProductDetails = () => {
       navigate("/buy");
     }
   };
+
+  let formSchema = Yup.object().shape({
+    star: Yup.number().required("Reting is required"),
+    review: Yup.string().required("Review is required"),
+  });
+
+  const ratingChanged = (newRating) => {
+    setStar(newRating);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      star: 0,
+      review: "",
+    },
+
+    validationSchema: formSchema,
+
+    onSubmit: (values, { resetForm }) => {
+      resetForm();
+      rating({
+        data: { productId: product._id, star, review: values.review },
+      });
+    },
+  });
 
   useEffect(() => {
     if (addToCartError?.status === 401) {
@@ -435,11 +468,11 @@ const ProductDetails = () => {
                       count={5}
                       className="my-[10px]"
                       size={20}
-                      value={3}
+                      value={product?.totalrating}
                       edit={false}
                       activeColor="#febd69"
                     />
-                    <p>Based on 3 reviews</p>
+                    <p>Based on {productData?.data?.ratings?.length} reviews</p>
                   </div>
                   <p
                     onClick={() => setOpenReview(!openReview)}
@@ -452,56 +485,16 @@ const ProductDetails = () => {
               {openReview && (
                 <div className="write_review py-[20px] border-b">
                   <h5 className="text-lg mb-2">Write A Review</h5>
-                  <form action="">
+                  <form onSubmit={formik.handleSubmit}>
                     <div className="form-control w-full mb-2">
-                      <label htmlFor="name" className="label pl-0">
-                        <span className="label-text">Name *</span>
-                      </label>
-                      <input
-                        required
-                        name="name"
-                        id="name"
-                        type="text"
-                        placeholder="Type your name"
-                        className="input input-sm input-bordered w-full"
-                      />
-                    </div>
-                    <div className="form-control w-full mb-2">
-                      <label htmlFor="email" className="label pl-0">
-                        <span className="label-text">Email *</span>
-                      </label>
-                      <input
-                        required
-                        name="email"
-                        id="email"
-                        type="email"
-                        placeholder="Type your email"
-                        className="input input-sm input-bordered w-full"
-                      />
-                    </div>
-                    <div className="form-control w-full mb-2">
-                      <label htmlFor="rate" className="label pl-0">
-                        <span className="label-text">Rating *</span>
-                      </label>
                       <ReactStars
                         count={5}
                         className="my-[10px]"
                         size={20}
-                        value={3}
                         edit={true}
                         activeColor="#febd69"
-                      />
-                    </div>
-                    <div className="form-control w-full mb-2">
-                      <label htmlFor="rTitle" className="label pl-0">
-                        <span className="label-text">Review Title</span>
-                      </label>
-                      <input
-                        name="rTitle"
-                        id="rTitle"
-                        type="text"
-                        placeholder="Type a review title"
-                        className="input input-sm input-bordered w-full"
+                        onChange={ratingChanged}
+                        value={star}
                       />
                     </div>
                     <div className="form-control w-full mb-2">
@@ -511,12 +504,14 @@ const ProductDetails = () => {
                         </span>
                       </label>
                       <textarea
-                        name="rMessage"
-                        id="rMessage"
+                        name="review"
+                        id="review"
                         cols="30"
                         rows="5"
                         placeholder="Write your comments here"
                         className="input h-[150px] input-bordered w-full"
+                        onChange={formik.handleChange("review")}
+                        value={formik.values.review}
                       ></textarea>
                     </div>
                     <div className="flex justify-end mt-4">
@@ -530,30 +525,30 @@ const ProductDetails = () => {
                   </form>
                 </div>
               )}
-              <div className="customer_review py-4 border-b">
-                <ReactStars
-                  count={5}
-                  className="my-[10px]"
-                  size={20}
-                  value={3}
-                  edit={false}
-                  activeColor="#febd69"
-                />
-                <h3 className="review_title font-semibold">review title</h3>
-                <p className=" text-[14px] mt-1 ">
-                  <span className="customer_name font-medium italic">
-                    Shama
-                  </span>{" "}
-                  <span className="article">on</span>
-                  <span className="review_date font-medium italic"> date</span>
-                </p>
-                <p className="review_message mt-3 text-[14px] ">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam
-                  eaque soluta alias? Possimus natus numquam repellendus in
-                  necessitatibus corporis perferendis, perspiciatis omnis, odit,
-                  facilis unde? Nobis veritatis dolorem in dolorum!
-                </p>
-              </div>
+              {productData?.data?.ratings?.map((review) => (
+                <div
+                  key={review?._id}
+                  className="customer_review py-4 border-b"
+                >
+                  <ReactStars
+                    count={5}
+                    className="my-[10px]"
+                    size={20}
+                    value={review?.star}
+                    edit={false}
+                    activeColor="#febd69"
+                  />
+                  <h3 className="review_title font-semibold">
+                    {review?.review}
+                  </h3>
+                  <p className=" text-[14px] mt-1 ">
+                    <span className="article">-- </span>
+                    <span className="customer_name font-medium italic">
+                      {review?.postedby?.firstname} {review?.postedby?.lastname}
+                    </span>
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
