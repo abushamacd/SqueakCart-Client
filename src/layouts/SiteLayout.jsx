@@ -10,7 +10,7 @@ const SiteLayout = () => {
     return (
       <div className="flex flex-col gap-3 items-center justify-center h-screen">
         <div className="w-20 h-20 border-t-4 border-b-4 border-green-900 rounded-full animate-spin"></div>
-        Note: Site is hosted in free hosting. So it's mayby slow
+        Note: Site is hosted in free hosting. So it's maybe slow
       </div>
     );
   }

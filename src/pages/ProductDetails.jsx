@@ -245,7 +245,7 @@ const ProductDetails = () => {
                           size={20}
                           value={3}
                           edit={false}
-                          activeColor="#ffd700"
+                          activeColor="#febd69"
                         />
                         <span className="text-gray-600 ml-3 text-sm">
                           (4 Reviews)
@@ -332,8 +332,8 @@ const ProductDetails = () => {
                             <p>
                               Free shipping and returns available on all orders!
                               <br />
-                              We ship all US domestic orders within
-                              <strong> 5-10 business days!</strong>
+                              We ship all orders within
+                              <strong> 3-14 working days!</strong>
                             </p>
                           </AccordionItemPanel>
                         </AccordionItem>
@@ -346,13 +346,7 @@ const ProductDetails = () => {
                             </AccordionItemButton>
                           </AccordionItemHeading>
                           <AccordionItemPanel className="py-2 px-4">
-                            <p>
-                              Running Shoes cushions your stride with soft foam
-                              to keep you running in comfort. Lightweight knit
-                              material wraps your foot in breathable support,
-                              while a minimalist design fits in just about
-                              anywhere your day takes you.
-                            </p>
+                            <p>See on descriptions</p>
                           </AccordionItemPanel>
                         </AccordionItem>
                         <AccordionItem>
@@ -364,13 +358,7 @@ const ProductDetails = () => {
                             </AccordionItemButton>
                           </AccordionItemHeading>
                           <AccordionItemPanel className="py-2 px-4">
-                            <p>
-                              Running Shoes cushions your stride with soft foam
-                              to keep you running in comfort. Lightweight knit
-                              material wraps your foot in breathable support,
-                              while a minimalist design fits in just about
-                              anywhere your day takes you.
-                            </p>
+                            <p>See on descriptions</p>
                           </AccordionItemPanel>
                         </AccordionItem>
                         <AccordionItem>
@@ -383,8 +371,8 @@ const ProductDetails = () => {
                           </AccordionItemHeading>
                           <AccordionItemPanel className="py-2 px-4">
                             <p>
-                              Use a soft damp cloth and a drop of mild soap to
-                              remove any haze. Air dry.
+                              Use carefully. Don't use in overheated, dusty and
+                              raining area.
                             </p>
                           </AccordionItemPanel>
                         </AccordionItem>
@@ -449,7 +437,7 @@ const ProductDetails = () => {
                       size={20}
                       value={3}
                       edit={false}
-                      activeColor="#ffd700"
+                      activeColor="#febd69"
                     />
                     <p>Based on 3 reviews</p>
                   </div>
@@ -501,7 +489,7 @@ const ProductDetails = () => {
                         size={20}
                         value={3}
                         edit={true}
-                        activeColor="#ffd700"
+                        activeColor="#febd69"
                       />
                     </div>
                     <div className="form-control w-full mb-2">
@@ -549,7 +537,7 @@ const ProductDetails = () => {
                   size={20}
                   value={3}
                   edit={false}
-                  activeColor="#ffd700"
+                  activeColor="#febd69"
                 />
                 <h3 className="review_title font-semibold">review title</h3>
                 <p className=" text-[14px] mt-1 ">

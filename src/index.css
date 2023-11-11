@@ -393,11 +393,12 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* Featured Collection */
 .product_brand {
-  color: var(--color_df4800);
+  color: var(--color_777777);
 }
 
 .product_title {
   color: var(--color_232f3e);
+  font-weight: 700;
 }
 
 .wishlist svg:hover,
@@ -924,4 +925,69 @@ span.article,
 
 .shipping select {
   background-color: #fff !important;
+}
+
+/* overwrite */
+
+.blog_details ol,
+.blog_details ul,
+.blog_details menu,
+.desc_box ol,
+.desc_box ul,
+.desc_box menu {
+  list-style: unset !important;
+  margin: revert !important;
+  padding: revert !important;
+}
+
+.blog_details blockquote,
+.blog_details dl,
+.blog_details dd,
+.blog_details h1,
+.blog_details h2,
+.blog_details h3,
+.blog_details h4,
+.blog_details h5,
+.blog_details h6,
+.blog_details hr,
+.blog_details figure,
+.blog_details p,
+.blog_details pre,
+.desc_box blockquote,
+.desc_box dl,
+.desc_box dd,
+.desc_box h1,
+.desc_box h2,
+.desc_box h3,
+.desc_box h4,
+.desc_box h5,
+.desc_box h6,
+.desc_box hr,
+.desc_box figure,
+.desc_box p,
+.desc_box pre {
+  margin: revert !important;
+  font-size: revert;
+  font-weight: revert;
+}
+
+/* media query */
+@media only screen and (max-width: 300px) {
+  body {
+    background-color: lightblue !important;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 768px) {
+  .slick-arrow {
+    width: 30px !important;
+    height: 30px !important;
+    top: -12% !important;
+  }
+  .slick-prev {
+    left: 83% !important;
+  }
+  .slick-next {
+    right: -5px !important;
+  }
 }

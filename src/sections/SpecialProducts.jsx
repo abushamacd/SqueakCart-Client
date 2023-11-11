@@ -149,7 +149,7 @@ const SpecialProducts = () => {
                       size={20}
                       value={3}
                       edit={false}
-                      activeColor="#ffd700"
+                      activeColor="#febd69"
                     />
                     <div className="flex">
                       <p className="offer_price">
@@ -176,9 +176,11 @@ const SpecialProducts = () => {
                       max="100"
                     ></progress>
                   </div>
-                  <button className="btn btn-sm product_option rounded-full mt-[20px] ">
-                    Buy Now
-                  </button>
+                  <Link to={`/products/${product?._id}`}>
+                    <button className="btn btn-sm product_option rounded-full mt-[20px] ">
+                      Buy Now
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 const AnnouncementBar = () => {
   const [announcement, setAnnouncement] = useState("");
   const announcements = [
-    "Announcement 1",
-    "Announcement 2",
-    "Announcement 3",
-    "Announcement 4",
+    "Get 10% discount. Use: WELCOME10",
+    "Free shipping all over the world",
+    "Standerd shipping time 3-14 working days",
+    "We are strictly maintain our privecy & policies",
   ];
   const animationDuration = 3000;
 

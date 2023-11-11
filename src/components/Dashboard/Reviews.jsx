@@ -52,7 +52,7 @@ const Reviews = () => {
                 size={20}
                 value={3}
                 edit={false}
-                activeColor="#ffd700"
+                activeColor="#febd69"
               />
             </div>
           </List.Item>

@@ -129,7 +129,7 @@ const StoreProducts = () => {
                       size={20}
                       value={3}
                       edit={false}
-                      activeColor="#ffd700"
+                      activeColor="#febd69"
                     />
                     <p className="product_price product_brand">
                       $ <span className="font-bold">{product?.price}</span>

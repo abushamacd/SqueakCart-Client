@@ -244,7 +244,7 @@ const QuickView = () => {
                                 size={20}
                                 value={3}
                                 edit={false}
-                                activeColor="#ffd700"
+                                activeColor="#febd69"
                               />
                               <span className="text-gray-600 ml-3 text-sm">
                                 (4 Reviews)
