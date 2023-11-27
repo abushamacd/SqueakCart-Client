@@ -142,7 +142,7 @@ const BlogDetails = () => {
                       <HiOutlineArrowNarrowLeft /> Back to blog
                     </p>
                   </Link>
-                  <ul className="right_footer flex gap-3">
+                  <ul className="right_footer flex gap-3 cursor-pointer">
                     <li className="flex items-center">
                       <BiLike
                         className={isLike?.length > 0 && "text-[#131921]"}

@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+<hr>
+<hr>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<a href="https://squeak-cart-client.vercel.app/" style="display: flex; justify-content: center;" class="menu"><img height="70px" width="210px"
+            src="https://squeak-cart-client.vercel.app/static/media/main_logo.434189e75170abd9350c.png"
+            alt="Squeak Cart"></a>
 
-## Available Scripts
+<img src="https://www.imshama.com/static/media/sq1.a41329223b8301355f3e.png" alt="homepage">
 
-In the project directory, you can run:
+## Description:
 
-### `npm start`
+This is an e-commerce website which I build in javascript language using ReactJS. Here I use Redux-toolkit for state management, Tailwind CSS and Ant Design for UI, Stripe for payment system, Nodemailer for send email using gmail smtp, formik for valodation and many more.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Main Features:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- User can registration and login using email and password.
+- Admin can add product, product colors, categories, product bands.
+- Products get by filter and search condition.
+- Admin can write daily blog and create blog categories.
+- Customer can give review and feedback about the product
+- Blog reader can comment the on blog and have option like/dislike the blog post.
 
-### `npm test`
+## Tools & Technologies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+React JS, Node JS, Express JS, Redux Toolkit, JWT, Ant Design, Tailwind
+CSS, MongoDB, Stripe, formik
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Table of Contents
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. [Installation](#installation)
+1. [Dependencies](#dependencies)
+1. [Usage](#usage)
+1. [License](#license)
+1. [Authors](#authors)
+1. [Links](#links)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+> Note: All underscore sentence will be replace my your credentials
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Pre-requirements
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> Must be install node js, npm and nodemon in your operation system.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+# Clone the repository
+git clone https://github.com/abushamacd/SqueakCart-Client.git
 
-## Learn More
+# Navigate to the project directory
+cd SqueakCart-Client
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Install dependencies
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Dependencies
 
-### Code Splitting
+Create .env.local named file in your project root folder and copy the below code
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+REACT_APP_SERVER_URL=your_app_backend_url
+REACT_APP_STRIPE_PK=your_stripe_publishable_key
+```
 
-### Analyzing the Bundle Size
+> Note: for the backend your can follow the link - https://github.com/abushamacd/SqueakCart-Server.git
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Usage
 
-### Making a Progressive Web App
+To run this project, run the following command.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+# Start the server
+npm start
+```
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-### Deployment
+## Authors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- [Abu Shama](https://www.github.com/abushamacd)
 
-### `npm run build` fails to minify
+## Links
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://imshama.com)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abushamacd)
