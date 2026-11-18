@@ -5,7 +5,7 @@
             src="https://squeak-cart-client.vercel.app/static/media/main_logo.434189e75170abd9350c.png"
             alt="Squeak Cart"></a>
 
-<img src="https://www.imshama.com/static/media/sq1.a41329223b8301355f3e.png" alt="homepage">
+<img src="https://ibb.co.com/21hJ74Rj" alt="homepage">
 
 ## Description:
 
