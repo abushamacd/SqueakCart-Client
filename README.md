@@ -1,91 +1,263 @@
-<hr>
-<hr>
+# SqueakCart | E-commerce Application
 
-<a href="https://squeak-cart-client.vercel.app/" style="display: flex; justify-content: center;" class="menu"><img height="70px" width="210px"
-            src="https://squeak-cart-client.vercel.app/static/media/main_logo.434189e75170abd9350c.png"
-            alt="Squeak Cart"></a>
+SqueakCart is a full-featured e-commerce web application designed to provide a seamless online shopping experience. It includes product browsing, advanced filtering, shopping cart management, secure online payments, customer reviews, and blog functionality. The application also provides an administrative interface for managing products, categories, brands, and content.
+
+## 🌐 Live Demo
+
+[**Visit Live Application →**](https://squeak-cart-client.vercel.app)
+
+## 📸 Project Preview
 
 <img src="https://i.ibb.co.com/Q3Q0Fwh6/Screenshot-2026-11-18-134409.png" alt="homepage">
 
-## Description:
+## 🚀 Technologies Used
 
-This is an e-commerce website which I build in javascript language using ReactJS. Here I use Redux-toolkit for state management, Tailwind CSS and Ant Design for UI, Stripe for payment system, Nodemailer for send email using gmail smtp, formik for valodation and many more.
+The project is built using the following technologies:
 
-## Main Features:
+- **React 18** – Building reusable and interactive UI components.
+- **JavaScript (ES6+)** – Application logic and functionality.
+- **Redux Toolkit** – Centralized state management.
+- **React Router DOM** – Client-side routing and navigation.
+- **Ant Design (AntD)** – Pre-built UI components and design elements.
+- **Tailwind CSS** – Utility-first styling and responsive layouts.
+- **Stripe** – Secure online payment integration.
+- **Formik** – Form management and handling.
+- **Yup** – Schema-based form validation.
+- **React Dropzone** – File upload and drag-and-drop functionality.
+- **React Quill** – Rich-text editing for blog content.
+- **React Slick & Slick Carousel** – Interactive product sliders and carousels.
+- **React Toastify** – Toast notifications and user feedback.
+- **React Helmet & React Helmet Async** – Managing document metadata.
+- **Day.js** – Date formatting and manipulation.
+- **JWT Decode** – Decoding JSON Web Tokens.
+- **React Icons** – Icon library for the user interface.
 
-- Admin can add products, product colors, categories, and product brands.
-- Products can be filtered and searched by conditions.
-- Admin can write daily blogs and create blog categories.
-- Customers can give reviews and feedback about the product
-- Customers can pay the product price using Stripe
-- Blog readers can comment on the blog and have the option like/dislike the blog post.
+## ✨ Key Features
 
-## Tools & Technologies:
+### 🛍️ Customer Features
 
-React JS, Node JS, Express JS, Redux Toolkit, JWT, Ant Design, Tailwind
-CSS, MongoDB, Stripe, Formik
+- Browse products and explore product details.
+- Search products by keywords.
+- Filter products by category, brand, color, and price.
+- Add products to the shopping cart.
+- Manage cart items and product quantities.
+- Secure online payments using Stripe.
+- Create customer accounts and log in.
+- Submit product reviews and feedback.
+- Manage personal wishlists.
+- Read blog articles and explore blog categories.
+- Comment on blog posts.
+- Like and dislike blog posts.
 
----
+### 🔐 Admin Features
 
-## Table of Contents
+- Admin dashboard for managing store content.
+- Add, update, and delete products.
+- Manage product categories, colors, and brands.
+- Manage product inventory and availability.
+- Create and manage blog posts.
+- Manage blog categories.
+- Review customer feedback.
+- Manage customer information.
 
-1. [Installation](#installation)
-1. [Dependencies](#dependencies)
-1. [Usage](#usage)
-1. [License](#license)
-1. [Authors](#authors)
-1. [Links](#links)
+### 🎨 UI & Experience
 
----
+- Responsive and user-friendly interface.
+- Interactive product sliders and carousels.
+- Dynamic product filtering and search.
+- Rich-text editor for blog content.
+- Drag-and-drop file uploads.
+- Form validation and error handling.
+- Toast notifications for user feedback.
+- Reusable React components.
 
-> Note: All underscore sentences will be replaced by your credentials
+## 📦 Dependencies
 
-## Installation
+The project uses the following major dependencies:
 
-Pre-requirements
+| Package                        | Purpose                                   |
+| ------------------------------ | ----------------------------------------- |
+| `react`                        | Building user interfaces                  |
+| `react-dom`                    | Rendering React components                |
+| `@reduxjs/toolkit`             | Centralized state management              |
+| `react-redux`                  | Connecting React with Redux               |
+| `react-router-dom`             | Application routing                       |
+| `antd`                         | UI component library                      |
+| `@ant-design/charts`           | Data visualization                        |
+| `@stripe/react-stripe-js`      | Stripe payment UI integration             |
+| `@stripe/stripe-js`            | Stripe JavaScript SDK                     |
+| `formik`                       | Form management                           |
+| `yup`                          | Form validation                           |
+| `react-dropzone`               | File uploads                              |
+| `react-quill`                  | Rich-text editing                         |
+| `react-rating-stars-component` | Product rating interface                  |
+| `react-slick`                  | Carousel functionality                    |
+| `slick-carousel`               | Carousel styling and functionality        |
+| `react-toastify`               | Toast notifications                       |
+| `react-helmet`                 | Document metadata                         |
+| `react-helmet-async`           | Asynchronous metadata management          |
+| `react-icons`                  | UI icons                                  |
+| `jwt-decode`                   | JWT decoding                              |
+| `dayjs`                        | Date and time manipulation                |
+| `rc-color-picker`              | Color picker component                    |
+| `react-accessible-accordion`   | Accessible accordion components           |
+| `react-fast-marquee`           | Scrolling content and promotional banners |
+| `http-status`                  | HTTP status code utilities                |
 
-> Must be install node js, npm and nodemon in your operation system.
+### Development Dependencies
+
+- `react-scripts` – Create React App development and build configuration.
+- `tailwindcss` – Utility-first CSS framework.
+- `daisyui` – Tailwind CSS component library.
+- `postcss` – CSS processing.
+- `autoprefixer` – Automatic CSS vendor prefixing.
+
+## 💻 Getting Started
+
+Follow these instructions to run the project on your local machine.
+
+### Prerequisites
+
+Make sure you have installed:
+
+- [Node.js](https://nodejs.org/)
+- npm (comes with Node.js)
+- [Git](https://git-scm.com/)
+
+### 1. Clone the Repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/abushamacd/SqueakCart-Client.git
+```
 
-# Navigate to the project directory
+### 2. Navigate to the Project Directory
+
+```bash
 cd SqueakCart-Client
+```
 
-# Install dependencies
+### 3. Install Dependencies
+
+```bash
 npm install
 ```
 
-## Dependencies
+### 4. Configure Environment Variables
 
-Create .env.local named file in your project root folder and copy the below code
+Create a `.env.local` file in the root directory and add the following environment variables:
 
-```bash
-REACT_APP_SERVER_URL=your_app_backend_url
+```env
+REACT_APP_SERVER_URL=your_backend_api_url
 REACT_APP_STRIPE_PK=your_stripe_publishable_key
 ```
 
-> Note: for the backend your can follow the link - https://github.com/abushamacd/SqueakCart-Server.git
+Replace the values with your actual backend API URL and Stripe publishable key.
 
-## Usage
+**Important:** Never expose your Stripe secret key or other private credentials in the frontend application.
 
-To run this project, run the following command.
+### 5. Start the Development Server
 
 ```bash
-# Start the server
 npm start
 ```
 
-## License
+The application will be available at:
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+```text
+http://localhost:3000
+```
 
-## Authors
+### 6. Build for Production
 
-- [Abu Shama](https://www.github.com/abushamacd)
+To create an optimized production build:
 
-## Links
+```bash
+npm run build
+```
 
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://imshama.com)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/abushamacd)
+The production-ready files will be generated inside the `build` directory.
+
+### 7. Run Tests
+
+To run the available test suite:
+
+```bash
+npm test
+```
+
+## 🔗 Backend Integration
+
+SqueakCart uses a separate backend application for API communication, authentication, database operations, product management, and payment processing.
+
+The frontend communicates with the backend through REST APIs.
+
+**Backend Repository:**
+
+[**SqueakCart Server →**](https://github.com/abushamacd/SqueakCart-Server)
+
+## 🛠️ Why These Technologies?
+
+- **React:** Chosen for its component-based architecture, reusability, and efficient UI development.
+- **Redux Toolkit:** Used to manage global application states such as authentication, products, and shopping cart data.
+- **Ant Design:** Provides ready-to-use UI components for building a consistent and interactive interface.
+- **Tailwind CSS:** Makes responsive styling faster and helps maintain consistent layouts.
+- **Stripe:** Integrated to provide secure online payment processing.
+- **Formik & Yup:** Simplify form handling and provide structured form validation.
+- **React Router:** Enables smooth client-side navigation without unnecessary page reloads.
+- **React Quill:** Provides a rich-text editor for creating and managing blog content.
+- **React Dropzone:** Simplifies image and file uploads through drag-and-drop interactions.
+- **Day.js:** Makes date formatting and manipulation easier.
+
+## 🧩 Challenges & Solutions
+
+During the development of SqueakCart, several technical challenges were addressed:
+
+1. **State Management:** Managing authentication, product information, and shopping cart data across multiple components required centralized state management using Redux Toolkit.
+
+2. **Product Filtering & Search:** Implementing multiple filtering conditions such as category, brand, color, and price required coordinating frontend filters with backend API queries.
+
+3. **Payment Integration:** Integrating Stripe required handling payment-related frontend interactions while keeping sensitive payment credentials on the backend.
+
+4. **Authentication & Authorization:** Managing authenticated users and role-based administrative functionality required handling JWT-based authentication and protected application routes.
+
+5. **Image Uploads:** Handling product images and blog media required integrating file upload functionality with the backend media management system.
+
+6. **Form Validation:** Managing complex forms for products, users, and blog content required structured validation using Formik and Yup.
+
+7. **Dynamic Content Management:** Building reusable interfaces for managing products, categories, brands, and blog posts helped maintain consistency and reduce code duplication.
+
+8. **Shopping Cart Management:** Handling product quantities, colors, and cart updates required synchronizing frontend state with backend data.
+
+## 🎯 What I Learned
+
+Through this project, I gained practical experience in:
+
+- Building full-featured e-commerce applications using React.
+- Managing global application state with Redux Toolkit.
+- Integrating Stripe for online payment processing.
+- Implementing JWT-based authentication.
+- Developing role-based administrative interfaces.
+- Building advanced product search and filtering functionality.
+- Integrating REST APIs with frontend applications.
+- Handling image uploads and media management.
+- Implementing form validation using Formik and Yup.
+- Creating rich-text blog editors.
+- Developing reusable and responsive UI components.
+- Working with separate frontend and backend repositories.
+
+## 🔗 Relevant Links
+
+- **Live Application:** https://squeak-cart-client.vercel.app
+- **Frontend Repository:** https://github.com/abushamacd/SqueakCart-Client
+- **Backend Repository:** https://github.com/abushamacd/SqueakCart-Server
+- **Backend API:** https://squeakcart-server.onrender.com/
+
+## 👨‍💻 Author
+
+**Abu Shama**
+
+- GitHub: [@abushamacd](https://github.com/abushamacd)
+
+---
+
+⭐ If you find this project interesting, consider giving it a star!
