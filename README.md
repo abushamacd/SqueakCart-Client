@@ -250,7 +250,6 @@ Through this project, I gained practical experience in:
 - **Live Application:** https://squeak-cart-client.vercel.app
 - **Frontend Repository:** https://github.com/abushamacd/SqueakCart-Client
 - **Backend Repository:** https://github.com/abushamacd/SqueakCart-Server
-- **Backend API:** https://squeakcart-server.onrender.com/
 
 ## 👨‍💻 Author
 
