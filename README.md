@@ -13,17 +13,17 @@ This is an e-commerce website which I build in javascript language using ReactJS
 
 ## Main Features:
 
-- User can registration and login using email and password.
-- Admin can add product, product colors, categories, product bands.
-- Products get by filter and search condition.
-- Admin can write daily blog and create blog categories.
-- Customer can give review and feedback about the product
-- Blog reader can comment the on blog and have option like/dislike the blog post.
+- Admin can add products, product colors, categories, and product brands.
+- Products can be filtered and searched by conditions.
+- Admin can write daily blogs and create blog categories.
+- Customers can give reviews and feedback about the product
+- Customers can pay the product price using Stripe
+- Blog readers can comment on the blog and have the option like/dislike the blog post.
 
 ## Tools & Technologies:
 
 React JS, Node JS, Express JS, Redux Toolkit, JWT, Ant Design, Tailwind
-CSS, MongoDB, Stripe, formik
+CSS, MongoDB, Stripe, Formik
 
 ---
 
@@ -38,7 +38,7 @@ CSS, MongoDB, Stripe, formik
 
 ---
 
-> Note: All underscore sentence will be replace my your credentials
+> Note: All underscore sentences will be replaced by your credentials
 
 ## Installation
 
